@@ -1,0 +1,21 @@
+label.baseInput(:class="{ 'baseInput--shrink': isFocus, 'baseInput--invalid': v && v.$error, 'baseInput--multiline': multiline }")
+  span.baseInput__placeholder {{ placeholder }}
+  textarea.baseInput__input(
+    v-if="multiline",
+    v-bind="$attrs",
+    :type="type",
+    v-model="computedValue",
+    @blur="isBlur = false",
+    @focus="isBlur = true"
+  )
+  input.baseInput__input(
+    v-else,
+    v-bind="$attrs",
+    :type="type",
+    v-model="computedValue",
+    @blur="isBlur = false",
+    @focus="isBlur = true"
+  )
+  transition(name="fade")
+    svg.baseInput__clear(@click="computedValue = ''", v-if="v && v.$error && computedValue")
+      use(xlink:href="~/assets/sprites/common.svg#icon_clear")

@@ -1,0 +1,23 @@
+@import "./reset.scss";
+@import "./settings.scss";
+@import "./common/baseContainer.scss";
+
+html,
+body,
+#__nuxt,
+#__layout {
+  min-width: 320px;
+}
+
+body {
+  background-color: #fff;
+  font-family: 'Roboto', sans-serif;
+  color: #000;
+}
+
+.page-enter-active, .page-leave-active {
+  transition: opacity 0.5s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+}
