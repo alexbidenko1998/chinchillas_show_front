@@ -18,4 +18,6 @@ jobs:
             npm i
             npm run generate
             cd dist
-            rsync -avzP --delete-after -e 'sshpass -p Q!3Hb4c3 ssh' . u0690120@37.140.192.11:/var/www/u0690120/data/www/chinchillas-show.com/public
+            pwd
+            ls
+            rsync -avzP --delete-after -e 'sshpass -p Q!3Hb4c3 ssh' . u0690120@37.140.192.11:~/www/chinchillas-show.com/public
