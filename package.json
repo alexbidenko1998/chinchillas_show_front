@@ -9,6 +9,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "deploy": "cd dist; rsync -avzP --delete-after -e 'sshpass -p Q!3Hb4c3 ssh' . u0690120@37.140.192.11:~/www/chinchillas-show.com/public",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "lint-staged": {

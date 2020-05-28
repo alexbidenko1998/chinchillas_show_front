@@ -1,0 +1,134 @@
+<template>
+  <header class="profileHeader">
+    <div class="profileHeader__logo paddingLeft">Chinchillas - show</div>
+    <nav class="profileHeader__nav paddingRight">
+      <nuxt-link class="profileHeader__link" to="/">Главная</nuxt-link>
+      <nuxt-link class="profileHeader__link" to="/raech">РАЭШ</nuxt-link>
+      <nuxt-link class="profileHeader__link" to="/auction">Аукцион</nuxt-link>
+      <nuxt-link class="profileHeader__link" to="/profile/users"
+        >Люди</nuxt-link
+      >
+      <nuxt-link class="profileHeader__link" to="/auction">Шиншиллы</nuxt-link>
+      <nuxt-link class="profileHeader__link" to="/auction"
+        >Калькулятор</nuxt-link
+      >
+      <button class="profileHeader__link" @click="logout">Выход</button>
+      <BaseSidenav>
+        <nuxt-link class="profileHeader__sidenavLink" to="/">Главная</nuxt-link>
+        <nuxt-link class="profileHeader__sidenavLink" to="/raech"
+          >РАЭШ</nuxt-link
+        >
+        <nuxt-link class="profileHeader__sidenavLink" to="/auction"
+          >Аукцион</nuxt-link
+        >
+        <nuxt-link class="profileHeader__sidenavLink" to="/profile/users"
+          >Люди</nuxt-link
+        >
+        <nuxt-link class="profileHeader__sidenavLink" to="/auction"
+          >Шиншиллы</nuxt-link
+        >
+        <nuxt-link class="profileHeader__sidenavLink" to="/auction"
+          >Калькулятор</nuxt-link
+        >
+        <button class="profileHeader__sidenavLink" @click="logout">
+          Выход
+        </button>
+      </BaseSidenav>
+    </nav>
+  </header>
+</template>
+
+<script>
+import BaseSidenav from '../BaseSidenav/BaseSidenav.vue'
+
+export default {
+  name: 'ProfileHeader',
+
+  components: {
+    BaseSidenav
+  },
+
+  methods: {
+    logout() {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user_id')
+      this.$router.push('/auth')
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.profileHeader {
+  background: url('/assets/background/profile_header_background.png') no-repeat
+    center / cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: 120px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &__logo {
+    background: #d79b00;
+    border-radius: 0 16px 16px 0;
+    height: 32px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding-right: 24px;
+  }
+
+  &__nav {
+    background: #d79b00;
+    margin-left: auto;
+    display: flex;
+    height: 32px;
+    border-radius: 24px 0 0 24px;
+    border: 8px solid #d0d0d0;
+    border-right: 0;
+    align-items: center;
+    box-sizing: content-box;
+    color: #fff;
+
+    @include mq('tablet') {
+      height: 44px;
+      border-radius: 32px 0 0 32px;
+      border-width: 4px;
+    }
+  }
+
+  &__link {
+    @include buttonReset;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 16px;
+
+    @include mq('tablet') {
+      display: none;
+    }
+  }
+
+  &__sidenavLink {
+    @include buttonReset;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    display: block;
+    align-items: center;
+    text-align: left;
+    color: #000;
+    text-decoration: none;
+    padding: 8px 16px;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
+</style>

@@ -68,15 +68,15 @@
               class="authPage__input"
             />
             <BaseInput
-              v-model="signUp.firstName"
-              :v="$v.signUp.firstName"
+              v-model="signUp.first_name"
+              :v="$v.signUp.first_name"
               placeholder="E-Mail"
               type="password"
               class="authPage__input"
             />
             <BaseInput
-              v-model="signUp.lastName"
-              :v="$v.signUp.lastName"
+              v-model="signUp.last_name"
+              :v="$v.signUp.last_name"
               placeholder="E-Mail"
               type="password"
               class="authPage__input"
@@ -145,8 +145,8 @@ export default {
         login: '',
         email: '',
         phone: '',
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         patronymic: '',
         country: '',
         city: '',
@@ -160,12 +160,16 @@ export default {
       this.$axios.$post('login', this.signIn).then((data) => {
         localStorage.token = data.token
         localStorage.user_id = data.user.id
+        this.$axios.setHeader('Authorization', `Bearer ${data.token}`)
+        this.$router.push('/profile')
       })
     },
     submitSignUp() {
       this.$axios.$post('register', this.signUp).then((data) => {
         localStorage.token = data.token
         localStorage.user_id = data.user.id
+        this.$axios.setHeader('Authorization', `Bearer ${data.token}`)
+        this.$router.push('/profile')
       })
     }
   },

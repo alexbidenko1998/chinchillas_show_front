@@ -1,31 +1,21 @@
 <template>
-  <div class="profilePage">
-    <span class="profilePage__title">Пользователь {{ userId }}</span>
-  </div>
+  <ProfilePage :user-id="userId" />
 </template>
 
 <script>
+import ProfilePage from '~/components/ProfilePage/ProfilePage.vue'
+
 export default {
+  layout: 'profileLayout',
+
+  components: {
+    ProfilePage
+  },
+
   data() {
     return {
-      userId:
-        this.$route.params.userId ||
-        (typeof localStorage !== 'undefined' && localStorage.user_id)
+      userId: +this.$route.params.userId
     }
   }
 }
 </script>
-
-<style lang="scss">
-.profilePage {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-
-  &__title {
-    @include buttonReset;
-    font-size: 24px;
-  }
-}
-</style>
