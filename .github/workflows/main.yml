@@ -1,0 +1,21 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      -   master
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      -   name: Checkout Repository
+          uses: actions/checkout@master
+      -   name: Install PO
+          run: apt-get update -qq && apt-get install -y -qq openssh-client sshpass rsync
+      -   name: Connect and Update
+          run:
+            - npm i
+            - npm run generate
+            - cd dist
+            - rsync -avzP --delete-after -e 'sshpass -p Q!3Hb4c3 ssh' . u0690120@37.140.192.11:/var/www/u0690120/data/www/chinchillas-show.com/public
