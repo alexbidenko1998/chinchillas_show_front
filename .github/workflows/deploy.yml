@@ -25,7 +25,7 @@ jobs:
       - name: Build artifacts
         run: |
           npm run build
-          npm run export
+          npm run generate
       - name: Deploy
         run: rsync -e 'sshpass -p Q!3Hb4c3 ssh' -avzP dist u0690120@37.140.192.11:/var/www/u0690120/data/www/chinchillas-show.com
         shell: bash
