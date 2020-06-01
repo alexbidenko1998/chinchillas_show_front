@@ -9,12 +9,17 @@
       <span class="profilePage__title">Email {{ user.email }}</span>
       <span class="profilePage__title">Телефон {{ user.phone }}</span>
     </template>
+    <CardSection :items="chinchillas"></CardSection>
   </div>
 </template>
 
 <script>
+import CardSection from '../CardSection/CardSection'
+
 export default {
   name: 'ProfilePage',
+
+  components: { CardSection },
 
   props: {
     userId: {
@@ -25,7 +30,8 @@ export default {
 
   data() {
     return {
-      user: null
+      user: null,
+      chinchillas: []
     }
   },
 
@@ -33,6 +39,9 @@ export default {
     this.$axios
       .$get(`user/details/${this.userId}`)
       .then((user) => (this.user = user))
+    this.$axios
+      .$get(`chinchilla/get/${this.userId}`)
+      .then((chinchillas) => (this.chinchillas = chinchillas))
   }
 }
 </script>
