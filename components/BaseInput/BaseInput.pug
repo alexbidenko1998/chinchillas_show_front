@@ -6,7 +6,8 @@ label.baseInput(:class="{ 'baseInput--shrink': isFocus, 'baseInput--invalid': v 
     :type="type",
     v-model="computedValue",
     @blur="isBlur = false",
-    @focus="isBlur = true"
+    @focus="isBlur = true",
+    :name="name"
   )
   input.baseInput__input(
     v-else,
@@ -14,7 +15,8 @@ label.baseInput(:class="{ 'baseInput--shrink': isFocus, 'baseInput--invalid': v 
     :type="type",
     v-model="computedValue",
     @blur="isBlur = false",
-    @focus="isBlur = true"
+    @focus="isBlur = true",
+    :name="name"
   )
   transition(name="fade")
     svg.baseInput__clear(@click="computedValue = ''", v-if="v && v.$error && computedValue")

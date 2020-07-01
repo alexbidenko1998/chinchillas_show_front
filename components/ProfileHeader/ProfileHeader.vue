@@ -1,8 +1,10 @@
 <template>
   <header class="profileHeader">
-    <div class="profileHeader__logo paddingLeft">Chinchillas - show</div>
+    <nuxt-link class="profileHeader__logo paddingLeft" to="/"
+      >Chinchillas - show</nuxt-link
+    >
     <nav class="profileHeader__nav paddingRight">
-      <nuxt-link class="profileHeader__link" to="/">Главная</nuxt-link>
+      <nuxt-link class="profileHeader__link" to="/profile">Профиль</nuxt-link>
       <nuxt-link class="profileHeader__link" to="/raech">РАЭШ</nuxt-link>
       <nuxt-link class="profileHeader__link" to="/auction">Аукцион</nuxt-link>
       <nuxt-link class="profileHeader__link" to="/profile/users"
@@ -14,7 +16,9 @@
       >
       <button class="profileHeader__link" @click="logout">Выход</button>
       <BaseSidenav>
-        <nuxt-link class="profileHeader__sidenavLink" to="/">Главная</nuxt-link>
+        <nuxt-link class="profileHeader__sidenavLink" to="/profile"
+          >Профиль</nuxt-link
+        >
         <nuxt-link class="profileHeader__sidenavLink" to="/raech"
           >РАЭШ</nuxt-link
         >
@@ -67,6 +71,7 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
+  z-index: 700;
 
   &__logo {
     background: #d79b00;
@@ -79,6 +84,7 @@ export default {
     align-items: center;
     color: #fff;
     padding-right: 24px;
+    text-decoration: none;
   }
 
   &__nav {
@@ -92,6 +98,7 @@ export default {
     align-items: center;
     box-sizing: content-box;
     color: #fff;
+    width: fit-content;
 
     @include mq('tablet') {
       height: 44px;

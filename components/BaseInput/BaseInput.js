@@ -20,6 +20,9 @@ export default {
     multiline: {
       type: Boolean,
       default: false
+    },
+    name: {
+      type: String
     }
   },
 

@@ -4,7 +4,7 @@
       v-for="user in users"
       :key="user.id"
       class="usersPage__title"
-      :to="`/profile/${user.id}`"
+      :to="`/profile?id=${user.id}`"
     >
       {{ user.id }}: {{ user.login }}
     </nuxt-link>

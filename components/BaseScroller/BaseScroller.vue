@@ -33,7 +33,6 @@
     padding-right: 24px !important;
     box-sizing: border-box !important;
     width: calc(100% + 15px) !important;
-    max-height: calc(100vh - 296px);
   }
 }
 </style>

@@ -41,6 +41,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 700;
 
   &__logo {
     background: #fff;
@@ -60,6 +61,7 @@ export default {
     display: flex;
     height: 100%;
     align-items: center;
+    width: fit-content;
   }
 
   &__link {

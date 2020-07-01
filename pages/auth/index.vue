@@ -21,19 +21,21 @@
         <form
           v-if="mode === 'signIn'"
           key="signIn"
-          class="authPage__form"
+          class="authPage__form authPage__form--signIn"
           @submit.prevent="submitSignIn"
         >
           <BaseInput
             v-model="signIn.login"
             placeholder="Логин"
             class="authPage__input"
+            name="login"
           />
           <BaseInput
             v-model="signIn.password"
             placeholder="Пароль"
             type="password"
             class="authPage__input"
+            name="password"
           />
           <nuxt-link to="" class="authPage__remindPassword"
             >Забыли пароль?</nuxt-link
@@ -52,6 +54,7 @@
               :v="$v.signUp.login"
               placeholder="Логин"
               class="authPage__input"
+              name="login"
             />
             <BaseInput
               v-model="signUp.email"
@@ -59,48 +62,55 @@
               placeholder="E-Mail"
               type="password"
               class="authPage__input"
+              name="email"
             />
             <BaseInput
               v-model="signUp.phone"
               :v="$v.signUp.phone"
-              placeholder="E-Mail"
+              placeholder="Телефон"
               type="password"
               class="authPage__input"
+              name="phone"
             />
             <BaseInput
               v-model="signUp.first_name"
               :v="$v.signUp.first_name"
-              placeholder="E-Mail"
+              placeholder="Имя"
               type="password"
               class="authPage__input"
+              name="firstName"
             />
             <BaseInput
               v-model="signUp.last_name"
               :v="$v.signUp.last_name"
-              placeholder="E-Mail"
+              placeholder="Фамилия"
               type="password"
               class="authPage__input"
+              name="lastName"
             />
             <BaseInput
               v-model="signUp.patronymic"
               :v="$v.signUp.patronymic"
-              placeholder="E-Mail"
+              placeholder="Отчество"
               type="password"
               class="authPage__input"
+              name="patronymic"
             />
             <BaseInput
               v-model="signUp.country"
               :v="$v.signUp.country"
-              placeholder="E-Mail"
+              placeholder="Страна"
               type="password"
               class="authPage__input"
+              name="country"
             />
             <BaseInput
               v-model="signUp.city"
               :v="$v.signUp.city"
-              placeholder="E-Mail"
+              placeholder="Город"
               type="password"
               class="authPage__input"
+              name="city"
             />
             <BaseInput
               v-model="signUp.password"
@@ -108,6 +118,7 @@
               placeholder="Пароль"
               type="password"
               class="authPage__input"
+              name="password"
             />
           </BaseScroller>
           <button
@@ -175,17 +186,19 @@ export default {
   },
 
   validations: {
-    login: {
-      required,
-      minLength: minLength(6)
-    },
-    email: {
-      required,
-      email
-    },
-    password: {
-      required,
-      minLength: minLength(8)
+    signUp: {
+      login: {
+        required,
+        minLength: minLength(6)
+      },
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(8)
+      }
     }
   }
 }
@@ -198,6 +211,8 @@ export default {
     cover;
   display: flex;
   align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
 
   &__card {
     background: #fff;
@@ -250,6 +265,7 @@ export default {
 
     &--signUp {
       height: calc(100vh - 500px);
+      min-height: 400px;
     }
 
     .baseScroller {

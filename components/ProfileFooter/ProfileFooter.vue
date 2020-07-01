@@ -80,6 +80,7 @@ export default {
 
     @include mq('tablet') {
       margin-left: -16px;
+      flex-direction: column;
     }
   }
 
@@ -91,7 +92,7 @@ export default {
     align-items: center;
     font-family: 'Noto Sans', sans-serif;
     color: #fff;
-    padding: 0 16px;
+    padding: 16px;
   }
 }
 </style>

@@ -9,7 +9,7 @@
       <span class="profilePage__title">Email {{ user.email }}</span>
       <span class="profilePage__title">Телефон {{ user.phone }}</span>
     </template>
-    <CardSection :items="chinchillas"></CardSection>
+    <CardSection :items="chinchillas" />
   </div>
 </template>
 

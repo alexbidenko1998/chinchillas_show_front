@@ -3,7 +3,7 @@
     <div class="cardSection__list baseContainer">
       <ChinchillaCard
         v-for="item in items"
-        :key="item"
+        :key="item.id"
         :chinchilla="item"
       ></ChinchillaCard>
     </div>
