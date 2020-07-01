@@ -25,5 +25,6 @@ export default {
 <style lang="scss">
 .viewPage {
   padding: 0;
+  width: 100%;
 }
 </style>

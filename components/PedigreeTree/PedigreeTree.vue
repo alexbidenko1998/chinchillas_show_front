@@ -105,6 +105,7 @@ export default {
 
 <style lang="scss">
 .pedigreeTree {
+  width: 100%;
   min-width: 1100px;
   overflow: hidden;
   padding: 40px 0;
