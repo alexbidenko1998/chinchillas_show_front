@@ -57,9 +57,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
   flex-direction: column;
   position: relative;
+  flex: 1;
 
   &__title {
     @include buttonReset;

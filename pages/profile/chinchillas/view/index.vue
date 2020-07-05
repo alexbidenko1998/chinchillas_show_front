@@ -1,5 +1,5 @@
 <template>
-  <div class="viewPage">
+  <div class="viewPage baseContainer">
     <template v-if="data">
       {{ data.name }}
       <nuxt-link
@@ -43,8 +43,12 @@ export default {
 
 <style lang="scss">
 .viewPage {
-  padding: 0;
   width: 100%;
   position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 </style>

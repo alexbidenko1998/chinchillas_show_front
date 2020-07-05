@@ -1,6 +1,6 @@
 <template>
   <div class="createPage">
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="onSubmit" class="baseContainer">
       <BaseInput v-model="models.name" name="name" placeholder="Кличка" />
       Готова ли к публикации
       <input v-model="models.is_ready" name="is_ready" type="checkbox" />
@@ -73,7 +73,7 @@ export default {
       this.$axios
         .$post('chinchilla/create', this.models)
         .then((data) => {
-          this.$router.push(`/profile/chinchillas/color${data.id}`)
+          this.$router.push(`/profile/chinchillas/color/${data.id}`)
         })
         .catch(() => {
           alert('Что-то пошло не так')
