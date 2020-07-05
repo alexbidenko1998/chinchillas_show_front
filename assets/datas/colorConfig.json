@@ -1,0 +1,354 @@
+[
+  {
+    "name": "standard",
+    "label": "Стандарт",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "white",
+    "label": "Белый",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "mosaic",
+    "label": "Мозаичность",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "beige",
+    "label": "Бежевый",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      },
+      {
+        "value": "double",
+        "label": "Двойной"
+      }
+    ]
+  },
+  {
+    "name": "violet",
+    "label": "Афро фиолет",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "sapphire",
+    "label": "Сапфир",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "angora",
+    "label": "Ангора",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "ebony",
+    "label": "Эбони",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "light",
+        "label": "Светлый"
+      },
+      {
+        "value": "middle",
+        "label": "Средний"
+      },
+      {
+        "value": "dark",
+        "label": "Темный"
+      },
+      {
+        "value": "exdark",
+        "label": "Экстра темный"
+      },
+      {
+        "value": "homoebony",
+        "label": "Гомоэбони"
+      },
+      {
+        "value": "dontknow",
+        "label": "Затрудняюсь ответить"
+      }
+    ]
+  },
+  {
+    "name": "velvet",
+    "label": "Бархат",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "maybe",
+        "label": "Возможно"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "pearl",
+    "label": "Черный жемчуг",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "california",
+    "label": "Калифорния",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "rex",
+    "label": "Рекс",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "lova",
+    "label": "Белый лова",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "german",
+    "label": "Немецкий фиолет",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "50%",
+        "label": "Нет"
+      },
+      {
+        "value": "67%",
+        "label": "Есть"
+      },
+      {
+        "value": "carrier",
+        "label": "Носитель"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "blue",
+    "label": "Блю слейт",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  },
+  {
+    "name": "fur",
+    "label": "Меховой",
+    "variants": [
+      {
+        "value": "no",
+        "label": "Нет"
+      },
+      {
+        "value": "yes",
+        "label": "Есть"
+      }
+    ]
+  }
+]

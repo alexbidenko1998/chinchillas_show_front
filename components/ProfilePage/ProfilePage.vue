@@ -1,25 +1,30 @@
 <template>
   <div class="profilePage">
-    <span class="profilePage__title">Пользователь {{ userId }}</span>
-    <template v-if="user">
+    <template v-if="user && chinchillas">
+      <span class="profilePage__title">Пользователь {{ userId }}</span>
       <span class="profilePage__title">Login {{ user.login }}</span>
       <span class="profilePage__title">Имя {{ user.first_name }}</span>
       <span class="profilePage__title">Фамилия {{ user.last_name }}</span>
       <span class="profilePage__title">Отчество {{ user.patronymic }}</span>
       <span class="profilePage__title">Email {{ user.email }}</span>
       <span class="profilePage__title">Телефон {{ user.phone }}</span>
+      <nuxt-link v-if="isOwner" to="/profile/chinchillas/create"
+        >Создать шиншиллу</nuxt-link
+      >
+      <CardSection :items="chinchillas" />
     </template>
-    <CardSection :items="chinchillas" />
+    <BaseSpinner v-else />
   </div>
 </template>
 
 <script>
-import CardSection from '../CardSection/CardSection'
+import CardSection from '../CardSection/CardSection.vue'
+import BaseSpinner from '../BaseSpinner/BaseSpinner.vue'
 
 export default {
   name: 'ProfilePage',
 
-  components: { CardSection },
+  components: { BaseSpinner, CardSection },
 
   props: {
     userId: {
@@ -31,7 +36,8 @@ export default {
   data() {
     return {
       user: null,
-      chinchillas: []
+      chinchillas: null,
+      isOwner: this.userId === +localStorage.user_id
     }
   },
 
@@ -53,6 +59,7 @@ export default {
   justify-content: center;
   flex: 1;
   flex-direction: column;
+  position: relative;
 
   &__title {
     @include buttonReset;
