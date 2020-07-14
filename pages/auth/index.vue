@@ -24,13 +24,13 @@
           class="authPage__form authPage__form--signIn"
           @submit.prevent="submitSignIn"
         >
-          <BaseInput
+          <v-text-field
             v-model="signIn.login"
             placeholder="Логин"
             class="authPage__input"
             name="login"
           />
-          <BaseInput
+          <v-text-field
             v-model="signIn.password"
             placeholder="Пароль"
             type="password"
@@ -46,88 +46,118 @@
           v-if="mode === 'signUp'"
           key="signUp"
           class="authPage__form authPage__form--signUp"
-          @submit.prevent="submitSignUp"
+          @submit.prevent
         >
           <BaseScroller>
-            <BaseInput
-              v-model="signUp.login"
-              :v="$v.signUp.login"
-              placeholder="Логин"
+            <v-text-field
+              v-model="$v.signUp.login.$model"
+              :error="$v.signUp.login.$error"
+              label="Логин"
               class="authPage__input"
               name="login"
             />
-            <BaseInput
-              v-model="signUp.email"
-              :v="$v.signUp.email"
-              placeholder="E-Mail"
-              type="password"
+            <v-text-field
+              v-model="$v.signUp.email.$model"
+              :error="$v.signUp.email.$error"
+              label="E-Mail"
+              type="email"
               class="authPage__input"
               name="email"
             />
-            <BaseInput
-              v-model="signUp.phone"
-              :v="$v.signUp.phone"
-              placeholder="Телефон"
-              type="password"
+            <v-text-field
+              v-model="$v.signUp.phone.$model"
+              :error="$v.signUp.phone.$error"
+              type="tel"
+              label="Телефон"
               class="authPage__input"
               name="phone"
+              mask="+7 (###)-###-##-##"
             />
-            <BaseInput
-              v-model="signUp.first_name"
-              :v="$v.signUp.first_name"
-              placeholder="Имя"
-              type="password"
+            <v-text-field
+              v-model="$v.signUp.first_name.$model"
+              :error="$v.signUp.first_name.$error"
+              label="Имя"
+              type="text"
               class="authPage__input"
               name="firstName"
             />
-            <BaseInput
-              v-model="signUp.last_name"
-              :v="$v.signUp.last_name"
-              placeholder="Фамилия"
-              type="password"
+            <v-text-field
+              v-model="$v.signUp.last_name.$model"
+              :error="$v.signUp.last_name.$error"
+              label="Фамилия"
+              type="text"
               class="authPage__input"
               name="lastName"
             />
-            <BaseInput
-              v-model="signUp.patronymic"
-              :v="$v.signUp.patronymic"
-              placeholder="Отчество"
-              type="password"
+            <v-text-field
+              v-model="$v.signUp.patronymic.$model"
+              :error="$v.signUp.patronymic.$error"
+              label="Отчество"
+              type="text"
               class="authPage__input"
               name="patronymic"
             />
-            <BaseInput
-              v-model="signUp.country"
-              :v="$v.signUp.country"
-              placeholder="Страна"
-              type="password"
+            <v-text-field
+              v-model="$v.signUp.country.$model"
+              :error="$v.signUp.country.$error"
+              label="Страна"
+              type="text"
               class="authPage__input"
               name="country"
             />
-            <BaseInput
-              v-model="signUp.city"
-              :v="$v.signUp.city"
-              placeholder="Город"
-              type="password"
+            <v-text-field
+              v-model="$v.signUp.city.$model"
+              :error="$v.signUp.city.$error"
+              label="Город"
+              type="text"
               class="authPage__input"
               name="city"
             />
-            <BaseInput
-              v-model="signUp.password"
-              :v="$v.signUp.password"
-              placeholder="Пароль"
+            <v-text-field
+              v-model="$v.signUp.password.$model"
+              :error="$v.signUp.password.$error"
+              label="Пароль"
               type="password"
               class="authPage__input"
               name="password"
             />
           </BaseScroller>
-          <button
-            type="submit"
-            class="authPage__submit"
-            :disabled="$v.$invalid"
-          >
-            Войти
-          </button>
+
+          <v-dialog v-model="dialog" persistent max-width="290">
+            <template v-slot:activator="{ on, attrs }">
+              <button
+                type="submit"
+                class="authPage__submit"
+                v-bind="attrs"
+                :disabled="$v.$invalid"
+                v-on="on"
+              >
+                Зарегистрироваться
+              </button>
+            </template>
+
+            <v-card>
+              <v-card-title class="headline"
+                >Пожалуйста подтвердите пароль</v-card-title
+              >
+              <v-card-text>
+                <v-text-field
+                  v-model="repeatPassword"
+                  label="Пароль"
+                  type="password"
+                ></v-text-field>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  :disabled="repeatPassword !== signUp.password"
+                  @click="submitSignUp"
+                  >Подтвердить</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </form>
       </transition>
     </article>
@@ -136,12 +166,10 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators'
-import BaseInput from '~/components/BaseInput/BaseInput.vue'
 import BaseScroller from '~/components/BaseScroller/BaseScroller.vue'
 
 export default {
   components: {
-    BaseInput,
     BaseScroller
   },
 
@@ -162,7 +190,9 @@ export default {
         country: '',
         city: '',
         password: ''
-      }
+      },
+      repeatPassword: '',
+      dialog: false
     }
   },
 
@@ -198,6 +228,24 @@ export default {
       password: {
         required,
         minLength: minLength(8)
+      },
+      first_name: {
+        required
+      },
+      last_name: {
+        required
+      },
+      patronymic: {
+        required
+      },
+      phone: {
+        required
+      },
+      country: {
+        required
+      },
+      city: {
+        required
       }
     }
   }
@@ -307,6 +355,10 @@ export default {
     padding: 0 24px;
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
+
+    &:disabled {
+      background: #c7c7c7;
+    }
   }
 }
 </style>

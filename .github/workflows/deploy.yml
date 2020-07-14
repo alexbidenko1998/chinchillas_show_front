@@ -23,7 +23,7 @@ jobs:
       - name: Install Packages
         run: npm i
       - name: Build artifacts
-        run: npm run generate
+        run: npm run build
       - name: Deploy
         run: rsync -e 'sshpass -p Q!3Hb4c3 ssh' -avzP --delete-after dist/ u0690120@37.140.192.11:/var/www/u0690120/data/www/chinchillas-show.com/public
         shell: bash

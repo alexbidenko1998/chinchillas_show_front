@@ -16,12 +16,17 @@
             :alt="data.name"
             class="viewPage__photo"
           />
-          <button class="viewPage__delete" @click="deletePhoto(photo.id)">
+          <button
+            v-if="userId === data.owner_id"
+            class="viewPage__delete"
+            @click="deletePhoto(photo.id)"
+          >
             X
           </button>
         </div>
       </div>
       <input
+        v-if="userId === data.owner_id"
         type="file"
         multiple
         accept="image/*"

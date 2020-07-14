@@ -1,50 +1,69 @@
 <template>
   <div class="createPage">
-    <form @submit.prevent="onSubmit" class="baseContainer">
-      <BaseInput v-model="models.name" name="name" placeholder="Кличка" />
+    <form class="baseContainer" @submit.prevent="onSubmit">
+      <v-text-field v-model="models.name" name="name" label="Кличка" />
       Готова ли к публикации
-      <input v-model="models.is_ready" name="is_ready" type="checkbox" />
+      <v-checkbox
+        v-model="models.is_ready"
+        name="is_ready"
+        label="Готова ли к публикации"
+      />
       <div></div>
-      День рождения
-      <input v-model="birthday" name="birthday" type="date" />
+      <v-menu
+        v-model="datepicker"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="birthday"
+            label="День рождения"
+            prepend-icon="event"
+            name="birthday"
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          />
+        </template>
+        <v-date-picker v-model="birthday" @input="datepicker = false" />
+      </v-menu>
       <div></div>
       Пол
-      <label>
-        <input v-model="models.sex" name="sex" type="radio" value="f" />
-        Самка
-      </label>
-      <label>
-        <input v-model="models.sex" name="sex" type="radio" value="m" />
-        Самец
-      </label>
-      <BaseInput
+      <v-radio-group v-model="models.sex">
+        <v-radio label="Самка" value="f" name="sex" />
+        <v-radio label="Самец" value="m" name="sex" />
+      </v-radio-group>
+      <v-text-field
         v-model="models.weight"
         name="weight"
-        placeholder="Вес при рождении"
+        label="Вес при рождении"
       />
-      <BaseInput
+      <v-text-field
         v-model="models.brothers"
         name="brothers"
-        placeholder="Щенков в помете"
+        label="Щенков в помете"
       />
-      <BaseInput v-model="models.awards" name="awards" placeholder="Награды" />
-      <BaseInput
+      <v-text-field v-model="models.awards" name="awards" label="Награды" />
+      <v-text-field
         v-model="models.description"
         name="description"
-        placeholder="Дополнительное описание"
+        label="Дополнительное описание"
       />
-      <button type="submit" :disabled="isLoading">Сохранить</button>
+      <v-btn color="primary" type="submit" :disabled="$v.$invalid || isLoading"
+        >Сохранить</v-btn
+      >
     </form>
   </div>
 </template>
 
 <script>
-import BaseInput from '~/components/BaseInput/BaseInput.vue'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'CreatePage',
-
-  components: { BaseInput },
 
   layout: 'profileLayout',
 
@@ -62,7 +81,8 @@ export default {
         description: ''
       },
       birthday: null,
-      isLoading: false
+      isLoading: false,
+      datepicker: false
     }
   },
 
@@ -73,12 +93,23 @@ export default {
       this.$axios
         .$post('chinchilla/create', this.models)
         .then((data) => {
-          this.$router.push(`/profile/chinchillas/color/${data.id}`)
+          this.$router.push(`/profile/chinchillas/color?id=${data.id}`)
         })
         .catch(() => {
           alert('Что-то пошло не так')
           this.isLoading = false
         })
+    }
+  },
+
+  validations: {
+    models: {
+      name: {
+        required
+      }
+    },
+    birthday: {
+      required
     }
   }
 }

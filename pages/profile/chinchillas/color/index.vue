@@ -3,18 +3,19 @@
     <div v-if="data" class="baseContainer">
       {{ data.name }}
       <form class="colorPage__form" @submit.prevent="onSubmit">
-        <label v-for="item in config" :key="item.name" class="colorPage__label">
-          {{ item.label }}
-          <select v-model="models[item.name]" :name="item.name">
-            <option
-              v-for="variant in item.variants"
-              :key="variant.value"
-              :value="variant.value"
-              >{{ variant.label }}</option
-            >
-          </select>
-        </label>
-        <button type="submit">Сохранить</button>
+        <v-combobox
+          v-for="item in config"
+          :key="item.name"
+          :value="item.variants.find((el) => el.value === models[item.name])"
+          class="colorPage__label"
+          :name="item.name"
+          :items="item.variants"
+          item-text="label"
+          item-value="value"
+          :label="item.label"
+          @change="models[item.name] = $event.value"
+        />
+        <v-btn color="primary" type="submit">Сохранить</v-btn>
       </form>
     </div>
     <BaseSpinner v-else />

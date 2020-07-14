@@ -1,11 +1,11 @@
 <template>
-  <div class="profileLayout">
+  <v-app class="profileLayout">
     <ProfileHeader />
     <main class="profileLayout__content">
       <nuxt />
     </main>
     <ProfileFooter />
-  </div>
+  </v-app>
 </template>
 
 <script>

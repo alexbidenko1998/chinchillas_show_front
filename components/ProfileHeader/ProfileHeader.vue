@@ -10,7 +10,9 @@
       <nuxt-link class="profileHeader__link" to="/profile/users"
         >Люди</nuxt-link
       >
-      <nuxt-link class="profileHeader__link" to="/auction">Шиншиллы</nuxt-link>
+      <nuxt-link class="profileHeader__link" to="/profile/search"
+        >Шиншиллы</nuxt-link
+      >
       <nuxt-link class="profileHeader__link" to="/auction"
         >Калькулятор</nuxt-link
       >
@@ -28,7 +30,7 @@
         <nuxt-link class="profileHeader__sidenavLink" to="/profile/users"
           >Люди</nuxt-link
         >
-        <nuxt-link class="profileHeader__sidenavLink" to="/auction"
+        <nuxt-link class="profileHeader__sidenavLink" to="/profile/search"
           >Шиншиллы</nuxt-link
         >
         <nuxt-link class="profileHeader__sidenavLink" to="/auction"
@@ -82,7 +84,7 @@ export default {
     font-size: 24px;
     display: flex;
     align-items: center;
-    color: #fff;
+    color: #fff !important;
     padding-right: 24px;
     text-decoration: none;
   }
@@ -97,7 +99,7 @@ export default {
     border-right: 0;
     align-items: center;
     box-sizing: content-box;
-    color: #fff;
+    color: #fff !important;
     width: fit-content;
 
     @include mq('tablet') {
@@ -115,7 +117,7 @@ export default {
     display: flex;
     align-items: center;
     text-align: center;
-    color: #fff;
+    color: #fff !important;
     padding: 0 16px;
 
     @include mq('tablet') {
@@ -131,7 +133,7 @@ export default {
     display: block;
     align-items: center;
     text-align: left;
-    color: #000;
+    color: #000 !important;
     text-decoration: none;
     padding: 8px 16px;
     width: 100%;

@@ -20,6 +20,11 @@ export default {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Noto+Sans&family=Roboto&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css'
       }
     ]
   },
@@ -39,6 +44,7 @@ export default {
    */
   plugins: [
     { src: '~/plugins/Vuebar', mode: 'all' },
+    { src: '~/plugins/Vuetify', mode: 'all' },
     { src: '~/plugins/Vuelidate', mode: 'client' }
   ],
   /*
@@ -48,7 +54,8 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/stylelint-module'
+    '@nuxtjs/stylelint-module',
+    '@nuxtjs/vuetify'
   ],
   /*
    ** Nuxt.js modules
