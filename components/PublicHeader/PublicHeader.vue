@@ -72,7 +72,7 @@ export default {
     display: flex;
     align-items: center;
     text-align: center;
-    color: #fff;
+    color: #fff !important;
     padding: 0 16px;
 
     @include mq('tablet') {
@@ -87,7 +87,7 @@ export default {
     font-size: 18px;
     display: block;
     align-items: center;
-    color: #000;
+    color: #000 !important;
     text-decoration: none;
     padding: 8px 16px;
     width: 100%;

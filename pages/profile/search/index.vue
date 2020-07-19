@@ -42,6 +42,18 @@ export default {
   grid-row-gap: 24px;
   flex: 1;
 
+  @include mq('desktop-small', 'tablet') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include mq('tablet', 'phone') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mq('phone') {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
   &__title {
     @include buttonReset;
     font-size: 24px;

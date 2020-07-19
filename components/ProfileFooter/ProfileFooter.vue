@@ -57,7 +57,7 @@ export default {
 
   &__link {
     @include buttonReset;
-    color: white;
+    color: white !important;
   }
 
   &__mainLink {
@@ -91,7 +91,7 @@ export default {
     display: flex;
     align-items: center;
     font-family: 'Noto Sans', sans-serif;
-    color: #fff;
+    color: #fff !important;
     padding: 16px;
   }
 }

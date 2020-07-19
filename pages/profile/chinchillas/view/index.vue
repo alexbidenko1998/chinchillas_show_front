@@ -1,6 +1,14 @@
 <template>
   <div class="viewPage baseContainer">
     <template v-if="data">
+      <img
+        v-if="data.avatar"
+        :src="
+          `https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${data.avatar.name}`
+        "
+        :alt="data.name"
+        class="viewPage__avatar"
+      />
       <div>{{ data.name }}</div>
       <div>{{ colorString }}</div>
       <div class="viewPage__photosList">
@@ -16,13 +24,17 @@
             :alt="data.name"
             class="viewPage__photo"
           />
-          <button
-            v-if="userId === data.owner_id"
-            class="viewPage__delete"
-            @click="deletePhoto(photo.id)"
-          >
-            X
-          </button>
+          <template v-if="userId === data.owner_id">
+            <button class="viewPage__delete" @click="deletePhoto(photo.id)">
+              X
+            </button>
+            <button
+              class="viewPage__updateAvatar"
+              @click="photoToAvatar(photo.id)"
+            >
+              A
+            </button>
+          </template>
         </div>
       </div>
       <input
@@ -33,6 +45,11 @@
         placeholder="Фотографии"
         @change="uploadPhotos"
       />
+      <nuxt-link
+        v-if="userId === data.owner_id"
+        :to="`/profile/chinchillas/redact?id=${chinchillaId}`"
+        >Редактировать параметры</nuxt-link
+      >
       <nuxt-link
         v-if="userId === data.owner_id"
         :to="`/profile/chinchillas/color?id=${chinchillaId}`"
@@ -83,6 +100,15 @@ export default {
         this.data.photos = this.data.photos.filter((el) => el.id !== photoId)
       })
     },
+    photoToAvatar(photoId) {
+      this.$axios
+        .$put(`/chinchilla/update/${this.data.id}`, {
+          avatar_id: photoId
+        })
+        .then(() => {
+          this.data.avatar = this.data.photos.find((el) => el.id === photoId)
+        })
+    },
     uploadPhotos(event) {
       const requests = [...event.target.files].map((file) => {
         const formData = new FormData()
@@ -107,6 +133,10 @@ export default {
   justify-content: center;
   flex-direction: column;
 
+  &__avatar {
+    width: 200px;
+  }
+
   &__photosList {
     display: flex;
     flex-wrap: wrap;
@@ -127,6 +157,12 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
+  }
+
+  &__updateAvatar {
+    position: absolute;
+    top: 0;
+    right: 16px;
   }
 }
 </style>

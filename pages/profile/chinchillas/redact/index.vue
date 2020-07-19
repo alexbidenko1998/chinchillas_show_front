@@ -1,12 +1,12 @@
 <template>
-  <ChinchillaRedact />
+  <ChinchillaRedact :chinchilla-id="+$route.query.id" />
 </template>
 
 <script>
 import ChinchillaRedact from '~/components/ChinchillaRedact/ChinchillaRedact'
 
 export default {
-  name: 'CreatePage',
+  name: 'RedactPage',
 
   components: { ChinchillaRedact },
 

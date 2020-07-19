@@ -2,7 +2,9 @@
   <nuxt-link
     class="chinchillaCard"
     :style="{
-      backgroundImage: `url(${'https://i.pinimg.com/originals/22/30/54/22305418269cbc153015646ab1b2e54d.jpg'})`
+      backgroundImage: chinchilla.avatar
+        ? `url(https://api.chinchillas-show.com/photos/chinchillas/${chinchilla.owner_id}/${chinchilla.id}/${chinchilla.avatar.name})`
+        : 'url(https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg)'
     }"
     :to="`/profile/chinchillas/view?id=${chinchilla.id}`"
   >
