@@ -98,9 +98,9 @@ export default {
     border: 8px solid #d0d0d0;
     border-right: 0;
     align-items: center;
-    box-sizing: content-box;
     color: #fff !important;
     width: fit-content;
+    box-sizing: content-box !important;
 
     @include mq('tablet') {
       height: 44px;

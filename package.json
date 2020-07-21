@@ -27,6 +27,7 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/style-resources": "^1.0.0",
     "hammerjs": "^2.0.8",
+    "material-design-icons-iconfont": "^5.0.1",
     "nuxt": "^2.0.0",
     "vuebar": "^0.0.20",
     "vuelidate": "^0.7.5",

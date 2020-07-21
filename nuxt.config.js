@@ -24,7 +24,7 @@ export default {
       {
         rel: 'stylesheet',
         href:
-          'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css'
+          'https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css'
       }
     ]
   },

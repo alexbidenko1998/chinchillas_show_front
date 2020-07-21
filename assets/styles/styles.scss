@@ -23,3 +23,11 @@ body {
 .page-enter, .page-leave-active {
   opacity: 0;
 }
+
+* {
+  box-sizing: border-box !important;
+}
+
+.v-dialog__content--active {
+  z-index: 1000 !important;
+}
