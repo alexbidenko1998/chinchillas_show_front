@@ -125,22 +125,27 @@ export default {
     }
   },
 
-  created() {
-    if (this.chinchillaId)
-      this.$axios
-        .$get(`chinchilla/details/${this.chinchillaId}`)
-        .then((data) => {
-          this.models = data
-          this.birthday = new Date(data.birthday).toISOString().substr(0, 10)
-        })
-  },
-
   watch: {
     motherSearch(val) {
       this.search(val, 'Mother')
     },
     fatherSearch(val) {
       this.search(val, 'Father')
+    }
+  },
+
+  created() {
+    if (this.chinchillaId) {
+      this.$axios
+        .$get(`chinchilla/details/${this.chinchillaId}`)
+        .then((data) => {
+          this.models = data
+          this.birthday = new Date(data.birthday).toISOString().substr(0, 10)
+        })
+      this.$axios.$get(`chinchilla/search`).then((data) => {
+        this.motherItems = data
+        this.fatherItems = data
+      })
     }
   },
 
@@ -154,8 +159,10 @@ export default {
           : 'chinchilla/create',
         this.models
       )
-        .then((data) => {
-          this.$router.push(`/profile/chinchillas/color?id=${data.id}`)
+        .then(() => {
+          this.$router.push(
+            `/profile/chinchillas/color?id=${this.chinchillaId}`
+          )
         })
         .catch(() => {
           alert('Что-то пошло не так')

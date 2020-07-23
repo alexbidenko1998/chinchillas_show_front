@@ -6,52 +6,88 @@
     <div ref="container" class="pedigreeTree__container">
       <div class="pedigreeTree__row">
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard v-if="getParent('m')" :chinchilla="getParent('m')" />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard v-if="getParent('f')" :chinchilla="getParent('f')" />
         </div>
       </div>
       <div class="pedigreeTree__row">
         <div class="pedigreeTree__cell pedigreeTree__cell--pair">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('m.m')"
+            :chinchilla="getParent('m.m')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('m.f')"
+            :chinchilla="getParent('m.f')"
+          />
         </div>
         <div class="pedigreeTree__cell pedigreeTree__cell--pair">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('f.m')"
+            :chinchilla="getParent('f.m')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('f.f')"
+            :chinchilla="getParent('f.f')"
+          />
         </div>
       </div>
       <div class="pedigreeTree__row pedigreeTree__row--join">
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('m.m.m')"
+            :chinchilla="getParent('m.m.m')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('m.m.f')"
+            :chinchilla="getParent('m.m.f')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('m.f.m')"
+            :chinchilla="getParent('m.f.m')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('m.f.f')"
+            :chinchilla="getParent('m.f.f')"
+          />
         </div>
       </div>
       <div class="pedigreeTree__row pedigreeTree__row--last">
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('f.m.m')"
+            :chinchilla="getParent('f.m.m')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('f.m.f')"
+            :chinchilla="getParent('f.m.f')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('f.f.m')"
+            :chinchilla="getParent('f.f.m')"
+          />
         </div>
         <div class="pedigreeTree__cell">
-          <ChinchillaCard :chinchilla="chinchilla" />
+          <ChinchillaCard
+            v-if="getParent('f.f.f')"
+            :chinchilla="getParent('f.f.f')"
+          />
         </div>
       </div>
     </div>
@@ -69,12 +105,15 @@ export default {
     ChinchillaCard
   },
 
+  props: {
+    chinchilla: {
+      type: Object,
+      required: true
+    }
+  },
+
   data() {
     return {
-      chinchilla: {
-        name: 'test',
-        id: 1
-      },
       scale: 1,
       margin: 0
     }
@@ -98,6 +137,14 @@ export default {
       this.scale === 1
         ? (this.margin = 0)
         : (this.margin = -(((1 - this.scale) * 1100) / 2))
+    },
+    getParent(steps) {
+      return steps
+        .split('.')
+        .reduce(
+          (c, s) => c && c[s === 'm' ? 'mother' : 'father'],
+          this.chinchilla
+        )
     }
   }
 }
@@ -122,8 +169,10 @@ export default {
 
   &__cell {
     width: 200px;
+    height: 200px;
     margin: 32px 16px;
     position: relative;
+    background-color: #828282;
 
     &::after {
       content: '';

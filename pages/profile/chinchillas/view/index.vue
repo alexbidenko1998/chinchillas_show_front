@@ -55,7 +55,7 @@
         :to="`/profile/chinchillas/color?id=${chinchillaId}`"
         >Редактировать цвет</nuxt-link
       >
-      <PedigreeTree />
+      <PedigreeTree :chinchilla="data" />
     </template>
     <BaseSpinner v-else />
   </div>
@@ -85,6 +85,18 @@ export default {
   computed: {
     colorString() {
       return this.data ? colorToString(this.data.color) : ''
+    }
+  },
+
+  watch: {
+    $route(val) {
+      if (this.chinchillaId !== +val.query.id) {
+        this.data = null
+        this.chinchillaId = +this.$route.query.id
+        this.$axios
+          .$get(`chinchilla/details/${this.chinchillaId}`)
+          .then((data) => (this.data = data))
+      }
     }
   },
 

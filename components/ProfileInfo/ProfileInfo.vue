@@ -279,6 +279,7 @@ export default {
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     cursor: pointer;
+    display: block;
 
     @include mq('tablet') {
       width: 240px;
