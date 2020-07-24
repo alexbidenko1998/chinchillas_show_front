@@ -7,49 +7,24 @@
         class="searchPage__search"
         placeholder="Поиск шиншиллы"
       />
-
-      <v-dialog v-model="dialog" width="500">
-        <template v-slot:activator="{ on, attrs }">
-          <span class="searchPage__settings">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon color="white">settings</v-icon>
-            </v-btn>
-            <v-fab-transition v-bind="attrs" v-on="on">
-              <v-btn color="primary" dark fixed bottom right fab>
-                <v-icon>settings</v-icon>
-              </v-btn>
-            </v-fab-transition>
-          </span>
-        </template>
-
-        <v-card>
-          <v-card-title class="headline lighten-2">
-            Параметры поиска
-          </v-card-title>
-
-          <v-card-text>
-            <v-select
-              :items="sexItems"
-              label="Пол"
-              item-text="label"
-              v-model="models.sex"
-              item-value="value"
-            />
-          </v-card-text>
-
-          <v-divider></v-divider>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn text @click="dialog = false">
-              Закрыть
-            </v-btn>
-            <v-btn color="primary" text @click="apply">
-              Применить
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <span class="searchPage__settings">
+        <v-btn icon @click="dialog = true">
+          <v-icon color="white">settings</v-icon>
+        </v-btn>
+        <v-fab-transition>
+          <v-btn
+            color="primary"
+            dark
+            fixed
+            bottom
+            right
+            fab
+            @click="dialog = true"
+          >
+            <v-icon>settings</v-icon>
+          </v-btn>
+        </v-fab-transition>
+      </span>
     </label>
     <div class="searchPage__list">
       <ChinchillaCard
@@ -61,6 +36,36 @@
     <div v-if="isLoading" class="searchPage__loaderContainer">
       <BaseSpinner />
     </div>
+
+    <v-dialog v-model="dialog" width="500">
+      <v-card>
+        <v-card-title class="headline lighten-2">
+          Параметры поиска
+        </v-card-title>
+
+        <v-card-text>
+          <v-select
+            v-model="models.sex"
+            :items="sexItems"
+            label="Пол"
+            item-text="label"
+            item-value="value"
+          />
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialog = false">
+            Закрыть
+          </v-btn>
+          <v-btn color="primary" text @click="apply">
+            Применить
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
