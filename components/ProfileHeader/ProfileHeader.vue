@@ -73,7 +73,7 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
-  z-index: 700;
+  z-index: 10;
 
   &__logo {
     background: #d79b00;
@@ -95,6 +95,7 @@ export default {
     display: flex;
     height: 32px;
     border-radius: 24px 0 0 24px;
+    overflow: hidden;
     border: 8px solid #d0d0d0;
     border-right: 0;
     align-items: center;
@@ -119,9 +120,16 @@ export default {
     text-align: center;
     color: #fff !important;
     padding: 0 16px;
+    height: 100%;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
     @include mq('tablet') {
       display: none;
+    }
+
+    &:hover {
+      background: #aa7a00;
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2) inset;
     }
   }
 

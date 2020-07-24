@@ -2,10 +2,13 @@
   <div class="profilePage">
     <template v-if="user && chinchillas">
       <ProfileInfo :user="user" :is-owner="isOwner" @update="user = $event" />
-      <nuxt-link v-if="isOwner" to="/profile/chinchillas/create"
-        >Создать шиншиллу</nuxt-link
+      <v-btn v-if="isOwner" to="/profile/chinchillas/create" nuxt
+        >Создать шиншиллу</v-btn
       >
-      <CardSection :items="chinchillas" />
+      <CardSection
+        :title="isOwner ? 'Ваши шиншиллы' : 'Шиншиллы'"
+        :items="chinchillas"
+      />
     </template>
     <BaseSpinner v-else />
   </div>

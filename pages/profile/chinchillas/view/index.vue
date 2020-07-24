@@ -1,5 +1,5 @@
 <template>
-  <div class="viewPage baseContainer">
+  <div class="viewPage">
     <template v-if="data">
       <img
         v-if="data.avatar"
@@ -11,51 +11,62 @@
       />
       <div>{{ data.name }}</div>
       <div>{{ colorString }}</div>
-      <div class="viewPage__photosList">
-        <div
-          v-for="photo in data.photos"
-          :key="photo.id"
-          class="viewPage__photoContainer"
-        >
-          <img
-            :src="
-              `https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${photo.name}`
-            "
-            :alt="data.name"
-            class="viewPage__photo"
+      <div class="baseContainer">
+        <div class="viewPage__photosList">
+          <div
+            v-for="photo in data.photos"
+            :key="photo.id"
+            class="viewPage__photoContainer"
+          >
+            <img
+              :src="
+                `https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${photo.name}`
+              "
+              :alt="data.name"
+              class="viewPage__photo"
+            />
+            <template v-if="userId === data.owner_id">
+              <button class="viewPage__delete" @click="deletePhoto(photo.id)">
+                X
+              </button>
+              <button
+                class="viewPage__updateAvatar"
+                @click="photoToAvatar(photo.id)"
+              >
+                A
+              </button>
+            </template>
+          </div>
+        </div>
+        <div class="viewPage__actions">
+          <v-file-input
+            v-if="userId === data.owner_id"
+            type="photos"
+            multiple
+            accept="image/*"
+            label="Загрузить фотографии"
+            @change="uploadPhotos"
           />
-          <template v-if="userId === data.owner_id">
-            <button class="viewPage__delete" @click="deletePhoto(photo.id)">
-              X
-            </button>
-            <button
-              class="viewPage__updateAvatar"
-              @click="photoToAvatar(photo.id)"
-            >
-              A
-            </button>
-          </template>
+          <v-btn
+            v-if="userId === data.owner_id"
+            :to="`/profile/chinchillas/redact?id=${chinchillaId}`"
+            nuxt
+            >Редактировать параметры</v-btn
+          >
+          <v-btn
+            v-if="userId === data.owner_id"
+            :to="`/profile/chinchillas/color?id=${chinchillaId}`"
+            nuxt
+            >Редактировать цвет</v-btn
+          >
         </div>
       </div>
-      <input
-        v-if="userId === data.owner_id"
-        type="file"
-        multiple
-        accept="image/*"
-        placeholder="Фотографии"
-        @change="uploadPhotos"
-      />
-      <nuxt-link
-        v-if="userId === data.owner_id"
-        :to="`/profile/chinchillas/redact?id=${chinchillaId}`"
-        >Редактировать параметры</nuxt-link
-      >
-      <nuxt-link
-        v-if="userId === data.owner_id"
-        :to="`/profile/chinchillas/color?id=${chinchillaId}`"
-        >Редактировать цвет</nuxt-link
-      >
       <PedigreeTree :chinchilla="data" />
+      <CardSection
+        v-if="data.children.length"
+        title="Дети"
+        :items="data.children"
+      />
     </template>
     <BaseSpinner v-else />
   </div>
@@ -64,12 +75,14 @@
 <script>
 import colorToString from '~/assets/scripts/colorToString'
 import PedigreeTree from '~/components/PedigreeTree/PedigreeTree.vue'
+import CardSection from '~/components/CardSection/CardSection.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
 
 export default {
   components: {
     BaseSpinner,
-    PedigreeTree
+    PedigreeTree,
+    CardSection
   },
 
   layout: 'profileLayout',
@@ -147,6 +160,11 @@ export default {
 
   &__avatar {
     width: 200px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
   }
 
   &__photosList {

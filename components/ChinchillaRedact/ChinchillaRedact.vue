@@ -142,9 +142,9 @@ export default {
           this.models = data
           this.birthday = new Date(data.birthday).toISOString().substr(0, 10)
         })
-      this.$axios.$get(`chinchilla/search`).then((data) => {
-        this.motherItems = data
-        this.fatherItems = data
+      this.$axios.$get(`chinchilla/search`).then((response) => {
+        this.motherItems = response.data.filter((el) => el.sex === 'f')
+        this.fatherItems = response.data.filter((el) => el.sex === 'm')
       })
     }
   },
@@ -171,8 +171,8 @@ export default {
     },
     search(val, type) {
       this['isLoading' + type] = true
-      this.$axios.$get(`chinchilla/search?name=${val}`).then((data) => {
-        this[type.toLowerCase() + 'Items'] = data
+      this.$axios.$get(`chinchilla/search?name=${val}`).then((response) => {
+        this[type.toLowerCase() + 'Items'] = response.data
         this['isLoading' + type] = false
       })
     }

@@ -41,7 +41,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 700;
+  z-index: 10;
 
   &__logo {
     background: #fff;
