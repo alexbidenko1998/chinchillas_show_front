@@ -159,10 +159,8 @@ export default {
           : 'chinchilla/create',
         this.models
       )
-        .then(() => {
-          this.$router.push(
-            `/profile/chinchillas/color?id=${this.chinchillaId}`
-          )
+        .then((data) => {
+          this.$router.push(`/profile/chinchillas/color?id=${data.id}`)
         })
         .catch(() => {
           alert('Что-то пошло не так')

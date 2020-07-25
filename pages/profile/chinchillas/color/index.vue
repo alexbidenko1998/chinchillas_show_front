@@ -71,6 +71,7 @@ export default {
 <style lang="scss">
 .colorPage {
   position: relative;
+  width: 100%;
 
   &__form {
     display: flex;
@@ -80,6 +81,13 @@ export default {
   &__label {
     width: 25%;
     display: block;
+  }
+
+  & .baseSpinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>
