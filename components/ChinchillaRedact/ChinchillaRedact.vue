@@ -153,11 +153,13 @@ export default {
     onSubmit() {
       this.models.birthday = new Date(this.birthday).getTime()
       this.isLoading = true
+      const models = { ...this.models }
+      if (this.chinchillaId) delete models.status
       this.$axios[this.chinchillaId ? '$put' : '$post'](
         this.chinchillaId
           ? `/chinchilla/update/${this.chinchillaId}`
           : 'chinchilla/create',
-        this.models
+        models
       )
         .then((data) => {
           this.$router.push(`/profile/chinchillas/color?id=${data.id}`)
