@@ -12,7 +12,15 @@
       <div>{{ data.name }}</div>
       <div>{{ colorString }}</div>
       <div>
-        {{ status(data.statuses[0].name) }}
+        {{
+          status(
+            (
+              data.statuses.find((el) =>
+                statuses.find((s) => el.name === s.key)
+              ) || { name: '' }
+            ).name
+          )
+        }}
         <v-btn @click="statusesDialog = true">История</v-btn>
       </div>
       <div class="baseContainer">
@@ -71,25 +79,32 @@
         title="Дети"
         :items="data.children"
       />
+      <CardSection
+        v-if="data.relatives && data.relatives.length"
+        title="Браться и сестры"
+        :items="data.relatives"
+      />
 
       <v-dialog v-model="statusesDialog" max-width="290">
         <v-card>
           <v-card-title class="headline">История статусов</v-card-title>
 
           <v-card-text style="height: 300px;">
-            <v-list-item
-              v-for="s in data.statuses"
-              :key="s.timestamp"
-              two-line
-              style="padding: 0;"
-            >
-              <v-list-item-content>
-                <v-list-item-title>{{ status(s.name) }}</v-list-item-title>
-                <v-list-item-subtitle>{{
-                  dateFormat(s.timestamp)
-                }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <template v-for="s in data.statuses">
+              <v-list-item
+                v-if="statuses.find((el) => el.key === s.name)"
+                :key="s.timestamp"
+                two-line
+                style="padding: 0;"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>{{ status(s.name) }}</v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    dateFormat(s.timestamp)
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
 
             <v-container
               v-if="userId === data.owner_id"
@@ -210,7 +225,7 @@ export default {
       })
     },
     status(key) {
-      return this.data ? statuses.find((el) => el.key === key).label : ''
+      return this.data ? statuses.find((el) => el.key === key)?.label ?? '' : ''
     },
     dateFormat(timestamp) {
       return new Date(timestamp).toString()

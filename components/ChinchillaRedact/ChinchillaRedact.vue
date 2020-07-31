@@ -162,7 +162,11 @@ export default {
         models
       )
         .then((data) => {
-          this.$router.push(`/profile/chinchillas/color?id=${data.id}`)
+          this.$router.push(
+            this.chinchillaId
+              ? '/profile'
+              : `/profile/chinchillas/color?id=${data.id}`
+          )
         })
         .catch(() => {
           alert('Что-то пошло не так')

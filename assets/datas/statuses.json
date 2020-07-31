@@ -1,10 +1,39 @@
 [
   {
-    "key": "baby",
-    "label": "Малыш"
+    "key": "breeding",
+    "label": "В разведении",
+    "additional": [
+      "chinchillaId"
+    ]
   },
   {
-    "key": "adult",
-    "label": "Взрослый"
+    "key": "sale",
+    "label": "На продажу",
+    "additional": [
+      "cost", "class"
+    ],
+    "comment": "Bread class and Pet class - ставит галочку, в разведение, или любимчик (один на выбор). Третий вариант - show class - если была в выставке и получила золото, (только внутри системы) (заменяет два других класса)"
+  },
+  {
+    "key": "sold",
+    "label": "Продана / Трансфер",
+    "additional": [
+      "protected_cost", "variably_targetId"
+    ],
+    "comment": "Если указано кто, то это как Transfer"
+  },
+  {
+    "key": "reserved",
+    "label": "Зарезервирована",
+    "additional": [
+      "variably_targetId"
+    ]
+  },
+  {
+    "key": "dead",
+    "label": "На радуге",
+    "additional": [
+      "variably_comment"
+    ]
   }
 ]

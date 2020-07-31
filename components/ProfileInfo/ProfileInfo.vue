@@ -242,6 +242,10 @@ export default {
     @include mq('tablet') {
       margin: 0 auto 40px;
     }
+
+    @include mq('phone') {
+      margin-left: 0;
+    }
   }
 
   &__name {
