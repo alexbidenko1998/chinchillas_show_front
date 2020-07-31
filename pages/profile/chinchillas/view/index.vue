@@ -165,7 +165,7 @@ export default {
   data() {
     return {
       chinchillaId: +this.$route.query.id,
-      userId: +localStorage.user_id,
+      userId: +this.$cookies.get('USER_ID'),
       data: null,
       statusesDialog: false,
       updatedStatus: null

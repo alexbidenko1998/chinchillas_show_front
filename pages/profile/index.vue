@@ -21,10 +21,7 @@ export default {
 
   computed: {
     userId() {
-      return (
-        +this.$route.query.id ||
-        (typeof localStorage === 'undefined' ? 0 : +localStorage.user_id)
-      )
+      return +this.$route.query.id || +this.$cookies.get('USER_ID')
     }
   },
 

@@ -199,16 +199,16 @@ export default {
   methods: {
     submitSignIn() {
       this.$axios.$post('login', this.signIn).then((data) => {
-        localStorage.token = data.token
-        localStorage.user_id = data.user.id
+        this.$cookies.set('TOKEN', data.token)
+        this.$cookies.set('USER_ID', data.user.id)
         this.$axios.setHeader('Authorization', `Bearer ${data.token}`)
         this.$router.push('/profile')
       })
     },
     submitSignUp() {
       this.$axios.$post('register', this.signUp).then((data) => {
-        localStorage.token = data.token
-        localStorage.user_id = data.user.id
+        this.$cookies.set('TOKEN', data.token)
+        this.$cookies.set('USER_ID', data.user.id)
         this.$axios.setHeader('Authorization', `Bearer ${data.token}`)
         this.$router.push('/profile')
       })

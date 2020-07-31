@@ -56,8 +56,8 @@ export default {
 
   methods: {
     logout() {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user_id')
+      this.$cookies.remove('TOKEN')
+      this.$cookies.remove('USER_ID')
       this.$router.push('/auth')
     }
   }

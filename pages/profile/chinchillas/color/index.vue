@@ -40,13 +40,14 @@ export default {
       chinchillaId: +this.$route.query.id,
       data: null,
       config: colorConfig,
-      models
+      models,
+      userId: this.$cookies.get('USER_ID')
     }
   },
 
   created() {
     this.$axios.$get(`chinchilla/details/${this.chinchillaId}`).then((data) => {
-      if (data.owner_id === +localStorage.user_id) {
+      if (data.owner_id === +this.userId) {
         this.data = data
         if (data.color) this.models = data.color
       } else this.$router.push('/profile')

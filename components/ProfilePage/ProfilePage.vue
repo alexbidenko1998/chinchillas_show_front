@@ -35,7 +35,7 @@ export default {
     return {
       user: null,
       chinchillas: null,
-      isOwner: this.userId === +localStorage.user_id
+      isOwner: this.userId === +this.$cookies.get('USER_ID')
     }
   },
 

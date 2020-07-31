@@ -29,6 +29,7 @@
     "hammerjs": "^2.0.8",
     "material-design-icons-iconfont": "^5.0.1",
     "nuxt": "^2.0.0",
+    "pm2": "^4.4.0",
     "vuebar": "^0.0.20",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.3.4"
