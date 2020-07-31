@@ -1,16 +1,14 @@
 import Actions from '~/store/actions.type'
 
-export default function({ store, redirect, $axios }) {
-  if (typeof localStorage !== 'undefined') {
-    if (!localStorage.token || !localStorage.user_id) {
-      redirect('/auth')
-      return
-    }
+export default function({ store, redirect, $axios, req }) {
+  if (!req.cookies.TOKEN || !req.cookies.USER_ID) {
+    redirect('/auth')
+    return
+  }
 
-    $axios.setHeader('Authorization', `Bearer ${localStorage.token}`)
+  $axios.setHeader('Authorization', `Bearer ${req.cookies.TOKEN}`)
 
-    if (!store.user) {
-      store.dispatch(Actions.CHECK_USER)
-    }
+  if (!store.user) {
+    store.dispatch(Actions.CHECK_USER)
   }
 }

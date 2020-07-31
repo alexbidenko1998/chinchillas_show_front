@@ -27,5 +27,5 @@ jobs:
       - name: Deploy
         run: rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avzP --delete-after . ${{secrets.USER}}@${{secrets.HOST}}:/var/www/chinchillas-show-front
       - name: Start
-        run: sshpass -e ssh ${{secrets.USER}}@${{secrets.HOST}} 'cd /var/www/chinchillas-show-front;pm2 del chinchillas-show-front;pm2 start npm --name "chinchillas-show-front" -- run "start"'
+        run: sshpass -p ${{secrets.PASSWORD}} ssh ${{secrets.USER}}@${{secrets.HOST}} 'cd /var/www/chinchillas-show-front;pm2 del chinchillas-show-front;pm2 start npm --name "chinchillas-show-front" -- run "start"'
         shell: bash
