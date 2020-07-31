@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "NUXT_PORT=3333 nuxt build",
-    "start": "NUXT_PORT=3333 nuxt start",
+    "build": "cross-env NUXT_PORT=3333 nuxt build",
+    "start": "cross-env NUXT_PORT=3333 nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
