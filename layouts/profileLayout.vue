@@ -15,10 +15,10 @@ import ProfileFooter from '~/components/ProfileFooter/ProfileFooter.vue'
 export default {
   components: {
     ProfileHeader,
-    ProfileFooter
+    ProfileFooter,
   },
 
-  middleware: 'auth'
+  middleware: 'auth',
 }
 </script>
 

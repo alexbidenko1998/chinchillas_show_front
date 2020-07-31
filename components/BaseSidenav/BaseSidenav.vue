@@ -29,15 +29,15 @@ export default {
 
   data() {
     return {
-      isOpen: false
+      isOpen: false,
     }
   },
 
   watch: {
     $route() {
       this.isOpen = false
-    }
-  }
+    },
+  },
 }
 </script>
 

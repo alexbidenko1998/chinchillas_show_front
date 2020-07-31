@@ -43,15 +43,15 @@ export default {
   props: {
     chinchilla: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
     colorString() {
       return colorToString(this.chinchilla.color)
-    }
-  }
+    },
+  },
 }
 </script>
 

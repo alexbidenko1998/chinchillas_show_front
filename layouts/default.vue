@@ -15,8 +15,8 @@ import PublicFooter from '~/components/PublicFooter/PublicFooter.vue'
 export default {
   components: {
     PublicHeader,
-    PublicFooter
-  }
+    PublicFooter,
+  },
 }
 </script>
 

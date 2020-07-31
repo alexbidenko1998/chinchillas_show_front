@@ -25,8 +25,8 @@ export default {
   name: 'PublicHeader',
 
   components: {
-    BaseSidenav
-  }
+    BaseSidenav,
+  },
 }
 </script>
 

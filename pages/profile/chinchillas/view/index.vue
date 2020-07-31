@@ -3,9 +3,7 @@
     <template v-if="data">
       <img
         v-if="data.avatar"
-        :src="
-          `https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${data.avatar.name}`
-        "
+        :src="`https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${data.avatar.name}`"
         :alt="data.name"
         class="viewPage__avatar"
       />
@@ -31,9 +29,7 @@
             class="viewPage__photoContainer"
           >
             <img
-              :src="
-                `https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${photo.name}`
-              "
+              :src="`https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${photo.name}`"
               :alt="data.name"
               class="viewPage__photo"
             />
@@ -73,7 +69,9 @@
           >
         </div>
       </div>
-      <PedigreeTree :chinchilla="data" />
+      <client-only>
+        <PedigreeTree :chinchilla="data" />
+      </client-only>
       <CardSection
         v-if="data.children.length"
         title="Дети"
@@ -148,7 +146,6 @@
 
 <script>
 import colorToString from '~/assets/scripts/colorToString'
-import PedigreeTree from '~/components/PedigreeTree/PedigreeTree.vue'
 import CardSection from '~/components/CardSection/CardSection.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
 import statuses from '~/assets/datas/statuses.json'
@@ -156,11 +153,17 @@ import statuses from '~/assets/datas/statuses.json'
 export default {
   components: {
     BaseSpinner,
-    PedigreeTree,
-    CardSection
+    PedigreeTree: () => import('~/components/PedigreeTree/PedigreeTree.vue'),
+    CardSection,
   },
 
   layout: 'profileLayout',
+
+  async fetch() {
+    this.data = await this.$axios.$get(
+      `chinchilla/details/${this.chinchillaId}`
+    )
+  },
 
   data() {
     return {
@@ -168,7 +171,7 @@ export default {
       userId: +this.$cookies.get('USER_ID'),
       data: null,
       statusesDialog: false,
-      updatedStatus: null
+      updatedStatus: null,
     }
   },
 
@@ -178,7 +181,7 @@ export default {
     },
     statuses() {
       return statuses
-    }
+    },
   },
 
   watch: {
@@ -190,13 +193,7 @@ export default {
           .$get(`chinchilla/details/${this.chinchillaId}`)
           .then((data) => (this.data = data))
       }
-    }
-  },
-
-  created() {
-    this.$axios
-      .$get(`chinchilla/details/${this.chinchillaId}`)
-      .then((data) => (this.data = data))
+    },
   },
 
   methods: {
@@ -208,7 +205,7 @@ export default {
     photoToAvatar(photoId) {
       this.$axios
         .$put(`/chinchilla/update/${this.data.id}`, {
-          avatar_id: photoId
+          avatar_id: photoId,
         })
         .then(() => {
           this.data.avatar = this.data.photos.find((el) => el.id === photoId)
@@ -234,14 +231,14 @@ export default {
       this.$axios
         .$post('chinchilla/create/status', {
           name: this.updatedStatus,
-          chinchillaId: this.data.id
+          chinchillaId: this.data.id,
         })
         .then((data) => {
           this.data.statuses = [data, ...this.data.statuses]
         })
         .catch(() => alert('Что-то пошло не так'))
-    }
-  }
+    },
+  },
 }
 </script>
 

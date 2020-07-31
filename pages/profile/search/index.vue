@@ -78,10 +78,14 @@ export default {
 
   components: {
     BaseSpinner,
-    ChinchillaCard
+    ChinchillaCard,
   },
 
   layout: 'profileLayout',
+
+  async fetch() {
+    await this.searchData(true)
+  },
 
   data() {
     return {
@@ -94,57 +98,50 @@ export default {
       sexItems: [
         {
           label: 'Любой',
-          value: ''
+          value: '',
         },
         {
           label: 'Самка',
-          value: 'f'
+          value: 'f',
         },
         {
           label: 'Самец',
-          value: 'm'
-        }
+          value: 'm',
+        },
       ],
       models: {
-        sex: ''
+        sex: '',
       },
-      params: {}
+      params: {},
     }
   },
 
   watch: {
     search() {
       this.searchData()
-    }
-  },
-
-  created() {
-    this.searchData(true)
+    },
   },
 
   methods: {
-    searchData(immediate) {
+    async searchData(immediate) {
       clearTimeout(this.timer)
-      this.timer = setTimeout(
-        () => {
-          this.isLoading = true
-          let url = 'chinchilla/search?'
-          if (this.search) url = `${url}name=${this.search}&`
-          if (this.params.sex) url = `${url}sex=${this.params.sex}&`
-          this.$axios.$get(url).then((response) => {
-            this.isLoading = false
-            this.chinchillas = response.data
-          })
-        },
-        immediate ? 0 : 1000
-      )
+      const requestData = async () => {
+        this.isLoading = true
+        let url = 'chinchilla/search?'
+        if (this.search) url = `${url}name=${this.search}&`
+        if (this.params.sex) url = `${url}sex=${this.params.sex}&`
+        this.chinchillas = (await this.$axios.$get(url)).data
+        this.isLoading = false
+      }
+      if (!immediate) this.timer = setTimeout(requestData, 1000)
+      else await requestData()
     },
     apply() {
       this.dialog = false
       this.params = this.models
       this.searchData(true)
-    }
-  }
+    },
+  },
 }
 </script>
 

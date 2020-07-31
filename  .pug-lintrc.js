@@ -10,5 +10,5 @@ module.exports = {
   validateExtensions: true,
   validateAttributeSeparator: { separator: ', ', multiLineSeparator: ',\n  ' },
   validateAttributeQuoteMarks: '"',
-  validateLineBreaks: 'LF'
+  validateLineBreaks: 'LF',
 }

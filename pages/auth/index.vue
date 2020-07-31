@@ -170,7 +170,7 @@ import BaseScroller from '~/components/BaseScroller/BaseScroller.vue'
 
 export default {
   components: {
-    BaseScroller
+    BaseScroller,
   },
 
   data() {
@@ -178,7 +178,7 @@ export default {
       mode: 'signIn',
       signIn: {
         login: '',
-        password: ''
+        password: '',
       },
       signUp: {
         login: '',
@@ -189,10 +189,10 @@ export default {
         patronymic: '',
         country: '',
         city: '',
-        password: ''
+        password: '',
       },
       repeatPassword: '',
-      dialog: false
+      dialog: false,
     }
   },
 
@@ -212,43 +212,43 @@ export default {
         this.$axios.setHeader('Authorization', `Bearer ${data.token}`)
         this.$router.push('/profile')
       })
-    }
+    },
   },
 
   validations: {
     signUp: {
       login: {
         required,
-        minLength: minLength(6)
+        minLength: minLength(6),
       },
       email: {
         required,
-        email
+        email,
       },
       password: {
         required,
-        minLength: minLength(8)
+        minLength: minLength(8),
       },
       first_name: {
-        required
+        required,
       },
       last_name: {
-        required
+        required,
       },
       patronymic: {
-        required
+        required,
       },
       phone: {
-        required
+        required,
       },
       country: {
-        required
+        required,
       },
       city: {
-        required
-      }
-    }
-  }
+        required,
+      },
+    },
+  },
 }
 </script>
 

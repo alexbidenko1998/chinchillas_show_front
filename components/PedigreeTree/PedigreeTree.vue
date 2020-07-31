@@ -96,32 +96,33 @@
 
 <script>
 import ChinchillaCard from '../ChinchillaCard/ChinchillaCard'
-import zoomElement from '~/assets/scripts/zoomElement'
 
 export default {
   name: 'PedigreeTree',
 
   components: {
-    ChinchillaCard
+    ChinchillaCard,
   },
 
   props: {
     chinchilla: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       scale: 1,
-      margin: 0
+      margin: 0,
     }
   },
 
   mounted() {
-    zoomElement(this.$refs.container)
-    this.review()
+    import('~/assets/scripts/zoomElement').then((zoomElement) => {
+      zoomElement.default(this.$refs.container)
+      this.review()
+    })
     window.addEventListener('resize', this.review)
   },
 
@@ -145,8 +146,8 @@ export default {
           (c, s) => c && c[s === 'm' ? 'mother' : 'father'],
           this.chinchilla
         )
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -8,102 +8,21 @@
         <div class="profileInfo__avatarContainer">
           <p class="profileInfo__name">{{ user.first_name || 'Не указано' }}</p>
           <p class="profileInfo__name">{{ user.last_name || 'Не указано' }}</p>
-          <v-dialog
-            v-model="dialog"
-            fullscreen
-            hide-overlay
-            transition="dialog-bottom-transition"
+          <button
+            class="profileInfo__avatar"
+            :style="{
+              backgroundImage: `url(${
+                user.avatar
+                  ? `https://api.chinchillas-show.com/photos/users/${user.id}/${user.avatar}`
+                  : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg'
+              })`,
+            }"
+            @click="dialog = isOwner"
           >
-            <template v-slot:activator="{ on, attrs }">
-              <button
-                class="profileInfo__avatar"
-                v-bind="attrs"
-                :style="{
-                  backgroundImage: `url(${
-                    user.avatar
-                      ? `https://api.chinchillas-show.com/photos/users/${user.id}/${user.avatar}`
-                      : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg'
-                  })`
-                }"
-                v-on="isOwner ? on : {}"
-              >
-                <span v-if="isOwner" class="profileInfo__change">
-                  <v-icon color="white" size="x-large" large>edit</v-icon>
-                </span>
-              </button>
-            </template>
-            <v-card>
-              <v-toolbar dark color="primary">
-                <v-btn icon dark @click="dialog = false">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-toolbar-title>Редактирование профиля</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-toolbar-items>
-                  <v-btn dark text @click="update">Сохранить</v-btn>
-                </v-toolbar-items>
-              </v-toolbar>
-              <div class="baseContainer">
-                <v-list three-line subheader>
-                  <v-subheader>Основные сведения</v-subheader>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-file-input
-                        accept="image/*"
-                        label="Выберите аватар"
-                        @change="models.avatar = $event"
-                      />
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-text-field
-                        v-model="models.last_name"
-                        name="last_name"
-                        label="Изменить фамилию"
-                      />
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-text-field
-                        v-model="models.first_name"
-                        name="name"
-                        label="Изменить имя"
-                      />
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-text-field
-                        v-model="models.patronymic"
-                        name="patronymic"
-                        label="Изменить отчество"
-                      />
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-text-field
-                        v-model="models.country"
-                        name="country"
-                        label="Изменить страну"
-                      />
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-text-field
-                        v-model="models.city"
-                        name="city"
-                        label="Изменить город"
-                      />
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </div>
-            </v-card>
-          </v-dialog>
+            <span v-if="isOwner" class="profileInfo__change">
+              <v-icon color="white" size="x-large" large>edit</v-icon>
+            </span>
+          </button>
         </div>
       </div>
       <div class="profileInfo__cell">
@@ -117,6 +36,85 @@
         </p>
       </div>
     </div>
+
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Редактирование профиля</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark text @click="update">Сохранить</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <div class="baseContainer">
+          <v-list three-line subheader>
+            <v-subheader>Основные сведения</v-subheader>
+            <v-list-item>
+              <v-list-item-content>
+                <v-file-input
+                  accept="image/*"
+                  label="Выберите аватар"
+                  @change="models.avatar = $event"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-text-field
+                  v-model="models.last_name"
+                  name="last_name"
+                  label="Изменить фамилию"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-text-field
+                  v-model="models.first_name"
+                  name="name"
+                  label="Изменить имя"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-text-field
+                  v-model="models.patronymic"
+                  name="patronymic"
+                  label="Изменить отчество"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-text-field
+                  v-model="models.country"
+                  name="country"
+                  label="Изменить страну"
+                />
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-text-field
+                  v-model="models.city"
+                  name="city"
+                  label="Изменить город"
+                />
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </div>
+      </v-card>
+    </v-dialog>
   </section>
 </template>
 
@@ -127,12 +125,12 @@ export default {
   props: {
     isOwner: {
       type: Boolean,
-      required: true
+      required: true,
     },
     user: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -141,20 +139,20 @@ export default {
       infoMetaRight: [
         {
           label: 'Телефон',
-          key: 'phone'
+          key: 'phone',
         },
         {
           label: 'E-Mail',
-          key: 'email'
+          key: 'email',
         },
         {
           label: 'Страна',
-          key: 'country'
+          key: 'country',
         },
         {
           label: 'Город',
-          key: 'city'
-        }
+          key: 'city',
+        },
       ],
       models: {
         first_name: '',
@@ -162,8 +160,8 @@ export default {
         patronymic: '',
         country: '',
         city: '',
-        avatar: null
-      }
+        avatar: null,
+      },
     }
   },
 
@@ -173,7 +171,7 @@ export default {
         Object.assign(this.models, this.user)
         this.models.avatar = null
       }
-    }
+    },
   },
 
   methods: {
@@ -186,8 +184,8 @@ export default {
         this.$emit('update', data)
         this.dialog = false
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

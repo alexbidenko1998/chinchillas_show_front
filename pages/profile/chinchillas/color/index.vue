@@ -41,7 +41,7 @@ export default {
       data: null,
       config: colorConfig,
       models,
-      userId: this.$cookies.get('USER_ID')
+      userId: this.$cookies.get('USER_ID'),
     }
   },
 
@@ -64,8 +64,8 @@ export default {
         .catch(() => {
           alert('Что-то пошло не так')
         })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -10,6 +10,6 @@ export default {
 
   components: { ChinchillaRedact },
 
-  layout: 'profileLayout'
+  layout: 'profileLayout',
 }
 </script>

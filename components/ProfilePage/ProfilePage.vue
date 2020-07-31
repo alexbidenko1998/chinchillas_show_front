@@ -1,52 +1,50 @@
 <template>
   <div class="profilePage">
-    <template v-if="user && chinchillas">
-      <ProfileInfo :user="user" :is-owner="isOwner" @update="user = $event" />
-      <v-btn v-if="isOwner" to="/profile/chinchillas/create" nuxt
-        >Создать шиншиллу</v-btn
-      >
-      <CardSection
-        :title="isOwner ? 'Ваши шиншиллы' : 'Шиншиллы'"
-        :items="chinchillas"
-      />
-    </template>
-    <BaseSpinner v-else />
+    <ProfileInfo
+      v-if="user"
+      :user="user"
+      :is-owner="isOwner"
+      @update="user = $event"
+    />
+    <v-btn v-if="isOwner" to="/profile/chinchillas/create" nuxt
+      >Создать шиншиллу</v-btn
+    >
+    <CardSection
+      v-if="chinchillas"
+      :title="isOwner ? 'Ваши шиншиллы' : 'Шиншиллы'"
+      :items="chinchillas"
+    />
   </div>
 </template>
 
 <script>
 import CardSection from '../CardSection/CardSection.vue'
 import ProfileInfo from '../ProfileInfo/ProfileInfo.vue'
-import BaseSpinner from '../BaseSpinner/BaseSpinner.vue'
 
 export default {
   name: 'ProfilePage',
 
-  components: { BaseSpinner, CardSection, ProfileInfo },
+  components: { CardSection, ProfileInfo },
 
   props: {
     userId: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
+  },
+
+  async fetch() {
+    this.user = await this.$axios.$get(`user/details/${this.userId}`)
+    this.chinchillas = await this.$axios.$get(`chinchilla/get/${this.userId}`)
   },
 
   data() {
     return {
       user: null,
       chinchillas: null,
-      isOwner: this.userId === +this.$cookies.get('USER_ID')
+      isOwner: this.userId === +this.$cookies.get('USER_ID'),
     }
   },
-
-  created() {
-    this.$axios
-      .$get(`user/details/${this.userId}`)
-      .then((user) => (this.user = user))
-    this.$axios
-      .$get(`chinchilla/get/${this.userId}`)
-      .then((chinchillas) => (this.chinchillas = chinchillas))
-  }
 }
 </script>
 

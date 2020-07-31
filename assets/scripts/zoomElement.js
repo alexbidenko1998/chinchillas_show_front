@@ -3,7 +3,7 @@ import Hammer from 'hammerjs'
 const zoomElement = (elm, callback) => {
   const hammertime = new Hammer(elm, {})
   hammertime.get('pinch').set({
-    enable: true
+    enable: true,
   })
   let posX = 0
   let posY = 0

@@ -19,13 +19,13 @@ export default {
 
   data() {
     return {
-      users: []
+      users: [],
     }
   },
 
   created() {
     this.$axios.$get('user/search').then((users) => (this.users = users))
-  }
+  },
 }
 </script>
 

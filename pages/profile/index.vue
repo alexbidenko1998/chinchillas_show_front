@@ -8,21 +8,21 @@ import ProfilePage from '~/components/ProfilePage/ProfilePage.vue'
 
 export default {
   components: {
-    ProfilePage
+    ProfilePage,
   },
 
   layout: 'profileLayout',
 
   data() {
     return {
-      active: true
+      active: true,
     }
   },
 
   computed: {
     userId() {
       return +this.$route.query.id || +this.$cookies.get('USER_ID')
-    }
+    },
   },
 
   watch: {
@@ -31,7 +31,7 @@ export default {
       this.$nextTick(() => {
         this.active = true
       })
-    }
-  }
+    },
+  },
 }
 </script>

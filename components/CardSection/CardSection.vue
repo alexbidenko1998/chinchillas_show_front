@@ -26,19 +26,19 @@ export default {
   name: 'CardSection',
 
   components: {
-    ChinchillaCard
+    ChinchillaCard,
   },
 
   props: {
     items: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     title: {
       type: String,
-      default: null
-    }
-  }
+      default: null,
+    },
+  },
 }
 </script>
 

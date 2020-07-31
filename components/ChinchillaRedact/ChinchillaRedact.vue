@@ -94,7 +94,19 @@ export default {
   props: {
     chinchillaId: {
       default: 0,
-      type: Number
+      type: Number,
+    },
+  },
+
+  async fetch() {
+    if (this.chinchillaId) {
+      this.models = await this.$axios.$get(
+        `chinchilla/details/${this.chinchillaId}`
+      )
+      this.birthday = new Date(this.models.birthday).toISOString().substr(0, 10)
+      const response = this.$axios.$get(`chinchilla/search`)
+      this.motherItems = response.data.filter((el) => el.sex === 'f')
+      this.fatherItems = response.data.filter((el) => el.sex === 'm')
     }
   },
 
@@ -111,7 +123,7 @@ export default {
         weight: '',
         brothers: '',
         awards: '',
-        description: ''
+        description: '',
       },
       birthday: null,
       isLoading: false,
@@ -121,7 +133,7 @@ export default {
       motherItems: [],
       fatherItems: [],
       motherSearch: '',
-      fatherSearch: ''
+      fatherSearch: '',
     }
   },
 
@@ -131,22 +143,7 @@ export default {
     },
     fatherSearch(val) {
       this.search(val, 'Father')
-    }
-  },
-
-  created() {
-    if (this.chinchillaId) {
-      this.$axios
-        .$get(`chinchilla/details/${this.chinchillaId}`)
-        .then((data) => {
-          this.models = data
-          this.birthday = new Date(data.birthday).toISOString().substr(0, 10)
-        })
-      this.$axios.$get(`chinchilla/search`).then((response) => {
-        this.motherItems = response.data.filter((el) => el.sex === 'f')
-        this.fatherItems = response.data.filter((el) => el.sex === 'm')
-      })
-    }
+    },
   },
 
   methods: {
@@ -179,19 +176,19 @@ export default {
         this[type.toLowerCase() + 'Items'] = response.data
         this['isLoading' + type] = false
       })
-    }
+    },
   },
 
   validations: {
     models: {
       name: {
-        required
-      }
+        required,
+      },
     },
     birthday: {
-      required
-    }
-  }
+      required,
+    },
+  },
 }
 </script>
 

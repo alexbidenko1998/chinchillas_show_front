@@ -51,7 +51,7 @@ export default {
   name: 'ProfileHeader',
 
   components: {
-    BaseSidenav
+    BaseSidenav,
   },
 
   methods: {
@@ -59,8 +59,8 @@ export default {
       this.$cookies.remove('TOKEN')
       this.$cookies.remove('USER_ID')
       this.$router.push('/auth')
-    }
-  }
+    },
+  },
 }
 </script>
 

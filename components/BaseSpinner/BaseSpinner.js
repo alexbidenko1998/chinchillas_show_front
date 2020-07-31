@@ -4,7 +4,7 @@ export default {
   props: {
     isLight: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }

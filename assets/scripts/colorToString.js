@@ -16,7 +16,7 @@ export default (color) => {
     lova,
     german,
     blue,
-    fur
+    fur,
   } = color
 
   const WhoIsLeader = () => {

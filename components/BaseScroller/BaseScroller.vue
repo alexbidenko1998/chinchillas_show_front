@@ -44,8 +44,8 @@ export default {
   props: {
     count: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
 
   watch: {
@@ -53,7 +53,7 @@ export default {
       this.$nextTick(() => {
         this.onUpdate()
       })
-    }
+    },
   },
 
   methods: {
@@ -66,7 +66,7 @@ export default {
             this.$refs.scroller.clientHeight
         )
       }
-    }
-  }
+    },
+  },
 }
 </script>
