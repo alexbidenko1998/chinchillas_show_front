@@ -1,6 +1,6 @@
 <template>
   <v-app class="defaultLayout">
-    <PublicHeader />
+    <PublicHeader :user="user" />
     <main class="defaultLayout__content">
       <nuxt />
     </main>
@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import Actions from '../store/actions.type'
 import PublicHeader from '~/components/PublicHeader/PublicHeader.vue'
 import PublicFooter from '~/components/PublicFooter/PublicFooter.vue'
 
@@ -16,6 +17,16 @@ export default {
   components: {
     PublicHeader,
     PublicFooter,
+  },
+
+  computed: {
+    user() {
+      return this.$store.state.UserModule.user
+    },
+  },
+
+  created() {
+    this.$store.dispatch(Actions.CHECK_USER)
   },
 }
 </script>

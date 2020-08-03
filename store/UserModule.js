@@ -5,8 +5,11 @@ export default {
     user: null,
   },
   actions: {
-    [Actions.CHECK_USER]({ state }) {
-      this.$axios.$get('user/details').then((user) => (state.user = user))
+    [Actions.CHECK_USER]({ state }, callback) {
+      this.$axios.$get('user/details').then((data) => {
+        state.user = data.user
+        if (callback) callback(data.user)
+      })
     },
   },
 }
