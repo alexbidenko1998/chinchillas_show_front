@@ -123,7 +123,7 @@
             />
           </BaseScroller>
 
-          <v-dialog v-model="dialog" persistent max-width="290">
+          <v-dialog v-model="dialog">
             <template v-slot:activator="{ on, attrs }">
               <button
                 type="submit"

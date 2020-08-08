@@ -8,7 +8,7 @@
           </h3>
         </div>
       </header>
-      <main class="cardSection__list baseContainer">
+      <main class="cardSection__list baseContainer baseGrid">
         <ChinchillaCard
           v-for="item in items"
           :key="item.id"
@@ -79,26 +79,8 @@ export default {
   }
 
   &__list {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-column-gap: 16px;
-    grid-row-gap: 24px;
     padding-top: 40px;
     padding-bottom: 40px;
-
-    @include mq('desktop-small', 'tablet') {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    @include mq('tablet', 'phone') {
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 24px;
-      grid-row-gap: 32px;
-    }
-
-    @include mq('phone') {
-      grid-template-columns: repeat(1, 1fr);
-    }
   }
 }
 </style>

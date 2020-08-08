@@ -22,51 +22,32 @@
         <v-btn @click="statusesDialog = true">История</v-btn>
       </div>
       <div class="baseContainer">
-        <div class="viewPage__photosList">
-          <div
-            v-for="photo in data.photos"
+        <div class="baseGrid">
+          <ChinchillaPhoto
+            v-for="(photo, index) in data.photos"
             :key="photo.id"
-            class="viewPage__photoContainer"
-          >
-            <img
-              :src="`https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${photo.name}`"
-              :alt="data.name"
-              class="viewPage__photo"
-            />
-            <template v-if="userId === data.owner_id">
-              <button class="viewPage__delete" @click="deletePhoto(photo.id)">
-                X
-              </button>
-              <button
-                class="viewPage__updateAvatar"
-                @click="photoToAvatar(photo.id)"
-              >
-                A
-              </button>
-            </template>
-          </div>
-        </div>
-        <div class="viewPage__actions">
-          <v-file-input
-            v-if="userId === data.owner_id"
-            type="photos"
-            multiple
-            accept="image/*"
-            label="Загрузить фотографии"
-            @change="uploadPhotos"
+            :user-id="data.owner_id"
+            :chinchilla="data"
+            :photo="photo"
+            @toAvatar="photoToAvatar"
+            @delete="deletePhoto"
+            @click="
+              isOpenPhotos = true
+              activePhoto = index
+            "
           />
-          <v-btn
+          <label
             v-if="userId === data.owner_id"
-            :to="`/profile/chinchillas/redact?id=${chinchillaId}`"
-            nuxt
-            >Редактировать параметры</v-btn
+            class="chinchillaRedact__uploadPhoto"
           >
-          <v-btn
-            v-if="userId === data.owner_id"
-            :to="`/profile/chinchillas/color?id=${chinchillaId}`"
-            nuxt
-            >Редактировать цвет</v-btn
-          >
+            <v-icon size="40px" color="white">mdi-plus</v-icon>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              @change="uploadPhotos"
+            />
+          </label>
         </div>
       </div>
       <client-only>
@@ -82,6 +63,41 @@
         title="Браться и сестры"
         :items="data.relatives"
       />
+
+      <v-speed-dial
+        v-if="userId === data.owner_id"
+        v-model="fab"
+        bottom
+        right
+        fixed
+      >
+        <template v-slot:activator>
+          <v-btn v-model="fab" color="primary" dark fab>
+            <v-icon v-if="fab">mdi-close</v-icon>
+            <v-icon v-else>mdi-pencil</v-icon>
+          </v-btn>
+        </template>
+        <v-btn
+          dark
+          small
+          color="primary"
+          rounded
+          :to="`/profile/chinchillas/color?id=${chinchillaId}`"
+          nuxt
+        >
+          Редактировать цвет
+        </v-btn>
+        <v-btn
+          dark
+          small
+          color="primary"
+          rounded
+          :to="`/profile/chinchillas/redact?id=${chinchillaId}`"
+          nuxt
+        >
+          Редактировать параметры
+        </v-btn>
+      </v-speed-dial>
 
       <v-dialog v-model="statusesDialog" max-width="290">
         <v-card>
@@ -139,12 +155,36 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <v-dialog
+        v-model="isOpenPhotos"
+        fullscreen
+        hide-overlay
+        :scrollable="false"
+      >
+        <v-card ref="photosDialog">
+          <v-toolbar ref="photosHeader" dark color="primary">
+            <v-spacer />
+            <v-btn icon dark @click="isOpenPhotos = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <v-carousel v-model="activePhoto" continuous :height="photosHeight">
+            <v-carousel-item
+              v-for="photo in data.photos"
+              :key="photo.name"
+              :src="`https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${photo.name}`"
+            />
+          </v-carousel>
+        </v-card>
+      </v-dialog>
     </template>
     <BaseSpinner v-else />
   </div>
 </template>
 
 <script>
+import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
 import colorToString from '~/assets/scripts/colorToString'
 import CardSection from '~/components/CardSection/CardSection.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
@@ -152,6 +192,7 @@ import statuses from '~/assets/datas/statuses.json'
 
 export default {
   components: {
+    ChinchillaPhoto,
     BaseSpinner,
     PedigreeTree: () => import('~/components/PedigreeTree/PedigreeTree.vue'),
     CardSection,
@@ -172,6 +213,10 @@ export default {
       data: null,
       statusesDialog: false,
       updatedStatus: null,
+      isOpenPhotos: false,
+      photosHeight: 500,
+      activePhoto: 0,
+      fab: false,
     }
   },
 
@@ -194,31 +239,34 @@ export default {
           .then((data) => (this.data = data))
       }
     },
+    isOpenPhotos() {
+      setTimeout(this.updatePhotosHeight, 100)
+    },
+  },
+
+  created() {
+    if (typeof window !== 'undefined')
+      // eslint-disable-next-line nuxt/no-globals-in-created
+      window.addEventListener('resize', this.updatePhotosHeight)
+    this.updatePhotosHeight()
+  },
+
+  destroyed() {
+    if (typeof window !== 'undefined')
+      window.removeEventListener('resize', this.updatePhotosHeight)
   },
 
   methods: {
-    deletePhoto(photoId) {
-      this.$axios.$delete(`/photo/chinchilla/${photoId}`).then(() => {
-        this.data.photos = this.data.photos.filter((el) => el.id !== photoId)
-      })
-    },
-    photoToAvatar(photoId) {
-      this.$axios
-        .$put(`/chinchilla/update/${this.data.id}`, {
-          avatar_id: photoId,
-        })
-        .then(() => {
-          this.data.avatar = this.data.photos.find((el) => el.id === photoId)
-        })
-    },
     uploadPhotos(event) {
       const requests = [...event.target.files].map((file) => {
         const formData = new FormData()
         formData.append('photo', file)
         return this.$axios.$post(`/photo/chinchilla/${this.data.id}`, formData)
       })
-      Promise.all(requests).then((data) => {
-        this.data.photos = this.data.photos.concat(data)
+      Promise.allSettled(requests).then((data) => {
+        this.data.photos = this.data.photos.concat(
+          data.filter((el) => el.value).map((el) => el.value)
+        )
       })
     },
     status(key) {
@@ -238,6 +286,26 @@ export default {
         })
         .catch(() => alert('Что-то пошло не так'))
     },
+    deletePhoto(photoId) {
+      this.$axios.$delete(`/photo/chinchilla/${photoId}`).then(() => {
+        this.data.photos = this.data.photos.filter((el) => el.id !== photoId)
+      })
+    },
+    photoToAvatar(photoId) {
+      this.$axios
+        .$put(`/chinchilla/update/${this.data.id}`, {
+          avatar_id: photoId,
+        })
+        .then(() => {
+          this.data.avatar = this.data.photos.find((el) => el.id === photoId)
+        })
+    },
+    updatePhotosHeight() {
+      if (this.$refs.photosDialog && this.$refs.photosHeader)
+        this.photosHeight =
+          this.$refs.photosDialog.$el.clientHeight -
+          this.$refs.photosHeader.$el.clientHeight
+    },
   },
 }
 </script>
@@ -256,37 +324,31 @@ export default {
     width: 200px;
   }
 
-  &__actions {
-    display: flex;
-    align-items: center;
-  }
-
-  &__photosList {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  &__photoContainer {
-    width: 200px;
-    height: 200px;
-    position: relative;
-  }
-
   &__photo {
     max-width: 100%;
     max-height: 100%;
   }
 
-  &__delete {
-    position: absolute;
-    top: 0;
-    right: 0;
+  &__uploadPhoto {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #828282;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+
+    & input {
+      display: none;
+    }
+
+    &:hover {
+      box-shadow: none;
+    }
   }
 
-  &__updateAvatar {
-    position: absolute;
-    top: 0;
-    right: 16px;
+  & .v-speed-dial__list {
+    align-items: flex-end;
   }
 }
 </style>

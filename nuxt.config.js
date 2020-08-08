@@ -49,7 +49,7 @@ export default {
     { src: '~/plugins/Vuebar', mode: 'all' },
     { src: '~/plugins/Vuetify', mode: 'all' },
     { src: '~/plugins/axios', mode: 'all' },
-    { src: '~/plugins/Vuelidate', mode: 'client' },
+    { src: '~/plugins/Vuelidate', mode: 'all' },
   ],
   /*
    ** Nuxt.js dev-modules

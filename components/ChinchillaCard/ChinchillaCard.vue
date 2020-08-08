@@ -64,12 +64,12 @@ export default {
   align-items: flex-end;
   text-decoration: none;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
 
   &__container {
     height: 100%;
     width: 100%;
     display: flex;
+    overflow: hidden;
   }
 
   &__titleContainer {
@@ -115,6 +115,10 @@ export default {
     color: #fff;
     border-top: 1px solid #fff;
     line-height: 33px;
+  }
+
+  & .v-responsive__content {
+    width: 100% !important;
   }
 }
 </style>

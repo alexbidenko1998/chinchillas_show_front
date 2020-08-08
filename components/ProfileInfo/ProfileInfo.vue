@@ -37,12 +37,7 @@
       </div>
     </div>
 
-    <v-dialog
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
+    <v-bottom-sheet v-model="dialog" inset scrollable>
       <v-card>
         <v-toolbar dark color="primary">
           <v-btn icon dark @click="dialog = false">
@@ -114,7 +109,7 @@
           </v-list>
         </div>
       </v-card>
-    </v-dialog>
+    </v-bottom-sheet>
   </section>
 </template>
 
@@ -247,7 +242,7 @@ export default {
   }
 
   &__name {
-    background: #fff;
+    background: #ebebeb;
     height: 40px;
     line-height: 40px;
     border-radius: 20px;
@@ -266,7 +261,7 @@ export default {
     }
 
     &:last-of-type {
-      top: 50%;
+      top: 45%;
       left: 75%;
       padding-left: 35%;
     }
@@ -311,7 +306,7 @@ export default {
   }
 
   &__info {
-    background: #fff;
+    background: #ebebeb;
     width: 100%;
     height: 40px;
     border-radius: 20px;

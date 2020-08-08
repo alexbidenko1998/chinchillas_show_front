@@ -6,20 +6,37 @@
       :is-owner="isOwner"
       @update="user = $event"
     />
-    <v-btn v-if="isOwner" to="/profile/chinchillas/create" nuxt
-      >Создать шиншиллу</v-btn
-    >
     <CardSection
-      v-if="chinchillas"
-      :title="isOwner ? 'Ваши шиншиллы' : 'Шиншиллы'"
-      :items="chinchillas"
+      v-for="(list, key) in chinchillas"
+      :key="key"
+      :title="
+        (statuses.find((el) => el.key === key) || { label: 'Без статуса' })
+          .label
+      "
+      :items="list"
     />
+    <v-fab-transition>
+      <v-btn
+        v-if="isOwner"
+        color="primary"
+        dark
+        fixed
+        bottom
+        right
+        fab
+        nuxt
+        to="/profile/chinchillas/create"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-fab-transition>
   </div>
 </template>
 
 <script>
 import CardSection from '../CardSection/CardSection.vue'
 import ProfileInfo from '../ProfileInfo/ProfileInfo.vue'
+import statuses from '~/assets/datas/statuses.json'
 
 export default {
   name: 'ProfilePage',
@@ -35,7 +52,13 @@ export default {
 
   async fetch() {
     this.user = await this.$axios.$get(`user/details/${this.userId}`)
-    this.chinchillas = await this.$axios.$get(`chinchilla/get/${this.userId}`)
+    const list = await this.$axios.$get(`chinchilla/get/${this.userId}`)
+    this.chinchillas = list.reduce((arr, el) => {
+      if (!el.status || el.status.name === 'breeding')
+        arr[el.sex] = [el, ...(arr[el.sex] ?? [])]
+      else arr[el.status.name] = [el, ...(arr[el.status.name] ?? [])]
+      return arr
+    }, {})
   },
 
   data() {
@@ -43,6 +66,11 @@ export default {
       user: null,
       chinchillas: null,
       isOwner: this.userId === +this.$cookies.get('USER_ID'),
+      statuses: [
+        { key: 'm', label: 'Самцы' },
+        { key: 'f', label: 'Самки' },
+        ...statuses,
+      ],
     }
   },
 }

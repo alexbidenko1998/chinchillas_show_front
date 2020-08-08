@@ -11,5 +11,9 @@ export default {
         if (callback) callback(data.user)
       })
     },
+    [Actions.LOGOUT]({ state }) {
+      state.user = null
+      this.$axios.setToken(null)
+    },
   },
 }

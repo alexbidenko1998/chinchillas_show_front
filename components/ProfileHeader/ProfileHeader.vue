@@ -46,6 +46,7 @@
 
 <script>
 import BaseSidenav from '../BaseSidenav/BaseSidenav.vue'
+import Actions from '~/store/actions.type'
 
 export default {
   name: 'ProfileHeader',
@@ -58,7 +59,9 @@ export default {
     logout() {
       this.$cookies.remove('TOKEN')
       this.$cookies.remove('USER_ID')
-      this.$router.push('/auth')
+      this.$store
+        .dispatch(Actions.LOGOUT)
+        .then(() => this.$router.push('/auth'))
     },
   },
 }
@@ -78,6 +81,7 @@ export default {
   &__logo {
     background: #d79b00;
     border-radius: 0 16px 16px 0;
+    width: fit-content;
     height: 32px;
     font-style: normal;
     font-weight: bold;
