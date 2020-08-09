@@ -8,7 +8,12 @@
         class="viewPage__avatar"
       />
       <div>{{ data.name }}</div>
-      <div>{{ colorString }}</div>
+      <div>
+        {{ colorString }}
+        <span v-if="['disagree', 'overvalue'].includes(data.conclusion)"
+          >(Не соответствует)</span
+        >
+      </div>
       <div>
         {{
           status(
@@ -20,6 +25,15 @@
           )
         }}
         <v-btn @click="statusesDialog = true">История</v-btn>
+        <v-btn
+          v-if="userId === data.owner_id && data.conclusion === 'disagree'"
+          @click="forOvervalue"
+          >На переоценку</v-btn
+        >
+        <div v-for="comment in data.color_comments" :key="comment.id">
+          <v-divider />
+          <p>{{ comment.content }}</p>
+        </div>
       </div>
       <div class="baseContainer">
         <div class="baseGrid">
@@ -50,9 +64,11 @@
           </label>
         </div>
       </div>
-      <client-only>
-        <PedigreeTree :chinchilla="data" />
-      </client-only>
+      <div style="overflow-x: auto;">
+        <client-only>
+          <PedigreeTree :chinchilla="data" />
+        </client-only>
+      </div>
       <CardSection
         v-if="data.children.length"
         title="Дети"
@@ -305,6 +321,13 @@ export default {
         this.photosHeight =
           this.$refs.photosDialog.$el.clientHeight -
           this.$refs.photosHeader.$el.clientHeight
+    },
+    forOvervalue() {
+      this.$axios
+        .$post(`chinchilla/color/for-overvalue/${this.data.id}`)
+        .then(() => {
+          this.data.conclusion = 'overvalue'
+        })
     },
   },
 }

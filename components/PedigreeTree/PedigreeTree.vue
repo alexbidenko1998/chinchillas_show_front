@@ -120,7 +120,7 @@ export default {
 
   mounted() {
     import('~/assets/scripts/zoomElement').then((zoomElement) => {
-      zoomElement.default(this.$refs.container)
+      // zoomElement.default(this.$refs.container)
       this.review()
     })
     window.addEventListener('resize', this.review)
@@ -133,7 +133,7 @@ export default {
   methods: {
     review() {
       document.body.scrollWidth < 1100
-        ? (this.scale = document.body.scrollWidth / 1100)
+        ? (this.scale = Math.max(document.body.scrollWidth / 1100, 0.5))
         : (this.scale = 1)
       this.scale === 1
         ? (this.margin = 0)

@@ -29,7 +29,9 @@
       </v-img>
     </div>
     <div class="chinchillaCard__titleContainer">
-      <h4 class="chinchillaCard__title">{{ chinchilla.name }}</h4>
+      <h4 class="chinchillaCard__title">
+        {{ chinchilla.name }} <span v-if="!chinchilla.color">(без окраса)</span>
+      </h4>
     </div>
   </nuxt-link>
 </template>
@@ -115,6 +117,13 @@ export default {
     color: #fff;
     border-top: 1px solid #fff;
     line-height: 33px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    & span {
+      color: red;
+    }
   }
 
   & .v-responsive__content {

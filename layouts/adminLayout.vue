@@ -7,6 +7,7 @@
         <v-spacer />
 
         <v-btn nuxt text to="/admin/users">Пользователи</v-btn>
+        <v-btn nuxt text to="/admin/chinchillas">Шиншиллы</v-btn>
         <v-btn nuxt text to="/profile">Профиль</v-btn>
       </v-toolbar>
       <nuxt />

@@ -483,6 +483,8 @@ export default (color) => {
     fullChinColorName = 'черный ' + fullChinColorName
   }
 
+  if (!fullChinColorName) fullChinColorName = 'Стандарт'
+
   fullChinColorName =
     fullChinColorName[0].toUpperCase() + fullChinColorName.slice(1)
   return fullChinColorName

@@ -1,0 +1,18 @@
+[
+  {
+    "text": "Не проверено",
+    "value": "not_check"
+  },
+  {
+    "text": "Подтверждено",
+    "value": "confirm"
+  },
+  {
+    "text": "Не соответствует",
+    "value": "disagree"
+  },
+  {
+    "text": "На переоценку",
+    "value": "overvalue"
+  }
+]
