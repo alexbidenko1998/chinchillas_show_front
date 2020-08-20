@@ -24,7 +24,9 @@
           <p class="chinchillaCard__infoRow">
             Пол: {{ chinchilla.sex === 'f' ? 'самка' : 'самец' }}
           </p>
-          <p class="chinchillaCard__infoRow">Окрас: {{ colorString }}</p>
+          <p class="chinchillaCard__infoRow">
+            Окрас: {{ colorString || 'стандарт' }}
+          </p>
         </div>
       </v-img>
     </div>

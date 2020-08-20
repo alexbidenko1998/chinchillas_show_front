@@ -76,6 +76,7 @@ export default {
     return {
       headers: [
         { text: 'ID', value: 'id' },
+        { text: 'Логин', value: 'login' },
         { text: 'Имя', value: 'first_name' },
         { text: 'Фамилия', value: 'last_name' },
         { text: 'Отчество', value: 'patronymic' },

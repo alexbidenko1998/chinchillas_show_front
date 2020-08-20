@@ -1,30 +1,63 @@
 <template>
   <div class="usersPage">
-    <nuxt-link
-      v-for="user in users"
-      :key="user.id"
-      class="usersPage__title"
-      :to="`/profile?id=${user.id}`"
-    >
-      {{ user.id }}: {{ user.login }}
-    </nuxt-link>
+    <UserBlock v-for="user in users" :key="user.id" :user="user" />
   </div>
 </template>
 
 <script>
+import UserBlock from '~/components/UserBlock/UserBlock'
+
 export default {
   name: 'UsersPage',
-
+  components: { UserBlock },
   layout: 'profileLayout',
+
+  async fetch() {
+    await this.onRequest()
+  },
 
   data() {
     return {
       users: [],
+      page: 1,
+      perPage: 10,
+      isLoading: false,
+      isFinish: false,
     }
   },
 
-  created() {
-    this.$axios.$get('user/search').then((users) => (this.users = users))
+  mounted() {
+    if (typeof window !== 'undefined')
+      window.addEventListener('scroll', this.onScroll)
+  },
+
+  beforeDestroy() {
+    if (typeof window !== 'undefined')
+      window.addEventListener('scroll', this.onScroll)
+  },
+
+  methods: {
+    onScroll() {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 500
+      ) {
+        this.onRequest()
+      }
+    },
+    onRequest() {
+      if (!this.isLoading && !this.isFinish) {
+        this.isLoading = true
+        return this.$axios
+          .$get(`user/search/${this.page}/${this.perPage}`)
+          .then((users) => {
+            this.page++
+            this.users = this.users.concat(users)
+            this.isLoading = false
+            if (users.length < this.perPage) this.isFinish = true
+          })
+      }
+    },
   },
 }
 </script>
@@ -36,10 +69,5 @@ export default {
   justify-content: center;
   flex-direction: column;
   flex: 1;
-
-  &__title {
-    @include buttonReset;
-    font-size: 24px;
-  }
 }
 </style>

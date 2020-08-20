@@ -1,15 +1,8 @@
 <template>
   <div class="viewPage">
     <template v-if="data">
-      <img
-        v-if="data.avatar"
-        :src="`https://api.chinchillas-show.com/photos/chinchillas/${data.owner_id}/${data.id}/${data.avatar.name}`"
-        :alt="data.name"
-        class="viewPage__avatar"
-      />
-      <div>{{ data.name }}</div>
+      <ChinchillaHeader :chinchilla="data" />
       <div>
-        {{ colorString }}
         <span v-if="['disagree', 'overvalue'].includes(data.conclusion)"
           >(Не соответствует)</span
         >
@@ -50,10 +43,7 @@
               activePhoto = index
             "
           />
-          <label
-            v-if="userId === data.owner_id"
-            class="chinchillaRedact__uploadPhoto"
-          >
+          <label v-if="userId === data.owner_id" class="viewPage__uploadPhoto">
             <v-icon size="40px" color="white">mdi-plus</v-icon>
             <input
               type="file"
@@ -200,14 +190,17 @@
 </template>
 
 <script>
+import resizeImage from '~/assets/scripts/resizeImage'
 import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
 import colorToString from '~/assets/scripts/colorToString'
 import CardSection from '~/components/CardSection/CardSection.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
 import statuses from '~/assets/datas/statuses.json'
+import ChinchillaHeader from '~/components/ChinchillaHeader/ChinchillaHeader'
 
 export default {
   components: {
+    ChinchillaHeader,
     ChinchillaPhoto,
     BaseSpinner,
     PedigreeTree: () => import('~/components/PedigreeTree/PedigreeTree.vue'),
@@ -274,9 +267,10 @@ export default {
 
   methods: {
     uploadPhotos(event) {
-      const requests = [...event.target.files].map((file) => {
+      const requests = [...event.target.files].map(async (file) => {
+        const resizedFile = await resizeImage(file)
         const formData = new FormData()
-        formData.append('photo', file)
+        formData.append('photo', resizedFile)
         return this.$axios.$post(`/photo/chinchilla/${this.data.id}`, formData)
       })
       Promise.allSettled(requests).then((data) => {
