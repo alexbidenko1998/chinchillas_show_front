@@ -12,20 +12,26 @@
     @click="$emit('click', $event)"
   >
     <template v-if="!chinchilla || userId === chinchilla.owner_id">
-      <button
+      <v-btn
         type="button"
+        color="primary"
+        fab
+        x-small
         class="chinchillaPhoto__delete"
         @click.stop="deletePhoto(photo.id)"
       >
         X
-      </button>
-      <button
+      </v-btn>
+      <v-btn
         type="button"
+        color="primary"
+        fab
+        x-small
         class="chinchillaPhoto__updateAvatar"
         @click.stop="photoToAvatar(photo.id)"
       >
         A
-      </button>
+      </v-btn>
     </template>
   </div>
 </template>
@@ -79,14 +85,14 @@ export default {
 
   &__delete {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 4px;
+    right: 4px;
   }
 
   &__updateAvatar {
     position: absolute;
-    top: 0;
-    right: 16px;
+    top: 4px;
+    right: 40px;
   }
 
   &_avatar {

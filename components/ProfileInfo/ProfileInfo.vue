@@ -46,7 +46,9 @@
           <v-toolbar-title>Редактирование профиля</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="update">Сохранить</v-btn>
+            <v-btn dark text :loading="isLoading" @click="update"
+              >Сохранить</v-btn
+            >
           </v-toolbar-items>
         </v-toolbar>
         <div class="baseContainer">
@@ -157,6 +159,7 @@ export default {
         city: '',
         avatar: null,
       },
+      isLoading: false,
     }
   },
 
@@ -171,14 +174,20 @@ export default {
 
   methods: {
     update() {
+      this.isLoading = true
       const formData = new FormData()
       Object.keys(this.models).forEach((key) => {
         this.models[key] && formData.append(key, this.models[key])
       })
-      this.$axios.$post('user/update', formData).then((data) => {
-        this.$emit('update', data)
-        this.dialog = false
-      })
+      this.$axios
+        .$post('user/update', formData)
+        .then((data) => {
+          this.$emit('update', data)
+          this.dialog = false
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
     },
   },
 }

@@ -73,6 +73,17 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     'cookie-universal-nuxt',
+    [
+      'nuxt-compress',
+      {
+        gzip: {
+          cache: true,
+        },
+        brotli: {
+          threshold: 10240,
+        },
+      },
+    ],
   ],
   /*
    ** Axios module configuration
