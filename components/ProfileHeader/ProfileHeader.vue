@@ -63,7 +63,9 @@ export default {
   },
 
   computed: {
-    user: this.$store.state.UserModule.user,
+    user() {
+      return this.$store.state.UserModule.user
+    },
   },
 
   methods: {
