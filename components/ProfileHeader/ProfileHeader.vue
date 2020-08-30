@@ -4,21 +4,25 @@
       >Chinchillas - show</nuxt-link
     >
     <nav class="profileHeader__nav paddingRight">
-      <nuxt-link class="profileHeader__link" to="/profile">Профиль</nuxt-link>
+      <nuxt-link v-if="user" class="profileHeader__link" to="/profile"
+        >Профиль</nuxt-link
+      >
       <nuxt-link class="profileHeader__link" to="/raech">РАЭШ</nuxt-link>
       <nuxt-link class="profileHeader__link" to="/auction">Аукцион</nuxt-link>
-      <nuxt-link class="profileHeader__link" to="/profile/users"
+      <nuxt-link v-if="user" class="profileHeader__link" to="/profile/users"
         >Люди</nuxt-link
       >
       <nuxt-link class="profileHeader__link" to="/profile/search"
         >Шиншиллы</nuxt-link
       >
-      <nuxt-link class="profileHeader__link" to="/auction"
+      <nuxt-link v-if="user" class="profileHeader__link" to="/auction"
         >Калькулятор</nuxt-link
       >
-      <button class="profileHeader__link" @click="logout">Выход</button>
+      <button v-if="user" class="profileHeader__link" @click="logout">
+        Выход
+      </button>
       <BaseSidenav>
-        <nuxt-link class="profileHeader__sidenavLink" to="/profile"
+        <nuxt-link v-if="user" class="profileHeader__sidenavLink" to="/profile"
           >Профиль</nuxt-link
         >
         <nuxt-link class="profileHeader__sidenavLink" to="/raech"
@@ -27,16 +31,19 @@
         <nuxt-link class="profileHeader__sidenavLink" to="/auction"
           >Аукцион</nuxt-link
         >
-        <nuxt-link class="profileHeader__sidenavLink" to="/profile/users"
+        <nuxt-link
+          v-if="user"
+          class="profileHeader__sidenavLink"
+          to="/profile/users"
           >Люди</nuxt-link
         >
         <nuxt-link class="profileHeader__sidenavLink" to="/profile/search"
           >Шиншиллы</nuxt-link
         >
-        <nuxt-link class="profileHeader__sidenavLink" to="/auction"
+        <nuxt-link v-if="user" class="profileHeader__sidenavLink" to="/auction"
           >Калькулятор</nuxt-link
         >
-        <button class="profileHeader__sidenavLink" @click="logout">
+        <button v-if="user" class="profileHeader__sidenavLink" @click="logout">
           Выход
         </button>
       </BaseSidenav>
@@ -53,6 +60,10 @@ export default {
 
   components: {
     BaseSidenav,
+  },
+
+  computed: {
+    user: this.$store.state.UserModule.user,
   },
 
   methods: {

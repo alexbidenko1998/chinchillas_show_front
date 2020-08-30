@@ -4,7 +4,7 @@ import Mutations from '~/store/mutations.type'
 export default {
   state: {
     user: null,
-    russian: false,
+    country: null,
   },
   actions: {
     [Actions.CHECK_USER]({ state }, callback) {
@@ -20,7 +20,7 @@ export default {
   },
   mutations: {
     [Mutations.SET_COUNTRY](state, value) {
-      state.russian = value
+      state.country = value
     },
   },
 }

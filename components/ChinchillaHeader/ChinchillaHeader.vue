@@ -26,6 +26,7 @@
       </div>
       <div class="chinchillaHeader__cell">
         <div
+          v-if="chinchilla.owner.first_name"
           class="chinchillaHeader__avatarContainer chinchillaHeader__avatarContainer--owner"
         >
           <p class="chinchillaHeader__name chinchillaHeader__name--owner">

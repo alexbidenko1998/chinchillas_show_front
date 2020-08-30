@@ -15,7 +15,7 @@ export default function ({ store, redirect, app, route }) {
     )
       redirect('/')
   }
-  if (!store.user) {
+  if (!store.state.UserModule.user) {
     store.dispatch(Actions.CHECK_USER, check)
-  } else check(store.user)
+  } else check(store.state.UserModule.user)
 }
