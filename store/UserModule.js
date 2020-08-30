@@ -1,8 +1,10 @@
 import Actions from '~/store/actions.type'
+import Mutations from '~/store/mutations.type'
 
 export default {
   state: {
     user: null,
+    russian: false,
   },
   actions: {
     [Actions.CHECK_USER]({ state }, callback) {
@@ -14,6 +16,11 @@ export default {
     [Actions.LOGOUT]({ state }) {
       state.user = null
       this.$axios.setToken(null)
+    },
+  },
+  mutations: {
+    [Mutations.SET_COUNTRY](state, value) {
+      state.russian = value === 'RU'
     },
   },
 }

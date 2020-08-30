@@ -46,6 +46,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    { src: '~/plugins/userInfo', mode: 'server' },
     { src: '~/plugins/Vuebar', mode: 'all' },
     { src: '~/plugins/Vuetify', mode: 'all' },
     { src: '~/plugins/axios', mode: 'all' },

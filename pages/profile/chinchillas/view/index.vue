@@ -54,7 +54,7 @@
           </label>
         </div>
       </div>
-      <div style="overflow-x: auto;">
+      <div style="overflow-x: auto">
         <client-only>
           <PedigreeTree :chinchilla="data" />
         </client-only>
@@ -109,13 +109,13 @@
         <v-card>
           <v-card-title class="headline">История статусов</v-card-title>
 
-          <v-card-text style="height: 300px;">
+          <v-card-text style="height: 300px">
             <template v-for="s in data.statuses">
               <v-list-item
                 v-if="statuses.find((el) => el.key === s.name)"
                 :key="s.timestamp"
                 two-line
-                style="padding: 0;"
+                style="padding: 0"
               >
                 <v-list-item-content>
                   <v-list-item-title>{{ status(s.name) }}</v-list-item-title>
@@ -129,7 +129,7 @@
             <v-container
               v-if="userId === data.owner_id"
               id="changeStatus"
-              style="padding: 0;"
+              style="padding: 0"
             >
               <v-overflow-btn
                 v-model="updatedStatus"

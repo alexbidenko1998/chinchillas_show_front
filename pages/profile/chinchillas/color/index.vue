@@ -33,6 +33,8 @@ export default {
 
   layout: 'profileLayout',
 
+  middleware: 'auth',
+
   data() {
     const models = {}
     colorConfig.forEach((el) => (models[el.name] = el.variants[0].value))

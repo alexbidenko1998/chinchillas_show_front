@@ -19,7 +19,7 @@
       <v-btn
         v-if="isOwner"
         color="primary"
-        style="background-color: #d79b00;"
+        style="background-color: #d79b00"
         dark
         fixed
         bottom

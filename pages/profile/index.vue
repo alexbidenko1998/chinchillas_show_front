@@ -13,6 +13,8 @@ export default {
 
   layout: 'profileLayout',
 
+  middleware: 'auth',
+
   data() {
     return {
       active: true,

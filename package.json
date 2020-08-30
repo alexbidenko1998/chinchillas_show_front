@@ -31,8 +31,8 @@
     "material-design-icons-iconfont": "^5.0.1",
     "nuxt": "^2.14.4",
     "pm2": "^4.4.1",
-    "vue": "2.6.11",
-    "vue-server-renderer": "2.6.11",
+    "vue": "2.6.12",
+    "vue-server-renderer": "2.6.12",
     "vuebar": "^0.0.20",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.3.10"

@@ -11,5 +11,7 @@ export default {
   components: { ChinchillaRedact },
 
   layout: 'profileLayout',
+
+  middleware: 'auth',
 }
 </script>

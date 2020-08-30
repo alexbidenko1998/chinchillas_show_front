@@ -41,13 +41,9 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn color="darken-1" text @click="changeUser">
-            Сохранить
-          </v-btn>
+          <v-btn color="darken-1" text @click="changeUser"> Сохранить </v-btn>
 
-          <v-btn color="darken-1" text @click="dialog = false">
-            Отмена
-          </v-btn>
+          <v-btn color="darken-1" text @click="dialog = false"> Отмена </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

@@ -17,8 +17,6 @@ export default {
     ProfileHeader,
     ProfileFooter,
   },
-
-  middleware: 'auth',
 }
 </script>
 
