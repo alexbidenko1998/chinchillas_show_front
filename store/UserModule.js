@@ -20,7 +20,7 @@ export default {
   },
   mutations: {
     [Mutations.SET_COUNTRY](state, value) {
-      state.russian = value === 'RU'
+      state.russian = value
     },
   },
 }
