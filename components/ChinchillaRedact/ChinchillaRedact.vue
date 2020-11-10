@@ -42,26 +42,24 @@
           :items="motherItems"
           :loading="isLoadingMother"
           :search-input.sync="motherSearch"
-          color="white"
-          hide-no-data
-          hide-selected
+          :click:clear.sync="motherSearch"
           item-text="name"
           item-value="id"
           label="Мама"
           placeholder="Введите кличку шиншиллы"
+          clearable
         />
         <v-autocomplete
           v-model="models.father_id"
           :items="fatherItems"
           :loading="isLoadingFather"
           :search-input.sync="fatherSearch"
-          color="white"
-          hide-no-data
-          hide-selected
+          :click:clear.sync="fatherSearch"
           item-text="name"
           item-value="id"
           label="Папа"
           placeholder="Введите кличку шиншиллы"
+          clearable
         />
         <v-text-field
           v-model="models.weight"
@@ -213,12 +211,14 @@ export default {
       this['isLoading' + type] = true
       this.$axios
         .$get(
-          `chinchilla/search?name=${val}&sex=${
+          `chinchilla/search?name=${val || ''}&sex=${
             type === 'Mother' ? 'f' : 'm'
           }&perPage=20`
         )
         .then((response) => {
-          this[type.toLowerCase() + 'Items'] = response.data
+          this[type.toLowerCase() + 'Items'] = response.data.filter(
+            (f) => f.id !== this.chinchillaId
+          )
           this['isLoading' + type] = false
         })
     },

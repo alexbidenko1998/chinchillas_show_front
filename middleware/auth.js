@@ -1,6 +1,6 @@
 import Actions from '~/store/actions.type'
 
-export default function ({ store, redirect, app, route }) {
+export default async ({ store, redirect, app, route }) => {
   if (!app.$cookies.get('TOKEN') || !app.$cookies.get('USER_ID')) {
     redirect('/auth')
     return
@@ -16,6 +16,6 @@ export default function ({ store, redirect, app, route }) {
       redirect('/')
   }
   if (!store.state.UserModule.user) {
-    store.dispatch(Actions.CHECK_USER, check)
+    await store.dispatch(Actions.CHECK_USER, check)
   } else check(store.state.UserModule.user)
 }
