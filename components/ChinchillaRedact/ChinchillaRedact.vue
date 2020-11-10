@@ -135,12 +135,6 @@ export default {
       this.photos = this.models.photos
       this.avatar = this.models.avatar
       this.birthday = new Date(this.models.birthday).toISOString().substr(0, 10)
-      this.motherItems = (
-        await this.$axios.$get(`chinchilla/search?sex=f&perPage=20`)
-      ).data.filter((el) => el.sex === 'f')
-      this.fatherItems = (
-        await this.$axios.$get(`chinchilla/search?sex=m&perPage=20`)
-      ).data.filter((el) => el.sex === 'm')
     }
   },
 
@@ -183,7 +177,19 @@ export default {
     },
   },
 
+  mounted() {
+    this.fetchParents()
+  },
+
   methods: {
+    async fetchParents() {
+      this.motherItems = (
+        await this.$axios.$get(`chinchilla/search?sex=f&perPage=20`)
+      ).data.filter((el) => el.sex === 'f')
+      this.fatherItems = (
+        await this.$axios.$get(`chinchilla/search?sex=m&perPage=20`)
+      ).data.filter((el) => el.sex === 'm')
+    },
     onSubmit() {
       this.models.birthday = new Date(this.birthday).getTime()
       this.isLoading = true
