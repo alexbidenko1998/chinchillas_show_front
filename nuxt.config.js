@@ -90,7 +90,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'https://api.chinchillas-show.com/api/', // 'http://localhost:8000/api/' // https://api.chinchillas-show.com/api/
+    baseURL: process.env.BASE_API || 'https://api.chinchillas-show.com/api/',
   },
   /*
    ** Build configuration

@@ -33,7 +33,6 @@ export default {
 
 <style lang="scss">
 .defaultLayout {
-  padding-top: 64px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;

@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev:local": "cross-env BASE_API=http://chinchillas-show-back.test/api/ nuxt",
     "build": "cross-env NUXT_PORT=3333 nuxt build",
     "start": "cross-env NUXT_PORT=3333 nuxt start",
     "generate": "nuxt generate",

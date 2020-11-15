@@ -1,31 +1,150 @@
 <template>
   <div class="mainPage">
-    <section class="baseContainer mainPage__header">
-      <h3 class="mainPage__question">Кто мы?</h3>
-      <p class="mainPage__answer">Международный сервис для</p>
-      <ul>
-        <li class="mainPage__answerItem">регистрации шиншилл на выставках</li>
-        <li class="mainPage__answerItem">ведения генетической базы</li>
-        <li class="mainPage__answerItem">продажи/покупки шиншилл</li>
-      </ul>
+    <section class="mainPage__header">
+      <div class="mainPage__headerLeft">
+        <h3 class="mainPage__question">Кто мы?</h3>
+        <p class="mainPage__answer">Международный сервис для</p>
+        <ul>
+          <li class="mainPage__answerItem">регистрации шиншилл на выставках</li>
+          <li class="mainPage__answerItem">ведения генетической базы</li>
+          <li class="mainPage__answerItem">продажи/покупки шиншилл</li>
+        </ul>
+      </div>
+      <div class="mainPage__headerRight">
+        <WaterButton class="mainPage__auth" to="/profile"
+          >Перейти в личный кабинет</WaterButton
+        >
+        <div class="mainPage__social">
+          <nuxt-link
+            v-for="item in socials"
+            :key="item.icon"
+            class="mainPage__socialLink"
+            aria-label="social link"
+            to=""
+          >
+            <svg class="mainPage__socialIcon">
+              <use :xlink:href="item.icon" />
+            </svg>
+          </nuxt-link>
+        </div>
+      </div>
     </section>
-    <nuxt-link class="mainPage__auth" to="/profile">Профиль</nuxt-link>
+    <h1 class="mainPage__siteName">CHINCHILLAS-SHOW</h1>
+    <div
+      class="mainPage__infoContainer"
+      :class="{ 'mainPage__infoContainer--show': statistics }"
+    >
+      <div class="mainPage__infoGroup">
+        <span class="mainPage__count">{{
+          statistics ? statistics.totalChinchillas : ''
+        }}</span>
+        <p class="mainPage__label">
+          Всего зарегистрированных<br />щиншилл на сайте
+        </p>
+      </div>
+      <div class="mainPage__infoGroup">
+        <span class="mainPage__count">{{
+          statistics ? statistics.totalUsers : ''
+        }}</span>
+        <p class="mainPage__label">Активных пользователей<br />на сайте</p>
+      </div>
+      <div class="mainPage__infoGroup">
+        <span class="mainPage__count">{{
+          statistics ? statistics.activeSales : ''
+        }}</span>
+        <p class="mainPage__label">На продажу сейчас<br />щиншилл</p>
+      </div>
+      <div class="mainPage__infoGroup">
+        <span class="mainPage__count">{{
+          statistics ? statistics.totalSold : ''
+        }}</span>
+        <p class="mainPage__label">Успешных сделок<br />совершенных ранее</p>
+      </div>
+    </div>
   </div>
 </template>
 
-<script></script>
+<script>
+import WaterButton from '~/components/WaterButton/WaterButton.vue'
+import sprite from '~/assets/sprites/common.svg'
+
+export default {
+  components: {
+    WaterButton,
+  },
+
+  async fetch() {
+    this.statistics = await this.$axios.$get('site/statistics')
+  },
+
+  data() {
+    return {
+      statistics: null,
+      socials: [
+        {
+          icon: `${sprite}#icon-twitter`,
+          href: '#',
+        },
+        {
+          icon: `${sprite}#icon-vk`,
+          href: '#',
+        },
+        {
+          icon: `${sprite}#icon-fb`,
+          href: '#',
+        },
+        {
+          icon: `${sprite}#icon-instagram`,
+          href: '#',
+        },
+        {
+          icon: `${sprite}#icon-youtube`,
+          href: '#',
+        },
+      ],
+    }
+  },
+}
+</script>
 
 <style lang="scss">
 .mainPage {
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
   flex: 1;
+  background: #f6f7ff;
 
   &__header {
     padding-top: 40px;
     padding-bottom: 40px;
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 85.5vw;
+    margin: 0 auto 40px;
+
+    @include mq('desktop') {
+      width: 72.5vw;
+    }
+
+    @include mq('desktop-small') {
+      width: 85.5vw;
+    }
+
+    @include mq('tablet') {
+      width: 67.5vw;
+      display: block;
+    }
+
+    @include mq('tablet-small') {
+      width: 80vw;
+    }
+
+    @include mq('phone') {
+      width: 94vw;
+    }
   }
 
   &__question {
@@ -65,9 +184,244 @@
     }
   }
 
-  &__auth {
-    @include buttonReset;
-    font-size: 24px;
+  &__headerRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    @include mq('desktop-small') {
+      padding-top: 24px;
+    }
+
+    @include mq('tablet') {
+      align-items: center;
+      padding-top: 40px;
+    }
+  }
+
+  &__siteName {
+    background-color: #cacaca;
+    color: transparent;
+    text-shadow: 0 2px 6px rgba(255, 255, 255, 0.5);
+    background-clip: text;
+    font-size: 132px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    display: flex;
+    text-align: center;
+    padding: 0 20px;
+
+    @include mq('desktop') {
+      font-size: 102px;
+    }
+
+    @include mq('desktop-small') {
+      font-size: 86px;
+    }
+
+    @include mq('tablet') {
+      font-size: 56px;
+    }
+
+    @include mq('tablet-small') {
+      font-size: 36px;
+    }
+
+    @include mq('phone') {
+      font-size: 24px;
+    }
+  }
+
+  &__infoContainer {
+    display: flex;
+    align-items: center;
+    width: 85.5vw;
+    flex-wrap: wrap;
+    margin: 40px 0;
+    opacity: 0;
+
+    @include mq('desktop') {
+      top: 30.7%;
+      width: 72.5vw;
+    }
+
+    @include mq('desktop-small') {
+      top: 27%;
+      width: 85.5vw;
+    }
+
+    @include mq('tablet') {
+      top: 20.9%;
+      width: 67.5vw;
+    }
+
+    @include mq('tablet-small') {
+      justify-content: center;
+      top: 24.2%;
+      width: 80vw;
+    }
+
+    @include mq('phone') {
+      width: 94vw;
+    }
+
+    &--show {
+      animation: show-statistics 3s ease forwards;
+    }
+  }
+
+  &__infoGroup {
+    display: flex;
+    align-items: center;
+    width: 25%;
+    padding: 0 15px;
+
+    @include mq('desktop') {
+      padding: 0;
+    }
+
+    @include mq('tablet') {
+      padding: 12px 0;
+      width: 50%;
+    }
+
+    @include mq('tablet-small') {
+      padding: 7px 0;
+      width: calc(100% / 3);
+      flex-direction: column;
+      height: 76px;
+
+      &:nth-of-type(2) {
+        order: 0;
+      }
+
+      &:nth-of-type(1) {
+        order: 1;
+      }
+
+      &:nth-of-type(3) {
+        order: 2;
+      }
+
+      &:nth-of-type(4) {
+        order: 3;
+      }
+    }
+  }
+
+  &__count {
+    font-weight: 500;
+    font-size: 65px;
+    line-height: 52px;
+    letter-spacing: -0.01em;
+    color: #d79b00;
+    margin-right: 13px;
+
+    @include mq('desktop') {
+      font-size: 36px;
+      line-height: 36px;
+      margin-right: 12px;
+    }
+
+    @include mq('tablet-small') {
+      font-size: 28px;
+      line-height: 28px;
+      margin-right: 0;
+      margin-bottom: 6px;
+    }
+  }
+
+  & &__label {
+    white-space: nowrap;
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 28px;
+    letter-spacing: -0.01em;
+    color: #d79b00;
+    align-self: flex-end;
+    margin-bottom: 0;
+
+    @include mq('desktop') {
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    @include mq('tablet-small') {
+      font-size: 10px;
+      line-height: 14px;
+      text-align: center;
+      align-self: initial;
+    }
+  }
+
+  &__social {
+    display: flex;
+    margin-top: 40px;
+
+    @include mq('tablet-small') {
+      margin-left: 0;
+      margin-top: 14px;
+    }
+  }
+
+  &__socialLink {
+    display: block;
+    flex-shrink: 0;
+    height: 45px;
+    position: relative;
+    width: 46px;
+    cursor: auto;
+
+    @include mq('desktop', 'tablet') {
+      height: 40px;
+      width: 40px;
+    }
+
+    @include mq('tablet') {
+      height: 35px;
+      width: 35px;
+    }
+
+    & + & {
+      margin-left: 9px;
+
+      @include mq('desktop') {
+        margin-left: 10px;
+      }
+
+      @include mq('desktop-small') {
+        padding-bottom: 5px;
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &__socialIcon {
+    height: 100%;
+    fill: rgba(165, 173, 239, 0.3);
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: 0.3s fill ease;
+    width: 100%;
+    z-index: 1;
+  }
+
+  @keyframes show-statistics {
+    0% {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    30% {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 </style>

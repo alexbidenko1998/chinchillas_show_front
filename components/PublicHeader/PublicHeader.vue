@@ -56,9 +56,6 @@ export default {
   height: 64px;
   display: flex;
   align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   z-index: 10;
 

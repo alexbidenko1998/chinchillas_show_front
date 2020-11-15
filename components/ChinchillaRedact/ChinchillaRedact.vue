@@ -37,12 +37,12 @@
           <v-radio label="Самка" value="f" name="sex" />
           <v-radio label="Самец" value="m" name="sex" />
         </v-radio-group>
+        <v-checkbox v-model="globalSearch" label="Глобальный поиск" />
         <v-autocomplete
           v-model="models.mother_id"
           :items="motherItems"
           :loading="isLoadingMother"
           :search-input.sync="motherSearch"
-          :click:clear.sync="motherSearch"
           item-text="name"
           item-value="id"
           label="Мама"
@@ -54,7 +54,6 @@
           :items="fatherItems"
           :loading="isLoadingFather"
           :search-input.sync="fatherSearch"
-          :click:clear.sync="fatherSearch"
           item-text="name"
           item-value="id"
           label="Папа"
@@ -163,15 +162,23 @@ export default {
       fatherSearch: '',
       photos: [],
       avatar: null,
+      globalSearch: false,
+      timers: {},
     }
   },
 
   watch: {
     motherSearch(val) {
       this.search(val, 'Mother')
+      if (!val) this.models.mother_id = null
     },
     fatherSearch(val) {
       this.search(val, 'Father')
+      if (!val) this.models.father_id = null
+    },
+    globalSearch() {
+      this.search(this.motherSearch, 'Mother')
+      this.search(this.fatherSearch, 'Father')
     },
   },
 
@@ -180,13 +187,9 @@ export default {
   },
 
   methods: {
-    async fetchParents() {
-      this.motherItems = (
-        await this.$axios.$get(`chinchilla/search?sex=f&perPage=20`)
-      ).data.filter((el) => el.sex === 'f')
-      this.fatherItems = (
-        await this.$axios.$get(`chinchilla/search?sex=m&perPage=20`)
-      ).data.filter((el) => el.sex === 'm')
+    fetchParents() {
+      this.search(this.motherSearch, 'Mother')
+      this.search(this.fatherSearch, 'Father')
     },
     onSubmit() {
       this.models.birthday = new Date(this.birthday).getTime()
@@ -208,19 +211,25 @@ export default {
         })
     },
     search(val, type) {
-      this['isLoading' + type] = true
-      this.$axios
-        .$get(
-          `chinchilla/search?name=${val || ''}&sex=${
-            type === 'Mother' ? 'f' : 'm'
-          }&perPage=20`
-        )
-        .then((response) => {
-          this[type.toLowerCase() + 'Items'] = response.data.filter(
-            (f) => f.id !== this.chinchillaId
+      clearTimeout(this.timers[type])
+      this.timers[type] = setTimeout(() => {
+        this['isLoading' + type] = true
+        this.$axios
+          .$get(
+            `chinchilla/search?name=${val || ''}&sex=${
+              type === 'Mother' ? 'f' : 'm'
+            }&perPage=20${this.globalSearch ? '' : '&is_owner=true'}`
           )
-          this['isLoading' + type] = false
-        })
+          .then((response) => {
+            this[type.toLowerCase() + 'Items'] = (this.models[
+              type.toLowerCase()
+            ]
+              ? [this.models[type.toLowerCase()]]
+              : []
+            ).concat(response.data.filter((f) => f.id !== this.chinchillaId))
+            this['isLoading' + type] = false
+          })
+      }, 500)
     },
     savePhotos(event) {
       for (const file of event.target.files) {
@@ -236,21 +245,23 @@ export default {
       }
     },
     uploadPhotos(id) {
-      const requests = this.photos.map(({ file, id: photoId }) => {
-        const formData = new FormData()
-        formData.append('photo', file)
-        return new Promise((resolve, reject) => {
-          this.$axios
-            .$post(`/photo/chinchilla/${id}`, formData)
-            .then((data) => {
-              resolve({
-                prevId: photoId,
-                data,
+      const requests = this.photos
+        .filter((el) => el.file)
+        .map(({ file, id: photoId }) => {
+          const formData = new FormData()
+          formData.append('photo', file)
+          return new Promise((resolve, reject) => {
+            this.$axios
+              .$post(`/photo/chinchilla/${id}`, formData)
+              .then((data) => {
+                resolve({
+                  prevId: photoId,
+                  data,
+                })
               })
-            })
-            .catch(reject)
+              .catch(reject)
+          })
         })
-      })
       Promise.allSettled(requests).then(async (results) => {
         if (this.avatar) {
           const avatar = results.find(

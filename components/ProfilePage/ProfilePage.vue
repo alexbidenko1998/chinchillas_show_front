@@ -39,8 +39,6 @@
 <style lang="scss">
 .profilePage {
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   position: relative;
   flex: 1;
