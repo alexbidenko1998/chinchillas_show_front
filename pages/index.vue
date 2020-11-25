@@ -39,7 +39,7 @@
           statistics ? statistics.totalChinchillas : ''
         }}</span>
         <p class="mainPage__label">
-          Всего зарегистрированных<br />щиншилл на сайте
+          Всего зарегистрированных<br />шиншилл на сайте
         </p>
       </div>
       <div class="mainPage__infoGroup">
@@ -52,7 +52,7 @@
         <span class="mainPage__count">{{
           statistics ? statistics.activeSales : ''
         }}</span>
-        <p class="mainPage__label">На продажу сейчас<br />щиншилл</p>
+        <p class="mainPage__label">На продажу сейчас<br />шиншилл</p>
       </div>
       <div class="mainPage__infoGroup">
         <span class="mainPage__count">{{
