@@ -2,33 +2,7 @@
   <div class="viewPage">
     <template v-if="data">
       <ChinchillaHeader :chinchilla="data" />
-      <div>
-        <span v-if="['disagree', 'overvalue'].includes(data.conclusion)"
-          >(Не соответствует)</span
-        >
-      </div>
-      <div>
-        {{
-          status(
-            (
-              data.statuses.find((el) =>
-                statuses.find((s) => el.name === s.key)
-              ) || { name: '' }
-            ).name
-          )
-        }}
-        <v-btn @click="statusesDialog = true">История</v-btn>
-        <v-btn
-          v-if="userId === data.owner_id && data.conclusion === 'disagree'"
-          @click="forOvervalue"
-          >На переоценку</v-btn
-        >
-        <div v-for="comment in data.color_comments" :key="comment.id">
-          <v-divider />
-          <p>{{ comment.content }}</p>
-        </div>
-      </div>
-      <div class="baseContainer">
+      <div class="baseContainer viewPage__photos">
         <div class="baseGrid">
           <ChinchillaPhoto
             v-for="(photo, index) in data.photos"
@@ -91,7 +65,7 @@
           :to="`/profile/chinchillas/color?id=${chinchillaId}`"
           nuxt
         >
-          Редактировать цвет
+          Редактировать окрас
         </v-btn>
         <v-btn
           dark
@@ -104,63 +78,6 @@
           Редактировать параметры
         </v-btn>
       </v-speed-dial>
-
-      <v-dialog v-model="statusesDialog" max-width="290">
-        <v-card>
-          <v-card-title class="headline">История статусов</v-card-title>
-
-          <v-card-text style="height: 300px">
-            <template v-for="s in data.statuses">
-              <v-list-item
-                v-if="statuses.find((el) => el.key === s.name)"
-                :key="s.timestamp"
-                two-line
-                style="padding: 0"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>{{ status(s.name) }}</v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    dateFormat(s.timestamp)
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-
-            <v-container
-              v-if="userId === data.owner_id"
-              id="changeStatus"
-              style="padding: 0"
-            >
-              <v-overflow-btn
-                v-model="updatedStatus"
-                class="my-2"
-                :items="statuses"
-                label="Изменить статус"
-                target="#changeStatus"
-                item-text="label"
-                item-value="key"
-              />
-            </v-container>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn
-              v-if="updatedStatus && userId === data.owner_id"
-              color="darken-1"
-              text
-              @click="saveStatus"
-            >
-              Сохранить
-            </v-btn>
-
-            <v-btn color="darken-1" text @click="statusesDialog = false">
-              Закрыть
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
 
       <v-dialog
         v-model="isOpenPhotos"
@@ -195,7 +112,6 @@ import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
 import colorToString from '~/assets/scripts/colorToString'
 import CardSection from '~/components/CardSection/CardSection.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
-import statuses from '~/assets/datas/statuses.json'
 import ChinchillaHeader from '~/components/ChinchillaHeader/ChinchillaHeader'
 
 export default {
@@ -220,8 +136,6 @@ export default {
       chinchillaId: +this.$route.query.id,
       userId: +this.$cookies.get('USER_ID'),
       data: null,
-      statusesDialog: false,
-      updatedStatus: null,
       isOpenPhotos: false,
       photosHeight: 500,
       activePhoto: 0,
@@ -232,9 +146,6 @@ export default {
   computed: {
     colorString() {
       return this.data ? colorToString(this.data.color) : ''
-    },
-    statuses() {
-      return statuses
     },
   },
 
@@ -279,23 +190,6 @@ export default {
         )
       })
     },
-    status(key) {
-      return this.data ? statuses.find((el) => el.key === key)?.label ?? '' : ''
-    },
-    dateFormat(timestamp) {
-      return new Date(timestamp).toString()
-    },
-    saveStatus() {
-      this.$axios
-        .$post('chinchilla/create/status', {
-          name: this.updatedStatus,
-          chinchillaId: this.data.id,
-        })
-        .then((data) => {
-          this.data.statuses = [data, ...this.data.statuses]
-        })
-        .catch(() => alert('Что-то пошло не так'))
-    },
     deletePhoto(photoId) {
       this.$axios.$delete(`/photo/chinchilla/${photoId}`).then(() => {
         this.data.photos = this.data.photos.filter((el) => el.id !== photoId)
@@ -316,13 +210,6 @@ export default {
           this.$refs.photosDialog.$el.clientHeight -
           this.$refs.photosHeader.$el.clientHeight
     },
-    forOvervalue() {
-      this.$axios
-        .$post(`chinchilla/color/for-overvalue/${this.data.id}`)
-        .then(() => {
-          this.data.conclusion = 'overvalue'
-        })
-    },
   },
 }
 </script>
@@ -336,6 +223,10 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  &__photos {
+    padding-top: 32px;
+  }
 
   &__avatar {
     width: 200px;

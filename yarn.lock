@@ -8198,13 +8198,6 @@ nuxt-compress@^3.0.0:
     brotli-webpack-plugin "^1.1.0"
     compression-webpack-plugin "^5.0.0"
 
-nuxt-facebook-pixel-module@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/nuxt-facebook-pixel-module/-/nuxt-facebook-pixel-module-1.5.0.tgz#ed9b079fda95d5f41eecc9f79b0fcde322a63698"
-  integrity sha512-TWM7iv1tLD80NMFDqmv4GrdpE4jkPihcztajeJm6B7TklymR0Jgz3NZ14CzeXRS7FJDJeyZaxmpkcPga1uSiRA==
-  dependencies:
-    minimatch "^3.0.4"
-
 nuxt@^2.14.4:
   version "2.14.7"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.14.7.tgz#041bb3f5c659b1fec80042d974f68a0ed4e93aa9"

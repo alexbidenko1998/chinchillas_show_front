@@ -58,6 +58,9 @@ export default {
   align-items: center;
   width: 100%;
   z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   &__logo {
     background: #fff;

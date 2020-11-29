@@ -203,7 +203,7 @@ export default {
         models
       )
         .then((data) => {
-          this.uploadPhotos(data.id)
+          this.uploadPhotos(data.id || this.chinchillaId)
         })
         .catch(() => {
           alert('Что-то пошло не так')
@@ -271,7 +271,9 @@ export default {
           if (avatar) await this.photoToAvatar(avatar.id, id)
         }
         this.$router.push(
-          this.chinchillaId ? '/profile' : `/profile/chinchillas/color?id=${id}`
+          this.chinchillaId
+            ? `/profile/chinchillas/view?id=${this.chinchillaId}`
+            : `/profile/chinchillas/color?id=${id}`
         )
       })
     },

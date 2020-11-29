@@ -84,16 +84,6 @@ export default {
         },
       },
     ],
-    [
-      'nuxt-facebook-pixel-module',
-      {
-        /* module options */
-        track: 'PageView',
-        pixelId: '3491172874271214',
-        autoPageView: true,
-        disabled: false,
-      },
-    ],
   ],
   /*
    ** Axios module configuration

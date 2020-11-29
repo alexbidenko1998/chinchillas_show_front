@@ -1,76 +1,95 @@
 <template>
   <div class="mainPage">
-    <section class="mainPage__header">
-      <div class="mainPage__headerLeft">
-        <h3 class="mainPage__question">Кто мы?</h3>
-        <p class="mainPage__answer">Международный сервис для</p>
-        <ul>
-          <li class="mainPage__answerItem">регистрации шиншилл на выставках</li>
-          <li class="mainPage__answerItem">ведения генетической базы</li>
-          <li class="mainPage__answerItem">продажи/покупки шиншилл</li>
-        </ul>
-      </div>
-      <div class="mainPage__headerRight">
-        <WaterButton class="mainPage__auth" to="/profile"
-          >Перейти в личный кабинет</WaterButton
-        >
-        <div class="mainPage__social">
-          <nuxt-link
-            v-for="item in socials"
-            :key="item.icon"
-            class="mainPage__socialLink"
-            aria-label="social link"
-            to=""
+    <div class="mainPage__headerContainer">
+      <section class="mainPage__header">
+        <div class="mainPage__headerLeft">
+          <h3 class="mainPage__question">Кто мы?</h3>
+          <p class="mainPage__answer">Международный сервис для</p>
+          <ul>
+            <li class="mainPage__answerItem">
+              регистрации шиншилл на выставках
+            </li>
+            <li class="mainPage__answerItem">ведения генетической базы</li>
+            <li class="mainPage__answerItem">продажи/покупки шиншилл</li>
+          </ul>
+        </div>
+        <div class="mainPage__headerRight">
+          <WaterButton class="mainPage__auth" to="/profile"
+            >Перейти в личный кабинет</WaterButton
           >
-            <svg class="mainPage__socialIcon">
-              <use :xlink:href="item.icon" />
-            </svg>
-          </nuxt-link>
+          <div class="mainPage__social">
+            <nuxt-link
+              v-for="item in socials"
+              :key="item.icon"
+              class="mainPage__socialLink"
+              aria-label="social link"
+              to=""
+            >
+              <svg class="mainPage__socialIcon">
+                <use :xlink:href="item.icon" />
+              </svg>
+            </nuxt-link>
+          </div>
+        </div>
+      </section>
+      <h1 class="mainPage__siteName">CHINCHILLAS-SHOW</h1>
+      <div
+        class="mainPage__infoContainer"
+        :class="{ 'mainPage__infoContainer--show': statistics }"
+      >
+        <div class="mainPage__infoGroup">
+          <span class="mainPage__count">{{
+            statistics ? statistics.totalChinchillas : ''
+          }}</span>
+          <p class="mainPage__label">
+            Всего зарегистрированных<br />шиншилл на сайте
+          </p>
+        </div>
+        <div class="mainPage__infoGroup">
+          <span class="mainPage__count">{{
+            statistics ? statistics.totalUsers : ''
+          }}</span>
+          <p class="mainPage__label">Активных пользователей<br />на сайте</p>
+        </div>
+        <div class="mainPage__infoGroup">
+          <span class="mainPage__count">{{
+            statistics ? statistics.activeSales : ''
+          }}</span>
+          <p class="mainPage__label">На продажу сейчас<br />шиншилл</p>
+        </div>
+        <div class="mainPage__infoGroup">
+          <span class="mainPage__count">{{
+            statistics ? statistics.totalSold : ''
+          }}</span>
+          <p class="mainPage__label">Успешных сделок<br />совершенных ранее</p>
         </div>
       </div>
-    </section>
-    <h1 class="mainPage__siteName">CHINCHILLAS-SHOW</h1>
-    <div
-      class="mainPage__infoContainer"
-      :class="{ 'mainPage__infoContainer--show': statistics }"
-    >
-      <div class="mainPage__infoGroup">
-        <span class="mainPage__count">{{
-          statistics ? statistics.totalChinchillas : ''
-        }}</span>
-        <p class="mainPage__label">
-          Всего зарегистрированных<br />шиншилл на сайте
-        </p>
-      </div>
-      <div class="mainPage__infoGroup">
-        <span class="mainPage__count">{{
-          statistics ? statistics.totalUsers : ''
-        }}</span>
-        <p class="mainPage__label">Активных пользователей<br />на сайте</p>
-      </div>
-      <div class="mainPage__infoGroup">
-        <span class="mainPage__count">{{
-          statistics ? statistics.activeSales : ''
-        }}</span>
-        <p class="mainPage__label">На продажу сейчас<br />шиншилл</p>
-      </div>
-      <div class="mainPage__infoGroup">
-        <span class="mainPage__count">{{
-          statistics ? statistics.totalSold : ''
-        }}</span>
-        <p class="mainPage__label">Успешных сделок<br />совершенных ранее</p>
-      </div>
+    </div>
+
+    <div class="mainPage__features">
+      <FeatureSection
+        v-for="(item, index) in features"
+        :key="item.url"
+        :title="item.title"
+        :text="item.text"
+        :url="item.url"
+        :image="item.image"
+        :action-text="item.action"
+        :reverse="index % 2 === 1"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import WaterButton from '~/components/WaterButton/WaterButton.vue'
+import FeatureSection from '~/components/FeatureSection/FeatureSection.vue'
 import sprite from '~/assets/sprites/common.svg'
 
 export default {
   components: {
     WaterButton,
+    FeatureSection,
   },
 
   async fetch() {
@@ -102,6 +121,33 @@ export default {
           href: '#',
         },
       ],
+      features: [
+        {
+          title: 'Лучшая генетическая база шиншилл',
+          text:
+            'Заполняйте информацию о своих питомцах, отслеживайте родословные покупаемых шиншилл получите полный информационный контроль над своими и не только животными',
+          action: 'Перейти в профиль',
+          url: '/profile',
+          image: 'https://br-chinchillas.ru/assets/head_image_babies.jpg',
+        },
+        {
+          title: 'Экспертиза шиншилл онлайн',
+          text:
+            'Вся информация о проводимой в текущий момент выставке в режиме реального времени с вашего компьютреа или телефона в любой точке мира',
+          action: 'Посетить РАЭШ',
+          url: '/raech',
+          image:
+            'https://pp.userapi.com/c846524/v846524738/1e6669/6T9gXET5WnU.jpg',
+        },
+        {
+          title: 'Аукцион лучших шиншилл',
+          text:
+            'Покупайте и продавайте лучших зверей со своего персонального компьютера с минимальными усилиями и по лучшим ценам',
+          action: 'Перейти в профиль',
+          url: '/auction',
+          image: 'https://br-chinchillas.ru/assets/head_image_purchases.jpg',
+        },
+      ],
     }
   },
 }
@@ -109,12 +155,19 @@ export default {
 
 <style lang="scss">
 .mainPage {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
   background: #f6f7ff;
+  width: 100%;
+  overflow: hidden;
+
+  &__headerContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-height: 100vh;
+    padding: 60px 0;
+  }
 
   &__header {
     padding-top: 40px;
@@ -422,6 +475,11 @@ export default {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  &__features {
+    background-color: #c6c1c0;
+    width: 100%;
   }
 }
 </style>

@@ -6,12 +6,13 @@
     <div class="chinchillaHeader__container baseContainer">
       <div class="chinchillaHeader__cell">
         <div class="chinchillaHeader__avatarContainer">
-          <p class="chinchillaHeader__name">
+          <div class="chinchillaHeader__name">
             {{ chinchilla.name }}
-          </p>
-          <p class="chinchillaHeader__name">
+          </div>
+          <div class="chinchillaHeader__name">
             {{ colorString || 'Стандарт' }}
-          </p>
+          </div>
+          <Status class="chinchillaHeader__name" :data="chinchilla" />
           <div
             class="chinchillaHeader__avatar"
             :style="{
@@ -53,10 +54,11 @@
 
 <script>
 import colorToString from '~/assets/scripts/colorToString'
+import Status from '~/components/ChinchillaHeader/Status/Status'
 
 export default {
   name: 'ChinchillaHeader',
-
+  components: { Status },
   props: {
     chinchilla: {
       type: Object,
@@ -177,10 +179,16 @@ export default {
       padding-left: 40%;
     }
 
-    &:last-of-type {
+    &:nth-of-type(2) {
       top: 45%;
       left: 75%;
       padding-left: 35%;
+    }
+
+    &:nth-of-type(3) {
+      top: 75%;
+      left: 45%;
+      padding-left: 50%;
     }
 
     &--owner {
