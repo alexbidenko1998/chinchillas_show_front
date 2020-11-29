@@ -143,7 +143,7 @@ export default {
           title: 'Аукцион лучших шиншилл',
           text:
             'Покупайте и продавайте лучших зверей со своего персонального компьютера с минимальными усилиями и по лучшим ценам',
-          action: 'Перейти в профиль',
+          action: 'Зайти на аукцион',
           url: '/auction',
           image: 'https://br-chinchillas.ru/assets/head_image_purchases.jpg',
         },
