@@ -1,8 +1,4 @@
 export default {
-  mode: 'universal',
-  /*
-   ** Headers of the page
-   */
   head: {
     title: 'Chinchillas Show',
     meta: [

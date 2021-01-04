@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  nuxt:
+    restart: always
+    build: .
+    command: npm run start
+    expose:
+      - 3333
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - 3333:80
+    depends_on:
+      - nuxt
