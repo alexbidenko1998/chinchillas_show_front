@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+        with:
+          ref: master
+      - name: Create SSH key
+        run: |
+#          sudo apt-get install -y rsync sshpass
+          mkdir -p ~/.ssh/
+          echo "${{secrets.HOST}}" > ~/.ssh/known_hosts
+          echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
+      - name: Deploy
+        run: DOCKER_HOST="ssh://${{secrets.USER}}@${{secrets.HOST}}" docker-compose up -d
+
+#      - uses: actions/setup-node@v1
+#        with:
+#          node-version: 12.x
+#      - name: Install Packages
+#        run: npm i
+#      - name: Build artifacts
+#        run: npm run build
+#      - name: Deploy
+#        run: rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avzP --delete-after . ${{secrets.USER}}@${{secrets.HOST}}:/var/www/chinchillas-show-front
+#      - name: Start
+#        run: sshpass -p ${{secrets.PASSWORD}} ssh ${{secrets.USER}}@${{secrets.HOST}} 'cd /var/www/chinchillas-show-front;pm2 del chinchillas-show-front;pm2 start npm --name "chinchillas-show-front" -- run "start"'
+        shell: bash

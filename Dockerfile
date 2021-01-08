@@ -4,3 +4,5 @@ COPY . .
 RUN \
   yarn install && \
   yarn build
+EXPOSE 3333
+CMD ["yarn", "start"]
