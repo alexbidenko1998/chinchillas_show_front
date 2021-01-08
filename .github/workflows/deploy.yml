@@ -14,8 +14,6 @@ jobs:
       - name: Create SSH key
         run: |
           sudo apt-get install -y rsync sshpass
-          eval $(ssh-agent -s)
-          echo "${{secrets.SSH_KEY}}" | tr -d '\r' | ssh-add -
           mkdir -p ~/.ssh/
           echo "${{secrets.HOST}}" > ~/.ssh/known_hosts
           echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
@@ -23,6 +21,9 @@ jobs:
         run: |
           rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
           ssh ${{secrets.USER}}@${{secrets.HOST}} 'service nginx reload'
-      - name: Deploy
-        run: DOCKER_HOST="ssh://${{secrets.USER}}@${{secrets.HOST}}" docker-compose up -d
-        shell: bash
+      - uses: alex-ac/github-action-ssh-docker-compose@master
+          name: Docker-Compose Remote Deployment
+          with:
+            ssh_host: ${{secrets.HOST}}
+            ssh_private_key: ${{ secrets.SSH_KEY }}
+            ssh_user: ${{ secrets.USER }}
