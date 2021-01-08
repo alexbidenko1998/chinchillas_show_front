@@ -14,7 +14,3 @@ services:
 #      - 0.0.0.0:433:433
 #    depends_on:
 #      - nuxt
-
-networks:
-  nginx_network:
-    driver: bridge
