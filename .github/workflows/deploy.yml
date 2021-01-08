@@ -14,12 +14,15 @@ jobs:
       - name: Create SSH key
         run: |
           sudo apt-get install -y rsync sshpass
+          eval $(ssh-agent -s)
+          echo "${{secrets.PASSWORD}}" | tr -d '\r' | ssh-add -
           mkdir -p ~/.ssh/
           echo "${{secrets.HOST}}" > ~/.ssh/known_hosts
           echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
+      - name: Update Nginx
+        run: |
+          rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
+          sshpass -p ${{secrets.PASSWORD}} ssh ${{secrets.USER}}@${{secrets.HOST}} 'service nginx reload'
       - name: Deploy
-        run: rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avzP --delete-after . ${{secrets.USER}}@${{secrets.HOST}}:/var/www/chinchillas-show-front
-      - name: Start
-        run: sshpass -p ${{secrets.PASSWORD}} ssh ${{secrets.USER}}@${{secrets.HOST}} 'cd /var/www/chinchillas-show-front;bash -x ./deploy.sh'
-#        run: sshpass -p ${{secrets.PASSWORD}} ssh ${{secrets.USER}}@${{secrets.HOST}} 'cd /var/www/chinchillas-show-front;docker-compose down;docker-compose up --build -d'
+        run: DOCKER_HOST="ssh://${{secrets.USER}}@${{secrets.HOST}}" docker-compose up -d
         shell: bash
