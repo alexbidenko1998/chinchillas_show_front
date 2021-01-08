@@ -17,12 +17,13 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{secrets.HOST}}" > ~/.ssh/known_hosts
           echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
-      - uses: alex-ac/github-action-ssh-docker-compose@master
-        name: Docker-Compose Remote Deployment
+      - name: Deploy
+        uses: jderusse/ga-ssh@master
         with:
-          ssh_host: ${{secrets.HOST}}
-          ssh_private_key: ${{ secrets.SSH_KEY }}
-          ssh_user: ${{ secrets.USER }}
+          host: ${{secrets.HOST}}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: docker-compose up -d
       - name: Update Nginx
         run: |
           rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
