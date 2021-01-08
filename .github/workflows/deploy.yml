@@ -12,13 +12,13 @@ jobs:
         with:
           ref: master
       - name: Create SSH key
-          run: |
-            sudo apt-get install -y rsync sshpass
-            eval $(ssh-agent -s)
-            echo "${{secrets.SSH_KEY}}" | tr -d '\r' | ssh-add -
-            mkdir -p ~/.ssh/
-            echo "${{secrets.HOST}}" > ~/.ssh/known_hosts
-            echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
+        run: |
+          sudo apt-get install -y rsync sshpass
+          eval $(ssh-agent -s)
+          echo "${{secrets.SSH_KEY}}" | tr -d '\r' | ssh-add -
+          mkdir -p ~/.ssh/
+          echo "${{secrets.HOST}}" > ~/.ssh/known_hosts
+          echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
       - name: Update Nginx
         run: |
           rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
