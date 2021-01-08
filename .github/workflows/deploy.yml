@@ -22,7 +22,7 @@ jobs:
         with:
           host: ${{secrets.HOST}}
           username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
+          private_key: ${{ secrets.SSH_KEY }}
           script: docker-compose up -d
       - name: Update Nginx
         run: |
