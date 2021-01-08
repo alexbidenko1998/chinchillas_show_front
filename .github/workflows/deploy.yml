@@ -11,18 +11,15 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: master
-      - name: Create SSH key
-        run: |
-          sudo apt-get install -y rsync sshpass
-          eval $(ssh-agent -s)
-          echo "${{secrets.PASSWORD}}" | tr -d '\r' | ssh-add -
-          mkdir -p ~/.ssh/
-          echo "${{secrets.HOST}}" > ~/.ssh/known_hosts
-          echo -e 'Host *\n\tStrictHostKeyChecking no\n\n' > ~/.ssh/config
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PASSWORD }}
+          known_hosts: ${{ secrets.HOST }}
       - name: Update Nginx
         run: |
-          rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
-          sshpass -p ${{secrets.PASSWORD}} ssh ${{secrets.USER}}@${{secrets.HOST}} 'service nginx reload'
+          rsync -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
+          ssh ${{secrets.USER}}@${{secrets.HOST}} 'service nginx reload'
       - name: Deploy
         run: DOCKER_HOST="ssh://${{secrets.USER}}@${{secrets.HOST}}" docker-compose up -d
         shell: bash
