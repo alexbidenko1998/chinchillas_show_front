@@ -18,7 +18,7 @@ jobs:
           known_hosts: ${{ secrets.HOST }}
       - name: Update Nginx
         run: |
-          rsync -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
+          rsync -e 'sshpass -p ${{secrets.PASSWORD}} ssh' -avz --delete-after .nginx/chinchillas-show.conf ${{secrets.USER}}@${{secrets.HOST}}:/etc/nginx/conf.d/chinchillas-show.conf
           ssh ${{secrets.USER}}@${{secrets.HOST}} 'service nginx reload'
       - name: Deploy
         run: DOCKER_HOST="ssh://${{secrets.USER}}@${{secrets.HOST}}" docker-compose up -d
