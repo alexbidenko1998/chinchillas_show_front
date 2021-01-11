@@ -12,10 +12,6 @@ export default {
   components: { UserBlock },
   layout: 'profileLayout',
 
-  async fetch() {
-    await this.onRequest()
-  },
-
   data() {
     return {
       users: [],
@@ -24,6 +20,10 @@ export default {
       isLoading: false,
       isFinish: false,
     }
+  },
+
+  async fetch() {
+    await this.onRequest()
   },
 
   mounted() {

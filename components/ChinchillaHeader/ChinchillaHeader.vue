@@ -12,7 +12,12 @@
           <div class="chinchillaHeader__name">
             {{ colorString || 'Стандарт' }}
           </div>
-          <Status class="chinchillaHeader__name" :data="chinchilla" />
+          <Status
+            class="chinchillaHeader__name"
+            :data="chinchilla"
+            @updateStatuses="$emit('updateStatuses', $event)"
+            @updateConclusion="$emit('updateConclusion', $event)"
+          />
           <div
             class="chinchillaHeader__avatar"
             :style="{

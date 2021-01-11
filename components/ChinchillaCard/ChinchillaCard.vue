@@ -12,7 +12,7 @@
         "
         lazy-src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
       >
-        <template v-slot:placeholder>
+        <template #placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center">
             <v-progress-circular
               indeterminate

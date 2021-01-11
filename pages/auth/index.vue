@@ -124,7 +124,7 @@
           </BaseScroller>
 
           <v-dialog v-model="dialog">
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <button
                 type="submit"
                 class="authPage__submit"
@@ -194,6 +194,22 @@ export default {
       repeatPassword: '',
       dialog: false,
     }
+  },
+
+  computed: {
+    isRussian() {
+      return this.$store.state.UserModule.country === 'RU'
+    },
+  },
+
+  watch: {
+    isRussian(val) {
+      if (!val) this.$router.push('/')
+    },
+  },
+
+  created() {
+    if (!this.isRussian) this.$router.push('/')
   },
 
   methods: {

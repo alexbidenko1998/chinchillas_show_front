@@ -11,11 +11,16 @@
 <script>
 import ProfileHeader from '~/components/ProfileHeader/ProfileHeader.vue'
 import ProfileFooter from '~/components/ProfileFooter/ProfileFooter.vue'
+import Actions from '~/store/actions.type'
 
 export default {
   components: {
     ProfileHeader,
     ProfileFooter,
+  },
+
+  created() {
+    this.$store.dispatch('UserModule/' + Actions.CHECK_USER)
   },
 }
 </script>

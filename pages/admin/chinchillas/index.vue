@@ -83,18 +83,6 @@ export default {
 
   layout: 'adminLayout',
 
-  async fetch() {
-    try {
-      const response = await this.$axios.$get('admin/chinchillas/1/10')
-      this.chinchillas = Array(response.total).fill({})
-      response.data.forEach((el, index) => {
-        this.chinchillas[index] = el
-      })
-    } catch (e) {
-      await this.$router.push('/')
-    }
-  },
-
   data() {
     return {
       headers: [
@@ -109,6 +97,18 @@ export default {
       activeItem: null,
       itemModels: null,
       commentText: '',
+    }
+  },
+
+  async fetch() {
+    try {
+      const response = await this.$axios.$get('admin/chinchillas/1/10')
+      this.chinchillas = Array(response.total).fill({})
+      response.data.forEach((el, index) => {
+        this.chinchillas[index] = el
+      })
+    } catch (e) {
+      await this.$router.push('/')
     }
   },
 

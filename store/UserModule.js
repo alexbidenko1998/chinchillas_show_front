@@ -1,10 +1,13 @@
 import Actions from '~/store/actions.type'
 import Mutations from '~/store/mutations.type'
+import Getters from '~/store/getters.type'
 
 export default {
-  state: {
-    user: null,
-    country: null,
+  state() {
+    return {
+      user: null,
+      country: null,
+    }
   },
   actions: {
     [Actions.CHECK_USER]({ commit }, callback) {
@@ -24,6 +27,11 @@ export default {
     },
     [Mutations.SET_USER](state, value) {
       state.user = value
+    },
+  },
+  getters: {
+    [Getters.GET_USER](state) {
+      return state.user
     },
   },
 }

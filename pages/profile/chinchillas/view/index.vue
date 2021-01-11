@@ -1,7 +1,11 @@
 <template>
   <div class="viewPage">
     <template v-if="data">
-      <ChinchillaHeader :chinchilla="data" />
+      <ChinchillaHeader
+        :chinchilla="data"
+        @updateStatuses="data.statuses = $event"
+        @updateConclusion="data.conclusion = $event"
+      />
       <div class="baseContainer viewPage__photos">
         <div class="baseGrid">
           <ChinchillaPhoto
@@ -51,7 +55,7 @@
         right
         fixed
       >
-        <template v-slot:activator>
+        <template #activator>
           <v-btn v-model="fab" color="primary" dark fab>
             <v-icon v-if="fab">mdi-close</v-icon>
             <v-icon v-else>mdi-pencil</v-icon>
@@ -125,12 +129,6 @@ export default {
 
   layout: 'profileLayout',
 
-  async fetch() {
-    this.data = await this.$axios.$get(
-      `chinchilla/details/${this.chinchillaId}`
-    )
-  },
-
   data() {
     return {
       chinchillaId: +this.$route.query.id,
@@ -141,6 +139,12 @@ export default {
       activePhoto: 0,
       fab: false,
     }
+  },
+
+  async fetch() {
+    this.data = await this.$axios.$get(
+      `chinchilla/details/${this.chinchillaId}`
+    )
   },
 
   computed: {

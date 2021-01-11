@@ -15,7 +15,8 @@ export default async ({ store, redirect, app, route }) => {
     )
       redirect('/')
   }
+
   if (!store.state.UserModule.user) {
-    await store.dispatch(Actions.CHECK_USER, check)
+    await store.dispatch('UserModule/' + Actions.CHECK_USER, check)
   } else check(store.state.UserModule.user)
 }

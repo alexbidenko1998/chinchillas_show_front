@@ -56,18 +56,6 @@ export default {
 
   layout: 'adminLayout',
 
-  async fetch() {
-    try {
-      const response = await this.$axios.$get('admin/users')
-      this.users = Array(response.total).fill({})
-      response.data.forEach((el, index) => {
-        this.users[(response.page - 1) * 10 + index] = el
-      })
-    } catch (e) {
-      await this.$router.push('/')
-    }
-  },
-
   data() {
     return {
       headers: [
@@ -102,6 +90,18 @@ export default {
       dialog: false,
       activeItem: null,
       itemModels: null,
+    }
+  },
+
+  async fetch() {
+    try {
+      const response = await this.$axios.$get('admin/users')
+      this.users = Array(response.total).fill({})
+      response.data.forEach((el, index) => {
+        this.users[(response.page - 1) * 10 + index] = el
+      })
+    } catch (e) {
+      await this.$router.push('/')
     }
   },
 

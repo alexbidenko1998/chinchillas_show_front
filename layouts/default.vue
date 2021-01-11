@@ -26,7 +26,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch(Actions.CHECK_USER)
+    this.$store.dispatch('UserModule/' + Actions.CHECK_USER)
   },
 }
 </script>

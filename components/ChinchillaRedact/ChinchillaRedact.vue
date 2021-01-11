@@ -18,7 +18,7 @@
           offset-y
           min-width="290px"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-text-field
               v-model="birthday"
               label="День рождения"
@@ -124,17 +124,6 @@ export default {
     },
   },
 
-  async fetch() {
-    if (this.chinchillaId) {
-      this.models = await this.$axios.$get(
-        `chinchilla/details/${this.chinchillaId}`
-      )
-      this.photos = this.models.photos
-      this.avatar = this.models.avatar
-      this.birthday = new Date(this.models.birthday).toISOString().substr(0, 10)
-    }
-  },
-
   data() {
     return {
       models: {
@@ -164,6 +153,17 @@ export default {
       avatar: null,
       globalSearch: false,
       timers: {},
+    }
+  },
+
+  async fetch() {
+    if (this.chinchillaId) {
+      this.models = await this.$axios.$get(
+        `chinchilla/details/${this.chinchillaId}`
+      )
+      this.photos = this.models.photos
+      this.avatar = this.models.avatar
+      this.birthday = new Date(this.models.birthday).toISOString().substr(0, 10)
     }
   },
 

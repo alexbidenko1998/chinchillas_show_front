@@ -79,10 +79,6 @@ export default {
 
   layout: 'profileLayout',
 
-  async fetch() {
-    await this.searchData(true)
-  },
-
   data() {
     return {
       chinchillas: [],
@@ -110,6 +106,10 @@ export default {
       },
       params: {},
     }
+  },
+
+  async fetch() {
+    await this.searchData(true)
   },
 
   watch: {

@@ -13,7 +13,7 @@
       v-if="['disagree', 'overvalue'].includes(data.conclusion)"
       bottom
     >
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-btn
           dark
           icon
@@ -29,7 +29,7 @@
     </v-tooltip>
 
     <v-menu bottom left>
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-btn
           dark
           icon
@@ -181,7 +181,7 @@ export default {
           chinchillaId: this.data.id,
         })
         .then((data) => {
-          this.data.statuses = [data, ...this.data.statuses]
+          this.$emit('updateStatuses', [data, ...this.data.statuses])
         })
         .catch(() => alert('Что-то пошло не так'))
     },
@@ -189,7 +189,7 @@ export default {
       this.$axios
         .$post(`chinchilla/color/for-overvalue/${this.data.id}`)
         .then(() => {
-          this.data.conclusion = 'overvalue'
+          this.$emit('updateConclusion', 'overvalue')
         })
     },
   },
