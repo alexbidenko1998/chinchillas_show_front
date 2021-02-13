@@ -73,11 +73,11 @@ export default {
 <style lang="scss">
 .chinchillaPhoto {
   position: relative;
-  height: 200px;
   background: no-repeat center / cover;
   cursor: pointer;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
   transition: box-shadow 0.3s ease;
+  max-height: 400px;
 
   &:hover {
     box-shadow: none;
@@ -97,6 +97,13 @@ export default {
 
   &_avatar {
     border: 1px solid #d79b00;
+  }
+
+  &::before {
+    content: '';
+    padding-bottom: 100%;
+    display: inline-block;
+    vertical-align: top;
   }
 }
 </style>

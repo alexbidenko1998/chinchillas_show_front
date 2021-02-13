@@ -7,6 +7,12 @@
         @updateConclusion="data.conclusion = $event"
       />
       <div class="baseContainer viewPage__photos">
+        <p v-if="data.breeder">
+          Заводчик:
+          {{
+            `${data.breeder.first_name} ${data.breeder.last_name} (${data.breeder.login})`
+          }}
+        </p>
         <div class="baseGrid">
           <ChinchillaPhoto
             v-for="(photo, index) in data.photos"
@@ -242,7 +248,7 @@ export default {
   }
 
   &__uploadPhoto {
-    height: 200px;
+    max-height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -256,6 +262,13 @@ export default {
 
     &:hover {
       box-shadow: none;
+    }
+
+    &::before {
+      content: '';
+      padding-bottom: 100%;
+      display: inline-block;
+      vertical-align: top;
     }
   }
 

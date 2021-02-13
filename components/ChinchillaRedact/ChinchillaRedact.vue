@@ -37,6 +37,27 @@
           <v-radio label="Самка" value="f" name="sex" />
           <v-radio label="Самец" value="m" name="sex" />
         </v-radio-group>
+        <v-divider />
+        <v-select
+          v-model="models.breeder_type"
+          :items="breederTypes"
+          label="О заводчике"
+          item-text="label"
+          item-value="key"
+        />
+        <v-autocomplete
+          v-if="models.breeder_type === 'user'"
+          v-model="models.breeder_id"
+          :items="breederItems"
+          :loading="isLoadingBreeder"
+          :search-input.sync="breederSearch"
+          item-text="fullName"
+          item-value="id"
+          label="Заводчик"
+          placeholder="Введите имя заводчика"
+          clearable
+        />
+        <v-divider />
         <v-checkbox v-model="globalSearch" label="Глобальный поиск" />
         <v-autocomplete
           v-model="models.mother_id"
@@ -60,6 +81,7 @@
           placeholder="Введите кличку шиншиллы"
           clearable
         />
+        <v-divider />
         <v-text-field
           v-model="models.weight"
           name="weight"
@@ -138,6 +160,8 @@ export default {
         brothers: '',
         awards: '',
         description: '',
+        breeder_type: 'owner',
+        breeder_id: null,
       },
       userId: +this.$cookies.get('USER_ID'),
       birthday: null,
@@ -145,14 +169,35 @@ export default {
       datepicker: false,
       isLoadingMother: false,
       isLoadingFather: false,
+      isLoadingBreeder: false,
       motherItems: [],
       fatherItems: [],
+      breederItems: [],
       motherSearch: '',
       fatherSearch: '',
+      breederSearch: '',
       photos: [],
       avatar: null,
       globalSearch: false,
       timers: {},
+      breederTypes: [
+        {
+          key: 'owner',
+          label: 'Владелец',
+        },
+        {
+          key: 'user',
+          label: 'Выбрать на сайте',
+        },
+        {
+          key: 'not_user',
+          label: 'Нет на сайте',
+        },
+        {
+          key: 'unknown',
+          label: 'Неизвестен',
+        },
+      ],
     }
   },
 
@@ -176,6 +221,9 @@ export default {
       this.search(val, 'Father')
       if (!val) this.models.father_id = null
     },
+    breederSearch(val) {
+      this.searchBreeder(val)
+    },
     globalSearch() {
       this.search(this.motherSearch, 'Mother')
       this.search(this.fatherSearch, 'Father')
@@ -196,9 +244,12 @@ export default {
       this.isLoading = true
       const models = { ...this.models }
       if (this.chinchillaId) delete models.status
+      if (models.breeder_type !== 'user') models.breeder_id = null
+      if (models.breeder_type === 'owner')
+        models.breeder_id = +this.$cookies.get('USER_ID')
       this.$axios[this.chinchillaId ? '$put' : '$post'](
         this.chinchillaId
-          ? `/chinchilla/update/${this.chinchillaId}`
+          ? `chinchilla/update/${this.chinchillaId}`
           : 'chinchilla/create',
         models
       )
@@ -228,6 +279,26 @@ export default {
               : []
             ).concat(response.data.filter((f) => f.id !== this.chinchillaId))
             this['isLoading' + type] = false
+          })
+      }, 500)
+    },
+    searchBreeder(val) {
+      clearTimeout(this.timers.breeder)
+      this.timers.breeder = setTimeout(() => {
+        this.isLoadingBreeder = true
+        this.$axios
+          .$get(`user/search?q=${val || ''}&perPage=20`)
+          .then((data) => {
+            this.breederItems = (this.models.breeder
+              ? [this.models.breeder]
+              : []
+            )
+              .concat(data)
+              .map((el) => ({
+                ...el,
+                fullName: `${el.first_name} ${el.last_name} (${el.login})`,
+              }))
+            this.isLoadingBreeder = false
           })
       }, 500)
     },
@@ -339,7 +410,7 @@ export default {
   }
 
   &__uploadPhoto {
-    height: 200px;
+    max-height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -354,10 +425,16 @@ export default {
     &:hover {
       box-shadow: none;
     }
+
+    &::before {
+      content: '';
+      padding-bottom: 100%;
+      display: inline-block;
+      vertical-align: top;
+    }
   }
 
   &__photo {
-    height: 200px;
     background: no-repeat center / cover;
   }
 }

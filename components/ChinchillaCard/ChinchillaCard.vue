@@ -20,6 +20,9 @@
             ></v-progress-circular>
           </v-row>
         </template>
+        <div class="chinchillaCard__infoBubble" @click.prevent>
+          <v-icon>info</v-icon>
+        </div>
         <div class="chinchillaCard__info">
           <p class="chinchillaCard__infoRow">
             Пол: {{ chinchilla.sex === 'f' ? 'самка' : 'самец' }}
@@ -61,6 +64,8 @@ export default {
 
 <style lang="scss">
 .chinchillaCard {
+  $self: &;
+
   height: 200px;
   background-color: #ccc;
   position: relative;
@@ -100,8 +105,14 @@ export default {
     padding: 0 16px 34px;
   }
 
-  &:hover &__info {
-    transform: translateY(0);
+  &:hover {
+    #{$self}__info {
+      transform: translateY(0);
+    }
+
+    #{$self}__infoBubble {
+      transform: translateY(-50px);
+    }
   }
 
   &__infoRow {
@@ -130,6 +141,24 @@ export default {
 
   & .v-responsive__content {
     width: 100% !important;
+  }
+
+  &__infoBubble {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #d79b00;
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    display: none;
+
+    @include mq('tablet') {
+      display: flex;
+    }
   }
 }
 </style>

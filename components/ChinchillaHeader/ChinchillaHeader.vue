@@ -137,10 +137,6 @@ export default {
 
   &__cell {
     width: 50%;
-
-    @include mq('tablet') {
-      width: 100%;
-    }
   }
 
   &__avatarContainer {

@@ -9,24 +9,6 @@
         ).name
       )
     }}
-    <v-tooltip
-      v-if="['disagree', 'overvalue'].includes(data.conclusion)"
-      bottom
-    >
-      <template #activator="{ on }">
-        <v-btn
-          dark
-          icon
-          color="warning"
-          style="margin-left: 12px"
-          v-on="on"
-          @click="isOpenComments = !isOpenComments"
-        >
-          <v-icon>info</v-icon>
-        </v-btn>
-      </template>
-      <span>Не соответствует окрас<br />(нажмите для подробностей)</span>
-    </v-tooltip>
 
     <v-menu bottom left>
       <template #activator="{ on }">
@@ -34,7 +16,7 @@
           dark
           icon
           color="black"
-          style="margin-right: -24px; margin-left: 12px"
+          style="margin-right: -12px; margin-left: 12px"
           v-on="on"
         >
           <v-icon>more_vert</v-icon>
@@ -43,7 +25,7 @@
 
       <v-list>
         <v-list-item @click="statusesDialog = true">
-          <v-list-item-title>История</v-list-item-title>
+          <v-list-item-title>История статусов</v-list-item-title>
         </v-list-item>
         <v-list-item
           v-if="userId === data.owner_id && data.conclusion === 'disagree'"
@@ -53,6 +35,25 @@
         </v-list-item>
       </v-list>
     </v-menu>
+
+    <v-tooltip
+      v-if="['disagree', 'overvalue'].includes(data.conclusion)"
+      bottom
+    >
+      <template #activator="{ on }">
+        <v-btn
+          dark
+          icon
+          color="warning"
+          style="margin-right: -12px; margin-left: 12px"
+          v-on="on"
+          @click="isOpenComments = !isOpenComments"
+        >
+          <v-icon>info</v-icon>
+        </v-btn>
+      </template>
+      <span>Не соответствует окрас<br />(нажмите для подробностей)</span>
+    </v-tooltip>
 
     <v-dialog v-model="statusesDialog" max-width="400">
       <v-card>
