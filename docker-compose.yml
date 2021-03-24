@@ -1,16 +1,19 @@
-version: '3'
+version: '3.8'
 
 services:
-  nuxt:
-    restart: always
+  application:
+    restart: unless-stopped
     build: .
-    ports:
-      - 3333:3333
-#  nginx:
-#    restart: always
-#    build: ./.nginx
-#    ports:
-#      - 0.0.0.0:80:80
-#      - 0.0.0.0:433:433
-#    depends_on:
-#      - nuxt
+    expose:
+      - 3333
+  nginx:
+    restart: unless-stopped
+    build: ./.nginx
+    expose:
+      - 80
+    depends_on:
+      - application
+
+networks:
+  server:
+    external: true

@@ -1,5 +1,3 @@
-FROM nginx:alpine
-
-RUN rm -rf /etc/nginx/conf.d/chinchillas-show.conf || true
-
-COPY chinchillas-show.conf /etc/nginx/conf.d
+FROM nginx:stable-alpine
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+CMD ["nginx", "-g", "daemon off;"]
