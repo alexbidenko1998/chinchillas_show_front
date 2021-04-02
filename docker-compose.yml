@@ -9,6 +9,7 @@ services:
   nginx:
     restart: unless-stopped
     build: ./.nginx
+    container_name: chinhillas_show
     expose:
       - 80
     depends_on:
