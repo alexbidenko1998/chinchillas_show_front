@@ -6,6 +6,8 @@ services:
     build: .
     expose:
       - 3333
+    networks:
+      - app_network
   nginx:
     restart: unless-stopped
     build: ./.nginx
@@ -14,7 +16,12 @@ services:
       - 80
     depends_on:
       - application
+    networks:
+      - app_network
+      - server
 
 networks:
+  app_network:
+    driver: bridge
   server:
     external: true
