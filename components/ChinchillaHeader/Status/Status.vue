@@ -55,27 +55,9 @@
       <span>Не соответствует окрас<br />(нажмите для подробностей)</span>
     </v-tooltip>
 
-    <v-dialog v-model="statusesDialog" max-width="400">
-      <v-card>
-        <v-card-title class="headline">История статусов</v-card-title>
-
-        <v-card-text style="height: 300px">
-          <template v-for="s in data.statuses">
-            <v-list-item
-              v-if="statuses.find((el) => el.key === s.name)"
-              :key="s.timestamp"
-              two-line
-              style="padding: 0"
-            >
-              <v-list-item-content>
-                <v-list-item-title>{{ status(s.name) }}</v-list-item-title>
-                <v-list-item-subtitle>{{
-                  dateFormat(s.timestamp)
-                }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-
+    <v-dialog v-model="statusesDialog" max-width="460">
+      <v-card class="pt-4">
+        <v-card-text>
           <v-container
             v-if="userId === data.owner_id"
             id="changeStatus"
@@ -91,7 +73,28 @@
               item-value="key"
             />
           </v-container>
+
+          <div class="font-weight-bold ml-8 mb-2">История статусов</div>
+
+          <v-timeline align-top dense>
+            <template v-for="s in data.statuses">
+              <v-timeline-item
+                v-if="statuses.find((el) => el.key === s.name)"
+                :key="s.timestamp"
+                small
+              >
+                <div>
+                  <div class="font-weight-normal">
+                    <strong>{{ status(s.name) }}</strong>
+                  </div>
+                  <div>{{ dateFormat(s.timestamp) }}</div>
+                </div>
+              </v-timeline-item>
+            </template>
+          </v-timeline>
         </v-card-text>
+
+        <v-divider />
 
         <v-card-actions>
           <v-spacer></v-spacer>

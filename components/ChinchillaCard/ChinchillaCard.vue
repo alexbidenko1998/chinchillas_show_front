@@ -20,8 +20,10 @@
             ></v-progress-circular>
           </v-row>
         </template>
-        <div class="chinchillaCard__infoBubble" @click.prevent>
-          <v-icon>info</v-icon>
+        <div class="chinchillaCard__bubbleContainer" @click.prevent>
+          <div class="chinchillaCard__infoBubble">
+            <v-icon>info</v-icon>
+          </div>
         </div>
         <div class="chinchillaCard__info">
           <p class="chinchillaCard__infoRow">
@@ -143,13 +145,17 @@ export default {
     width: 100% !important;
   }
 
-  &__infoBubble {
+  &__bubbleContainer {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 8px;
+    right: 8px;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+  }
+
+  &__infoBubble {
     background: #d79b00;
-    width: 24px;
-    height: 24px;
     transition: transform 0.3s ease;
     border-radius: 50%;
     align-items: center;

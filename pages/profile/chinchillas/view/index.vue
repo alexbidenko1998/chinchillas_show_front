@@ -7,12 +7,20 @@
         @updateConclusion="data.conclusion = $event"
       />
       <div class="baseContainer viewPage__photos">
-        <p v-if="data.breeder">
-          Заводчик:
-          {{
-            `${data.breeder.first_name} ${data.breeder.last_name} (${data.breeder.login})`
-          }}
-        </p>
+        <v-card class="mb-8">
+          <v-card-text>
+            <div class="display-1 text--primary mb-4">
+              Дополнительная информация
+            </div>
+            <p v-if="data.breeder">
+              Заводчик:
+              {{
+                `${data.breeder.first_name} ${data.breeder.last_name} (${data.breeder.login})`
+              }}
+            </p>
+            <p class="mb-0">Дата рождения: {{ birthdayDate }}</p>
+          </v-card-text>
+        </v-card>
         <div class="baseGrid">
           <ChinchillaPhoto
             v-for="(photo, index) in data.photos"
@@ -117,6 +125,7 @@
 </template>
 
 <script>
+import pad from '../../../../assets/scripts/pad'
 import resizeImage from '~/assets/scripts/resizeImage'
 import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
 import colorToString from '~/assets/scripts/colorToString'
@@ -156,6 +165,10 @@ export default {
   computed: {
     colorString() {
       return this.data ? colorToString(this.data.color) : ''
+    },
+    birthdayDate() {
+      const d = new Date(this.data.birthday)
+      return `${pad(d.getDate())}.${pad(d.getMonth())}.${pad(d.getFullYear())}`
     },
   },
 
