@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     class="chinchillaCard"
-    :to="`/profile/chinchillas/view?id=${chinchilla.id}`"
+    :to="`/profile/chinchillas/${chinchilla.id}/view`"
   >
     <div class="chinchillaCard__container">
       <v-img
@@ -20,7 +20,11 @@
             ></v-progress-circular>
           </v-row>
         </template>
-        <div class="chinchillaCard__bubbleContainer" @click.prevent>
+        <div
+          class="chinchillaCard__bubbleContainer"
+          @click.prevent
+          @touchend.prevent
+        >
           <div class="chinchillaCard__infoBubble">
             <v-icon>info</v-icon>
           </div>

@@ -123,7 +123,7 @@ export default {
       margin: 0 auto 40px;
     }
 
-    @include mq('phone') {
+    @include mq('tablet-small') {
       margin-left: 0;
     }
   }

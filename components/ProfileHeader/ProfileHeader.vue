@@ -73,7 +73,7 @@ export default {
       this.$cookies.remove('TOKEN')
       this.$cookies.remove('USER_ID')
       this.$store
-        .dispatch(Actions.LOGOUT)
+        .dispatch('UserModule/' + Actions.LOGOUT)
         .then(() => this.$router.push('/auth'))
     },
   },

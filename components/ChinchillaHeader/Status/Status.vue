@@ -1,5 +1,5 @@
 <template>
-  <div class="statusLabel">
+  <div class="status">
     {{
       status(
         (
@@ -55,8 +55,8 @@
       <span>Не соответствует окрас<br />(нажмите для подробностей)</span>
     </v-tooltip>
 
-    <v-dialog v-model="statusesDialog" max-width="460">
-      <v-card class="pt-4">
+    <v-dialog v-model="statusesDialog" max-width="520">
+      <v-card class="pt-4 status__dialog">
         <v-card-text>
           <v-container
             v-if="userId === data.owner_id"
@@ -74,6 +74,27 @@
             />
           </v-container>
 
+          <v-container v-if="updatedStatus === 'sale'">
+            <v-row>
+              <v-col
+                v-for="price in prices"
+                :key="price.currency"
+                cols="12"
+                sm="6"
+                class="px-0"
+              >
+                <v-text-field
+                  v-model="price.value"
+                  :prefix="price.symbol"
+                  :label="`Цена ${price.currency}`"
+                  solo
+                  dense
+                  type="number"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+
           <div class="font-weight-bold ml-8 mb-2">История статусов</div>
 
           <v-timeline align-top dense>
@@ -86,6 +107,7 @@
                 <div>
                   <div class="font-weight-normal">
                     <strong>{{ status(s.name) }}</strong>
+                    {{ getCurrencies(s.prices) }}
                   </div>
                   <div>{{ dateFormat(s.timestamp) }}</div>
                 </div>
@@ -100,7 +122,11 @@
           <v-spacer></v-spacer>
 
           <v-btn
-            v-if="updatedStatus && userId === data.owner_id"
+            v-if="
+              updatedStatus &&
+              userId === data.owner_id &&
+              (updatedStatus !== 'sale' || prices.some((f) => f.value))
+            "
             color="darken-1"
             text
             @click="saveStatus"
@@ -143,6 +169,11 @@
 import statuses from 'assets/datas/statuses.json'
 import pad from 'assets/scripts/pad'
 
+const CURRENCIES = {
+  RUB: '₽',
+  EUR: '€',
+}
+
 export default {
   name: 'Status',
 
@@ -157,6 +188,18 @@ export default {
     return {
       statusesDialog: false,
       updatedStatus: null,
+      prices: [
+        {
+          currency: 'RUB',
+          symbol: '₽',
+          value: '',
+        },
+        {
+          currency: 'EUR',
+          symbol: '€',
+          value: '',
+        },
+      ],
       userId: +this.$cookies.get('USER_ID'),
       isOpenComments: false,
     }
@@ -165,6 +208,9 @@ export default {
   computed: {
     statuses() {
       return statuses
+    },
+    isRussian() {
+      return this.$store.state.UserModule.country === 'RU'
     },
   },
 
@@ -183,6 +229,15 @@ export default {
         .$post('chinchilla/create/status', {
           name: this.updatedStatus,
           chinchillaId: this.data.id,
+          prices:
+            this.updatedStatus === 'sale'
+              ? this.prices
+                  .filter((f) => f.value)
+                  .map(({ currency, value }) => ({
+                    currency,
+                    value,
+                  }))
+              : undefined,
         })
         .then((data) => {
           this.$emit('updateStatuses', [data, ...this.data.statuses])
@@ -196,13 +251,31 @@ export default {
           this.$emit('updateConclusion', 'overvalue')
         })
     },
+    getCurrencies(price) {
+      if (!Array.isArray(price) || !price.length) return ''
+      return price
+        .filter(
+          (el) =>
+            this.data.owner_id === this.userId ||
+            (el.currency === 'RUB' && this.isRussian) ||
+            (el.currency !== 'RUB' && !this.isRussian)
+        )
+        .map((el) => `${CURRENCIES[el.currency]}${el.value}`)
+        .join(', ')
+    },
   },
 }
 </script>
 
 <style lang="scss">
-.statusLabel {
+.status {
   display: flex;
   align-items: center;
+
+  &__dialog {
+    .v-text-field__details {
+      display: none;
+    }
+  }
 }
 </style>

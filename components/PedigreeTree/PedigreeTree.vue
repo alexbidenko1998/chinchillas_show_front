@@ -126,7 +126,7 @@ export default {
     window.addEventListener('resize', this.review)
   },
 
-  destroyed() {
+  beforeDestroy() {
     window.removeEventListener('resize', this.review)
   },
 
@@ -156,7 +156,7 @@ export default {
   width: 100%;
   min-width: 1100px;
   overflow: hidden;
-  padding: 40px 0;
+  padding-bottom: 40px;
 
   &__container {
     min-width: 1100px;

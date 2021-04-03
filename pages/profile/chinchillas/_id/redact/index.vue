@@ -1,5 +1,5 @@
 <template>
-  <ChinchillaRedact :chinchilla-id="+$route.query.id" />
+  <ChinchillaRedact :chinchilla-id="+$route.params.id" />
 </template>
 
 <script>

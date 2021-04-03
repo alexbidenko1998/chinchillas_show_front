@@ -25,7 +25,7 @@ export default {
 
   data() {
     return {
-      chinchillaId: +this.$route.query.id,
+      chinchillaId: +this.$route.params.id,
       userId: +this.$cookies.get('USER_ID'),
       data: null,
       statusesDialog: false,
@@ -47,15 +47,6 @@ export default {
   },
 
   watch: {
-    $route(val) {
-      if (this.chinchillaId !== +val.query.id) {
-        this.data = null
-        this.chinchillaId = +this.$route.query.id
-        this.$axios
-          .$get(`chinchilla/details/${this.chinchillaId}`)
-          .then((data) => (this.data = data))
-      }
-    },
     isOpenPhotos() {
       setTimeout(this.updatePhotosHeight, 100)
     },

@@ -6,7 +6,7 @@
         @updateStatuses="data.statuses = $event"
         @updateConclusion="data.conclusion = $event"
       />
-      <div class="baseContainer viewPage__photos">
+      <div class="baseContainer viewPage__photos pb-6">
         <v-card class="mb-8">
           <v-card-text>
             <div class="display-1 text--primary mb-4">
@@ -18,7 +18,15 @@
                 `${data.breeder.first_name} ${data.breeder.last_name} (${data.breeder.login})`
               }}
             </p>
-            <p class="mb-0">Дата рождения: {{ birthdayDate }}</p>
+            <p>Дата рождения: {{ birthdayDate }}</p>
+            <p v-if="activeStatus.name === 'sale'" class="mb-0">
+              Цена шиншиллы:
+              {{
+                activeStatus.prices
+                  .map((el) => `${CURRENCIES[el.currency]}${el.value}`)
+                  .join(', ')
+              }}
+            </p>
           </v-card-text>
         </v-card>
         <div class="baseGrid">
@@ -47,9 +55,7 @@
         </div>
       </div>
       <div style="overflow-x: auto">
-        <client-only>
-          <PedigreeTree :chinchilla="data" />
-        </client-only>
+        <PedigreeTree :chinchilla="data" />
       </div>
       <CardSection
         v-if="data.children.length"
@@ -80,7 +86,7 @@
           small
           color="primary"
           rounded
-          :to="`/profile/chinchillas/color?id=${chinchillaId}`"
+          :to="`/profile/chinchillas/${chinchillaId}/color`"
           nuxt
         >
           Редактировать окрас
@@ -90,7 +96,7 @@
           small
           color="primary"
           rounded
-          :to="`/profile/chinchillas/redact?id=${chinchillaId}`"
+          :to="`/profile/chinchillas/${chinchillaId}/redact`"
           nuxt
         >
           Редактировать параметры
@@ -125,41 +131,47 @@
 </template>
 
 <script>
-import pad from '../../../../assets/scripts/pad'
+import pad from '~/assets/scripts/pad'
 import resizeImage from '~/assets/scripts/resizeImage'
 import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
 import colorToString from '~/assets/scripts/colorToString'
 import CardSection from '~/components/CardSection/CardSection.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
 import ChinchillaHeader from '~/components/ChinchillaHeader/ChinchillaHeader'
+import PedigreeTree from '~/components/PedigreeTree/PedigreeTree.vue'
+
+const CURRENCIES = {
+  RUB: '₽',
+  EUR: '€',
+}
 
 export default {
   components: {
     ChinchillaHeader,
     ChinchillaPhoto,
     BaseSpinner,
-    PedigreeTree: () => import('~/components/PedigreeTree/PedigreeTree.vue'),
+    PedigreeTree,
     CardSection,
   },
 
   layout: 'profileLayout',
 
+  async asyncData({ $axios, params }) {
+    return {
+      data: await $axios.$get(`chinchilla/details/${params.id}`),
+    }
+  },
+
   data() {
     return {
-      chinchillaId: +this.$route.query.id,
+      chinchillaId: +this.$route.params.id,
       userId: +this.$cookies.get('USER_ID'),
-      data: null,
       isOpenPhotos: false,
       photosHeight: 500,
       activePhoto: 0,
       fab: false,
+      CURRENCIES,
     }
-  },
-
-  async fetch() {
-    this.data = await this.$axios.$get(
-      `chinchilla/details/${this.chinchillaId}`
-    )
   },
 
   computed: {
@@ -170,33 +182,43 @@ export default {
       const d = new Date(this.data.birthday)
       return `${pad(d.getDate())}.${pad(d.getMonth())}.${pad(d.getFullYear())}`
     },
+    isRussian() {
+      return this.$store.state.UserModule.country === 'RU'
+    },
+    activeStatus() {
+      const status = {
+        ...(this.data.statuses[0] || {}),
+        prices: [],
+      }
+      if (
+        this.data.price_rub &&
+        this.data.price_rub.status_id === status.id &&
+        (this.data.owner_id === this.userId || this.isRussian)
+      )
+        status.prices.push(this.data.price_rub)
+      if (
+        this.data.price_eur &&
+        this.data.price_eur.status_id === status.id &&
+        (this.data.owner_id === this.userId || !this.isRussian)
+      )
+        status.prices.push(this.data.price_eur)
+      return status
+    },
   },
 
   watch: {
-    $route(val) {
-      if (this.chinchillaId !== +val.query.id) {
-        this.data = null
-        this.chinchillaId = +this.$route.query.id
-        this.$axios
-          .$get(`chinchilla/details/${this.chinchillaId}`)
-          .then((data) => (this.data = data))
-      }
-    },
     isOpenPhotos() {
       setTimeout(this.updatePhotosHeight, 100)
     },
   },
 
-  created() {
-    if (typeof window !== 'undefined')
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      window.addEventListener('resize', this.updatePhotosHeight)
+  mounted() {
+    window.addEventListener('resize', this.updatePhotosHeight)
     this.updatePhotosHeight()
   },
 
-  destroyed() {
-    if (typeof window !== 'undefined')
-      window.removeEventListener('resize', this.updatePhotosHeight)
+  beforeDestroy() {
+    window.removeEventListener('resize', this.updatePhotosHeight)
   },
 
   methods: {

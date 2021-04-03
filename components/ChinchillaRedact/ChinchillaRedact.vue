@@ -343,8 +343,8 @@ export default {
         }
         this.$router.push(
           this.chinchillaId
-            ? `/profile/chinchillas/view?id=${this.chinchillaId}`
-            : `/profile/chinchillas/color?id=${id}`
+            ? `/profile/chinchillas/${this.chinchillaId}/view`
+            : `/profile/chinchillas/${id}/color`
         )
       })
     },

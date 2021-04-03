@@ -39,7 +39,7 @@ export default {
     const models = {}
     colorConfig.forEach((el) => (models[el.name] = el.variants[0].value))
     return {
-      chinchillaId: +this.$route.query.id,
+      chinchillaId: +this.$route.params.id,
       data: null,
       config: colorConfig,
       models,
