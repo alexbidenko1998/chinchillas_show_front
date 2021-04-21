@@ -26,7 +26,7 @@
         </v-fab-transition>
       </span>
     </label>
-    <div class="searchPage__list">
+    <div class="searchPage__list baseGrid">
       <ChinchillaCard
         v-for="chinchilla in chinchillas"
         :key="chinchilla.id"
@@ -147,25 +147,7 @@ export default {
   padding-bottom: 40px;
 
   &__list {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-column-gap: 16px;
-    grid-row-gap: 24px;
     flex: 1;
-
-    @include mq('desktop-small', 'tablet') {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    @include mq('tablet', 'phone') {
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 24px;
-      grid-row-gap: 32px;
-    }
-
-    @include mq('phone') {
-      grid-template-columns: repeat(1, 1fr);
-    }
   }
 
   &__title {

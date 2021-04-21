@@ -104,6 +104,10 @@ export default {
     color: #fff !important;
     padding-right: 24px;
     text-decoration: none;
+
+    @include mq('tablet-small') {
+      font-size: 18px;
+    }
   }
 
   &__nav {
@@ -124,6 +128,10 @@ export default {
       height: 44px;
       border-radius: 32px 0 0 32px;
       border-width: 4px;
+    }
+
+    @include mq('tablet-small') {
+      height: 40px;
     }
   }
 

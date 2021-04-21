@@ -1,5 +1,12 @@
 [
   {
+    "key": "growing",
+    "label": "Растет",
+    "additional": [
+      "chinchillaId"
+    ]
+  },
+  {
     "key": "breeding",
     "label": "В разведении",
     "additional": [

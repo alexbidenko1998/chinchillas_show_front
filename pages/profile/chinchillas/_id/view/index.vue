@@ -131,7 +131,6 @@
 </template>
 
 <script>
-import pad from '~/assets/scripts/pad'
 import resizeImage from '~/assets/scripts/resizeImage'
 import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
 import colorToString from '~/assets/scripts/colorToString'
@@ -139,6 +138,7 @@ import CardSection from '~/components/CardSection/CardSection.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
 import ChinchillaHeader from '~/components/ChinchillaHeader/ChinchillaHeader'
 import PedigreeTree from '~/components/PedigreeTree/PedigreeTree.vue'
+import dateFormat from '~/assets/scripts/dateFormat'
 
 const CURRENCIES = {
   RUB: '₽',
@@ -179,8 +179,7 @@ export default {
       return this.data ? colorToString(this.data.color) : ''
     },
     birthdayDate() {
-      const d = new Date(this.data.birthday)
-      return `${pad(d.getDate())}.${pad(d.getMonth())}.${pad(d.getFullYear())}`
+      return dateFormat(this.data.birthday, 'yyyy.MM.dd')
     },
     isRussian() {
       return this.$store.state.UserModule.country === 'RU'

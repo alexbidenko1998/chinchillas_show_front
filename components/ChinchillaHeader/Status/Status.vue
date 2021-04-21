@@ -95,25 +95,35 @@
             </v-row>
           </v-container>
 
-          <div class="font-weight-bold ml-8 mb-2">История статусов</div>
+          <div class="mb-2 layout">
+            <p class="font-weight-bold py-2 my-0">История статусов</p>
+            <v-spacer />
+            <v-btn icon @click="showTimeline = !showTimeline">
+              <v-icon>{{
+                showTimeline ? 'mdi-chevron-up' : 'mdi-chevron-down'
+              }}</v-icon>
+            </v-btn>
+          </div>
 
-          <v-timeline align-top dense>
-            <template v-for="s in data.statuses">
-              <v-timeline-item
-                v-if="statuses.find((el) => el.key === s.name)"
-                :key="s.timestamp"
-                small
-              >
-                <div>
-                  <div class="font-weight-normal">
-                    <strong>{{ status(s.name) }}</strong>
-                    {{ getCurrencies(s.prices) }}
+          <v-expand-transition>
+            <v-timeline v-show="showTimeline" align-top dense>
+              <template v-for="s in data.statuses">
+                <v-timeline-item
+                  v-if="statuses.find((el) => el.key === s.name)"
+                  :key="s.timestamp"
+                  small
+                >
+                  <div>
+                    <div class="font-weight-normal">
+                      <strong>{{ status(s.name) }}</strong>
+                      {{ getCurrencies(s.prices) }}
+                    </div>
+                    <div>{{ dateFormat(s.timestamp) }}</div>
                   </div>
-                  <div>{{ dateFormat(s.timestamp) }}</div>
-                </div>
-              </v-timeline-item>
-            </template>
-          </v-timeline>
+                </v-timeline-item>
+              </template>
+            </v-timeline>
+          </v-expand-transition>
         </v-card-text>
 
         <v-divider />
@@ -166,8 +176,8 @@
 </template>
 
 <script>
-import statuses from 'assets/datas/statuses.json'
-import pad from 'assets/scripts/pad'
+import statuses from '~/assets/datas/statuses.json'
+import dateFormat from '~/assets/scripts/dateFormat'
 
 const CURRENCIES = {
   RUB: '₽',
@@ -202,6 +212,7 @@ export default {
       ],
       userId: +this.$cookies.get('USER_ID'),
       isOpenComments: false,
+      showTimeline: true,
     }
   },
 
@@ -214,12 +225,15 @@ export default {
     },
   },
 
+  watch: {
+    updatedStatus() {
+      this.showTimeline = false
+    },
+  },
+
   methods: {
     dateFormat(timestamp) {
-      const d = new Date(timestamp)
-      return `${pad(d.getDate())}.${pad(d.getMonth())}.${pad(
-        d.getFullYear()
-      )} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+      return dateFormat(timestamp, 'yyyy.MM.dd hh:mm')
     },
     status(key) {
       return this.data ? statuses.find((el) => el.key === key)?.label ?? '' : ''

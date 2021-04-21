@@ -150,7 +150,7 @@ export default {
     return {
       models: {
         name: '',
-        status: 'baby',
+        status: 'growing',
         is_ready: false,
         birthday: null,
         sex: 'f',

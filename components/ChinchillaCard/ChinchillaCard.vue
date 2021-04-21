@@ -36,6 +36,9 @@
           <p class="chinchillaCard__infoRow">
             Окрас: {{ colorString || 'стандарт' }}
           </p>
+          <p class="chinchillaCard__infoRow">
+            Дата рождения: {{ dateBirthday }}
+          </p>
         </div>
       </v-img>
     </div>
@@ -49,6 +52,7 @@
 
 <script>
 import colorToString from '~/assets/scripts/colorToString'
+import dateFormat from '~/assets/scripts/dateFormat'
 
 export default {
   name: 'ChinchillaCard',
@@ -64,6 +68,9 @@ export default {
     colorString() {
       return colorToString(this.chinchilla.color)
     },
+    dateBirthday() {
+      return dateFormat(this.chinchilla.birthday, 'yyyy.MM.dd')
+    },
   },
 }
 </script>
@@ -72,7 +79,7 @@ export default {
 .chinchillaCard {
   $self: &;
 
-  height: 200px;
+  padding-top: 100%;
   background-color: #ccc;
   position: relative;
   display: flex;
@@ -81,6 +88,9 @@ export default {
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 
   &__container {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 100%;
     display: flex;
@@ -151,11 +161,11 @@ export default {
 
   &__bubbleContainer {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 8px;
-    width: 40px;
-    height: 40px;
+    top: 0;
+    right: 0;
+    padding: 16px;
+    width: 56px;
+    height: 56px;
   }
 
   &__infoBubble {

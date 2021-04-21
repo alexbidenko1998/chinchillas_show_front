@@ -62,6 +62,12 @@ export default {
     @include mq('tablet') {
       display: inline-flex;
     }
+
+    @include mq('tablet-small') {
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+    }
   }
 
   &__background {

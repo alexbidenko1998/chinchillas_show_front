@@ -7,7 +7,9 @@ export default async ({ store, req }) => {
     const response = await fetch(`http://www.geoplugin.net/json.gp?ip=${ip}`)
     store.commit(
       'UserModule/' + Mutations.SET_COUNTRY,
-      ip === '127.0.0.1' ? 'RU' : (await response.json()).geoplugin_countryCode
+      ['127.0.0.1', '192.168.1.220', '192.168.43.1'].includes(ip)
+        ? 'RU'
+        : (await response.json()).geoplugin_countryCode
     )
   }
 }
