@@ -8,24 +8,38 @@
       />
       <div class="baseContainer viewPage__photos pb-6">
         <v-card class="mb-8">
-          <v-card-text>
-            <div class="display-1 text--primary mb-4">
-              Дополнительная информация
-            </div>
-            <p v-if="data.breeder">
+          <v-card-text class="pb-0">
+            <div class="display-1 text--primary mb-4">Информация шиншиллы</div>
+            <p v-if="data.breeder" class="pb-4 mb-0">
               Заводчик:
               {{
                 `${data.breeder.first_name} ${data.breeder.last_name} (${data.breeder.login})`
               }}
             </p>
-            <p>Дата рождения: {{ birthdayDate }}</p>
-            <p v-if="activeStatus.name === 'sale'" class="mb-0">
+            <p class="pb-4 mb-0">
+              Пол: {{ data.sex === 'f' ? 'самка' : 'самец' }}
+            </p>
+            <p class="pb-4 mb-0">Дата рождения: {{ birthdayDate }}</p>
+            <p class="pb-4 mb-0">Возраст: {{ dateDifference }}</p>
+            <p class="pb-4 mb-0 viewPage--phoneOnly">
+              Окрас: {{ colorString }}
+            </p>
+            <p v-if="activeStatus.name === 'sale'" class="pb-4 mb-0">
               Цена шиншиллы:
               {{
                 activeStatus.prices
                   .map((el) => `${CURRENCIES[el.currency]}${el.value}`)
                   .join(', ')
               }}
+            </p>
+            <p v-if="data.weight" class="pb-4 mb-0">
+              Вес при рождении: {{ data.weight }} г.
+            </p>
+            <p v-if="data.brothers" class="pb-4 mb-0">
+              Щенков в помете: {{ data.brothers }}
+            </p>
+            <p v-if="data.description" class="pb-4 mb-0">
+              Комментарий: {{ data.description }}
             </p>
           </v-card-text>
         </v-card>
@@ -139,6 +153,7 @@ import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
 import ChinchillaHeader from '~/components/ChinchillaHeader/ChinchillaHeader'
 import PedigreeTree from '~/components/PedigreeTree/PedigreeTree.vue'
 import dateFormat from '~/assets/scripts/dateFormat'
+import dateDifference from '~/assets/scripts/dateDifference'
 
 const CURRENCIES = {
   RUB: '₽',
@@ -183,6 +198,9 @@ export default {
     },
     isRussian() {
       return this.$store.state.UserModule.country === 'RU'
+    },
+    dateDifference() {
+      return dateDifference(this.data.birthday)
     },
     activeStatus() {
       const status = {
@@ -308,6 +326,14 @@ export default {
 
   & .v-speed-dial__list {
     align-items: flex-end;
+  }
+
+  &--phoneOnly {
+    display: none;
+
+    @include mq('desktop-small') {
+      display: block;
+    }
   }
 }
 </style>

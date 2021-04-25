@@ -9,7 +9,9 @@
           <div class="chinchillaHeader__name">
             {{ chinchilla.name }}
           </div>
-          <div class="chinchillaHeader__name">
+          <div
+            class="chinchillaHeader__name chinchillaHeader__name--desktopOnly"
+          >
             {{ colorString || 'Стандарт' }}
           </div>
           <Status
@@ -41,7 +43,8 @@
           <p class="chinchillaHeader__name chinchillaHeader__name--owner">
             {{ chinchilla.owner.last_name || 'Не указано' }}
           </p>
-          <div
+          <nuxt-link
+            :to="`/profile?id=${chinchilla.owner.id}`"
             class="chinchillaHeader__avatar chinchillaHeader__avatar--owner"
             :style="{
               backgroundImage: `url(${
@@ -197,6 +200,20 @@ export default {
       line-height: 32px;
       border-radius: 16px;
       font-size: 14px;
+    }
+
+    &--desktopOnly {
+      @include mq('desktop-small') {
+        display: none;
+      }
+    }
+
+    &--desktopOnly + &:nth-of-type(3) {
+      @include mq('desktop-small') {
+        top: 45%;
+        left: 75%;
+        padding-left: 35%;
+      }
     }
   }
 

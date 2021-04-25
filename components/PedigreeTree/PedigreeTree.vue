@@ -169,8 +169,8 @@ export default {
   }
 
   &__cell {
-    width: 220px;
-    height: 220px;
+    width: 240px;
+    height: 240px;
     margin: 32px 16px;
     position: relative;
     background-color: #828282;

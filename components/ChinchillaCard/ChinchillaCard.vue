@@ -39,6 +39,7 @@
           <p class="chinchillaCard__infoRow">
             Дата рождения: {{ dateBirthday }}
           </p>
+          <p class="chinchillaCard__infoRow">Возраст: {{ dateDifference }}</p>
         </div>
       </v-img>
     </div>
@@ -53,6 +54,7 @@
 <script>
 import colorToString from '~/assets/scripts/colorToString'
 import dateFormat from '~/assets/scripts/dateFormat'
+import dateDifference from '~/assets/scripts/dateDifference'
 
 export default {
   name: 'ChinchillaCard',
@@ -70,6 +72,9 @@ export default {
     },
     dateBirthday() {
       return dateFormat(this.chinchilla.birthday, 'yyyy.MM.dd')
+    },
+    dateDifference() {
+      return dateDifference(this.chinchilla.birthday)
     },
   },
 }

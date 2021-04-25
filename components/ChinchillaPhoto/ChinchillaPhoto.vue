@@ -4,7 +4,7 @@
     :class="{ chinchillaPhoto_avatar: isAvatar }"
     :style="{
       backgroundImage: `url(${
-        chinchilla
+        !photo.file
           ? `https://api.chinchillas-show.com/photos/chinchillas/${chinchilla.owner_id}/${chinchilla.id}/${photo.name}`
           : photo.data
       })`,

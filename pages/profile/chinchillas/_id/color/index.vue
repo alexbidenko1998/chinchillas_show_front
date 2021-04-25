@@ -61,7 +61,7 @@ export default {
       this.$axios
         .$post(`chinchilla/color/${this.chinchillaId}`, this.models)
         .then(() => {
-          this.$router.push('/profile')
+          this.$router.push(`/profile/chinchillas/${this.chinchillaId}/view`)
         })
         .catch(() => {
           alert('Что-то пошло не так')

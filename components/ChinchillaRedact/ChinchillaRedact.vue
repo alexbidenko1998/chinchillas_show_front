@@ -69,7 +69,25 @@
           label="Мама"
           placeholder="Введите кличку шиншиллы"
           clearable
-        />
+        >
+          <template #item="data">
+            <v-list-item-avatar
+              :style="{
+                background: `no-repeat center / cover url(${
+                  data.item.avatar
+                    ? `https://api.chinchillas-show.com/photos/chinchillas/${data.item.owner_id}/${data.item.id}/${data.item.avatar.name}`
+                    : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg'
+                })`,
+              }"
+            />
+            <v-list-item-content>
+              <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+              <v-list-item-subtitle>{{
+                colorToString(data.item.color) || 'Стандарт'
+              }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </template>
+        </v-autocomplete>
         <v-autocomplete
           v-model="models.father_id"
           :items="fatherItems"
@@ -80,7 +98,25 @@
           label="Папа"
           placeholder="Введите кличку шиншиллы"
           clearable
-        />
+        >
+          <template #item="data">
+            <v-list-item-avatar
+              :style="{
+                background: `no-repeat center / cover url(${
+                  data.item.avatar
+                    ? `https://api.chinchillas-show.com/photos/chinchillas/${data.item.owner_id}/${data.item.id}/${data.item.avatar.name}`
+                    : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg'
+                })`,
+              }"
+            />
+            <v-list-item-content>
+              <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+              <v-list-item-subtitle>{{
+                colorToString(data.item.color) || 'Стандарт'
+              }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </template>
+        </v-autocomplete>
         <v-divider />
         <v-text-field
           v-model="models.weight"
@@ -131,6 +167,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
+import colorToString from '~/assets/scripts/colorToString'
 
 export default {
   name: 'ChinchillaRedact',
@@ -235,6 +272,7 @@ export default {
   },
 
   methods: {
+    colorToString,
     fetchParents() {
       this.search(this.motherSearch, 'Mother')
       this.search(this.fatherSearch, 'Father')
@@ -304,15 +342,11 @@ export default {
     },
     savePhotos(event) {
       for (const file of event.target.files) {
-        const fr = new FileReader()
-        fr.onload = () => {
-          this.photos.push({
-            file,
-            data: fr.result,
-            id: new Date().getTime(),
-          })
-        }
-        fr.readAsDataURL(file)
+        this.photos.push({
+          file,
+          data: URL.createObjectURL(file),
+          id: new Date().getTime(),
+        })
       }
     },
     uploadPhotos(id) {
