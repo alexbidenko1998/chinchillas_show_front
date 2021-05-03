@@ -80,7 +80,7 @@ export default (color) => {
 
   const isEbony = () => {
     if (ebony !== 'no') {
-      if (beige === 'no') return ebonyName(ebony) + ' '
+      if (beige === 'no' || ebony === 'carrier') return ebonyName(ebony) + ' '
       else return ''
     } else return ''
   }

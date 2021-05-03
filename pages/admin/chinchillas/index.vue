@@ -88,6 +88,7 @@ export default {
       headers: [
         { text: 'ID', value: 'id' },
         { text: 'Кличка', value: 'name' },
+        { text: 'Владелец', value: 'ownerName' },
       ],
       chinchillaConclusions,
       chinchillas: [],
@@ -103,10 +104,10 @@ export default {
   async fetch() {
     try {
       const response = await this.$axios.$get('admin/chinchillas/1/10')
-      this.chinchillas = Array(response.total).fill({})
-      response.data.forEach((el, index) => {
-        this.chinchillas[index] = el
-      })
+      this.chinchillas = response.data.map((el) => ({
+        ...el,
+        ownerName: `${el.owner.first_name} ${el.owner.last_name} (${el.owner.login})`,
+      }))
     } catch (e) {
       await this.$router.push('/')
     }

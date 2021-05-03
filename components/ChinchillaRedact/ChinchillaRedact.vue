@@ -20,7 +20,7 @@
         >
           <template #activator="{ on, attrs }">
             <v-text-field
-              v-model="birthday"
+              v-model="formatBirthday"
               label="День рождения"
               prepend-icon="event"
               name="birthday"
@@ -168,6 +168,7 @@
 import { required } from 'vuelidate/lib/validators'
 import ChinchillaPhoto from '~/components/ChinchillaPhoto/ChinchillaPhoto.vue'
 import colorToString from '~/assets/scripts/colorToString'
+import dateFormat from '~/assets/scripts/dateFormat'
 
 export default {
   name: 'ChinchillaRedact',
@@ -202,6 +203,7 @@ export default {
       },
       userId: +this.$cookies.get('USER_ID'),
       birthday: null,
+      formatBirthday: null,
       isLoading: false,
       datepicker: false,
       isLoadingMother: false,
@@ -246,10 +248,17 @@ export default {
       this.photos = this.models.photos
       this.avatar = this.models.avatar
       this.birthday = new Date(this.models.birthday).toISOString().substr(0, 10)
+      this.formatBirthday = dateFormat(
+        new Date(this.models.birthday),
+        'yyyy.MM.dd'
+      )
     }
   },
 
   watch: {
+    birthday(val) {
+      this.formatBirthday = val && dateFormat(new Date(val), 'yyyy.MM.dd')
+    },
     motherSearch(val) {
       this.search(val, 'Mother')
       if (!val) this.models.mother_id = null
