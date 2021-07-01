@@ -116,7 +116,13 @@
                   <div>
                     <div class="font-weight-normal">
                       <strong>{{ status(s.name) }}</strong>
-                      {{ getCurrencies(s.prices) }}
+                      {{
+                        getCurrencies(
+                          s.prices.filter(
+                            (el) => el.currency === (isRussian ? 'RUB' : 'EUR')
+                          )
+                        )
+                      }}
                     </div>
                     <div>{{ dateFormat(s.timestamp) }}</div>
                   </div>
