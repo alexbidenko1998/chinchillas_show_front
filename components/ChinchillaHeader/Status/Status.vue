@@ -145,6 +145,7 @@
             "
             color="darken-1"
             text
+            :loading="isRequest"
             @click="saveStatus"
           >
             Сохранить
@@ -219,6 +220,7 @@ export default {
       userId: +this.$cookies.get('USER_ID'),
       isOpenComments: false,
       showTimeline: true,
+      isRequest: false,
     }
   },
 
@@ -245,6 +247,7 @@ export default {
       return this.data ? statuses.find((el) => el.key === key)?.label ?? '' : ''
     },
     saveStatus() {
+      this.isRequest = true
       this.$axios
         .$post('chinchilla/create/status', {
           name: this.updatedStatus,
@@ -260,6 +263,8 @@ export default {
               : undefined,
         })
         .then((data) => {
+          this.isRequest = false
+          this.statusesDialog = false
           this.$emit('updateStatuses', [data, ...this.data.statuses])
         })
         .catch(() => alert('Что-то пошло не так'))
