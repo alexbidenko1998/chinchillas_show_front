@@ -7,6 +7,20 @@
         @updateConclusion="data.conclusion = $event"
       />
       <div class="baseContainer viewPage__photos pb-6">
+        <v-card v-if="activeStatus.name === 'sale'" class="mb-8">
+          <v-card-text class="pb-0">
+            <div class="display-1 text--primary mb-4">Шиншилла на продажу</div>
+            <p class="pb-4 mb-0">
+              Цена шиншиллы:
+              {{
+                activeStatus.prices
+                  .filter((el) => el.currency === (isRussian ? 'RUB' : 'EUR'))
+                  .map((el) => `${CURRENCIES[el.currency]}${el.value}`)
+                  .join(', ')
+              }}
+            </p>
+          </v-card-text>
+        </v-card>
         <v-card class="mb-8">
           <v-card-text class="pb-0">
             <div class="display-1 text--primary mb-4">Информация шиншиллы</div>
@@ -23,14 +37,6 @@
             <p class="pb-4 mb-0">Возраст: {{ dateDifference }}</p>
             <p class="pb-4 mb-0 viewPage--phoneOnly">
               Окрас: {{ colorString }}
-            </p>
-            <p v-if="activeStatus.name === 'sale'" class="pb-4 mb-0">
-              Цена шиншиллы:
-              {{
-                activeStatus.prices
-                  .map((el) => `${CURRENCIES[el.currency]}${el.value}`)
-                  .join(', ')
-              }}
             </p>
             <p v-if="data.weight" class="pb-4 mb-0">
               Вес при рождении: {{ data.weight }} г.

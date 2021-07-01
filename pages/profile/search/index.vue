@@ -51,6 +51,13 @@
             item-text="label"
             item-value="value"
           />
+          <v-select
+            v-model="models.status"
+            :items="statuses"
+            label="Статус"
+            item-text="label"
+            item-value="key"
+          />
         </v-card-text>
 
         <v-divider></v-divider>
@@ -66,6 +73,7 @@
 </template>
 
 <script>
+import statuses from '~/assets/datas/statuses.json'
 import ChinchillaCard from '~/components/ChinchillaCard/ChinchillaCard.vue'
 import BaseSpinner from '~/components/BaseSpinner/BaseSpinner.vue'
 
@@ -101,10 +109,14 @@ export default {
           value: 'm',
         },
       ],
+      statuses,
       models: {
         sex: '',
+        status: this.$route.query.status || '',
       },
-      params: {},
+      params: {
+        status: this.$route.query.status || '',
+      },
     }
   },
 
@@ -126,6 +138,7 @@ export default {
         let url = 'chinchilla/search?'
         if (this.search) url = `${url}name=${this.search}&`
         if (this.params.sex) url = `${url}sex=${this.params.sex}&`
+        if (this.params.status) url = `${url}status=${this.params.status}&`
         this.chinchillas = (await this.$axios.$get(url)).data
         this.isLoading = false
       }
