@@ -109,7 +109,12 @@ export default {
           value: 'm',
         },
       ],
-      statuses,
+      statuses: [
+        {
+          key: '',
+          label: 'Любой',
+        },
+      ].concat(statuses),
       models: {
         sex: '',
         status: this.$route.query.status || '',
